@@ -681,6 +681,10 @@ function toast(m,e){var el=document.getElementById('toast');el.textContent=m;el.
 
 /* ═══════ INIT ═══════ */
 ad();
+  setTimeout(function(){
+  var s=document.getElementById('splash');
+  if(s){s.classList.add('hide');setTimeout(function(){s.style.display='none';},500);}
+},1200);
 document.getElementById('pin-screen').style.display='flex';
 </script>
 </body>
