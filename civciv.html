@@ -1,13 +1,6 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  #splash{
-  position:fixed;inset:0;background:#f7f5f0;
-  display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  z-index:9999;transition:opacity 0.5s;
-}
-#splash.hide{opacity:0;pointer-events:none;}
   <link rel="manifest" href="/Civciv/manifest.json">
 <script>
 if('serviceWorker' in navigator){
@@ -22,6 +15,13 @@ if('serviceWorker' in navigator){
 <meta name="apple-mobile-web-app-title" content="Civciv">
 <title>Civciv Cüzdan</title>
 <style>
+  #splash{
+  position:fixed;inset:0;background:#f7f5f0;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  z-index:9999;transition:opacity 0.5s;
+}
+#splash.hide{opacity:0;pointer-events:none;}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none;}
 html,body{height:100%;overflow:hidden;}
 body{font-family:'Segoe UI',system-ui,sans-serif;background:#f7f5f0;max-width:430px;margin:0 auto;display:flex;flex-direction:column;height:100%;position:relative;}
