@@ -2,21 +2,23 @@
   "name": "Civciv Cüzdan",
   "short_name": "Civciv",
   "description": "Kişisel para takip uygulaması",
-  "start_url": "/civciv/civciv.html",
+  "start_url": "/Civciv/civciv.html",
   "display": "standalone",
   "background_color": "#f7f5f0",
   "theme_color": "#c8890a",
   "orientation": "portrait",
   "icons": [
     {
-      "src": "icon.png",
+      "src": "https://cuzdancivciv.github.io/Civciv/icon.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
-      "src": "icon.png",
+      "src": "https://cuzdancivciv.github.io/Civciv/icon.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
