@@ -2,12 +2,19 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#c8890a">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Civciv">
+<meta name="application-name" content="Civciv">
+<meta name="msapplication-TileColor" content="#c8890a">
+<link rel="manifest" href="manifest.json">
 <title>Civciv Cüzdan</title>
+<style>
+  :root { --sat: env(safe-area-inset-top,0px); --sab: env(safe-area-inset-bottom,0px); }
+</style>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none;}
 html,body{height:100%;overflow:hidden;}
@@ -232,6 +239,7 @@ textarea.fi{min-height:85px;resize:vertical;}
 
   <!-- HOME -->
   <div class="view on" id="view-home">
+
     <div id="bcards">
       <div class="bc" id="bc1" style="background:#fffaeb;border-color:rgba(200,137,10,.25);">
         <div class="bcl" style="color:#c8890a;">TL</div>
@@ -446,20 +454,7 @@ function rtx(){
   } else {sw.style.display='none';}
 }
 
-/* ═══════ REMINDERS ═══════ */
-function rrm(){
-  var b=document.getElementById('rem-banner');
-  var t=td2();
-  var up=D.notes.filter(function(n){return n.rem&&n.rem>=t;}).sort(function(a,b){return a.rem>b.rem?1:-1;}).slice(0,3);
-  if(up.length===0){b.style.display='none';return;}
-  b.style.display='block';
-  b.style.background=D.dark?'#201c00':'#fffaeb';
-  b.style.border='1px solid '+(D.dark?'rgba(255,217,61,.3)':'rgba(200,137,10,.3)');
-  document.getElementById('rem-title').style.color=D.dark?'#FFD93D':'#c8890a';
-  var h='';
-  up.forEach(function(n){h+='<div class="remr"><span class="remn">'+ex(n.title)+'</span><span class="remd">'+n.rem+'</span></div>';});
-  document.getElementById('rem-list').innerHTML=h;
-}
+
 
 /* ═══════ NOTES HOME ═══════ */
 function rnh(){
@@ -532,7 +527,7 @@ function rr(){
 }
 
 /* ═══════ RENDER ALL ═══════ */
-function ra(){rb();rtx();rrm();rnh();rnf();rp();rr();ad();}
+function ra(){rb();rtx();rnh();rnf();rp();rr();ad();}
 
 /* ═══════ VIEWS ═══════ */
 function sv(v){
@@ -656,9 +651,9 @@ function sn(){
   var t=document.getElementById('fnt').value.trim();
   if(!t){toast('Başlık gerekli',true);return;}
   D.notes.unshift({id:uid(),title:t,body:document.getElementById('fnb').value,rem:document.getElementById('fnr').value,created:td2()});
-  sv2();rnh();rnf();rrm();cm();toast('✓ Not eklendi');
+  sv2();rnh();rnf();cm();toast('✓ Not eklendi');
 }
-function dn(i){D.notes.splice(i,1);sv2();rnh();rnf();rrm();toast('Not silindi');}
+function dn(i){D.notes.splice(i,1);sv2();rnh();rnf();toast('Not silindi');}
 function sep(){
   D.profile.name=document.getElementById('epn').value||'';
   D.profile.email=document.getElementById('epe').value||'';
@@ -750,7 +745,11 @@ var tt;
 function toast(m,e){var el=document.getElementById('toast');el.textContent=m;el.style.background=e?'#dc2626':'#16a34a';el.style.display='block';clearTimeout(tt);tt=setTimeout(function(){el.style.display='none';},2400);}
 
 /* ═══════ INIT ═══════ */
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('sw.js').catch(function(){});
+}
 ad();
+sv('home');
 document.getElementById('pin-screen').style.display='flex';
 </script>
 </body>
