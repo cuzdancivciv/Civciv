@@ -322,18 +322,42 @@ textarea.fi{min-height:85px;resize:vertical;}
       <button class="pb" onclick="om('changePin')">🔒 PIN Değiştir</button>
     </div>
     <div class="ps">
-      <div class="pst">Döviz Kurları (Manuel)</div>
-      <div id="rdlbl" style="font-size:11px;color:#9a9a9a;margin-bottom:8px;"></div>
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
-        <span style="font-size:13px;font-weight:700;width:36px;" id="ul">USD</span>
-        <input type="number" id="rusd" class="fi" style="flex:1;margin-bottom:0;" value="32.5" oninput="sr()">
-        <span style="font-size:12px;color:#9a9a9a;">₺</span>
+      <div class="pst">&#x1F4B1; Döviz Kurları</div>
+      <div id="kur-yukleniyor" style="font-size:12px;color:#9a9a9a;margin-bottom:8px;">Kurlar yükleniyor...</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid #e2ddd2;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span style="font-size:18px;">&#x1F1FA;&#x1F1F8;</span>
+          <div>
+            <div style="font-size:13px;font-weight:700;">USD / TRY</div>
+            <div style="font-size:10px;color:#9a9a9a;" id="kur-tarih"></div>
+          </div>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-size:16px;font-weight:800;color:#1d6fa4;" id="kur-usd-val">—</div>
+          <div style="font-size:10px;color:#9a9a9a;">&#x20BA;</div>
+        </div>
       </div>
-      <div style="display:flex;align-items:center;gap:8px;">
-        <span style="font-size:13px;font-weight:700;width:36px;" id="el">EUR</span>
-        <input type="number" id="reur" class="fi" style="flex:1;margin-bottom:0;" value="35.2" oninput="sr()">
-        <span style="font-size:12px;color:#9a9a9a;">₺</span>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid #e2ddd2;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span style="font-size:18px;">&#x1F1EA;&#x1F1FA;</span>
+          <div><div style="font-size:13px;font-weight:700;">EUR / TRY</div></div>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-size:16px;font-weight:800;color:#7c3aed;" id="kur-eur-val">—</div>
+          <div style="font-size:10px;color:#9a9a9a;">&#x20BA;</div>
+        </div>
       </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span style="font-size:18px;">&#x1F1EC;&#x1F1E7;</span>
+          <div><div style="font-size:13px;font-weight:700;">GBP / TRY</div></div>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-size:16px;font-weight:800;color:#16a34a;" id="kur-gbp-val">—</div>
+          <div style="font-size:10px;color:#9a9a9a;">&#x20BA;</div>
+        </div>
+      </div>
+      <button onclick="kurCek()" style="width:100%;margin-top:10px;padding:9px;border-radius:10px;border:none;background:#f0ede6;color:#c8890a;font-weight:700;font-size:12px;cursor:pointer;font-family:inherit;">&#x1F504; Kurları Güncelle</button>
     </div>
     <div class="ps">
       <button class="pb" id="tbtn" onclick="td()">🌙 Gece Moduna Geç</button>
@@ -393,8 +417,7 @@ function ad(){
     document.getElementById('qb1').style.background='#0a2e18';
     document.getElementById('qb2').style.background='#2e0a0a';
     document.getElementById('qb3').style.background='#0a1829';
-    document.getElementById('ul').style.color='#f0f0f0';
-    document.getElementById('el').style.color='#f0f0f0';
+
   } else {
     b.classList.remove('dark');
     document.getElementById('tbtn').textContent='🌙 Gece Moduna Geç';
@@ -405,8 +428,7 @@ function ad(){
     document.getElementById('qb1').style.background='#dcfce7';
     document.getElementById('qb2').style.background='#fee2e2';
     document.getElementById('qb3').style.background='#dbeafe';
-    document.getElementById('ul').style.color='#1a1a1a';
-    document.getElementById('el').style.color='#1a1a1a';
+
   }
 }
 function td(){D.dark=!D.dark;sv2();ad();}
@@ -488,9 +510,7 @@ function rp(){
   document.getElementById('pi1').textContent=p.name||'—';
   document.getElementById('pi2').textContent=p.email||'—';
   document.getElementById('pi3').textContent=p.phone||'—';
-  document.getElementById('rusd').value=D.rates.USD;
-  document.getElementById('reur').value=D.rates.EUR;
-  if(D.rd)document.getElementById('rdlbl').textContent='Son: '+D.rd;
+  kurGoster();
   var img=document.getElementById('av-img');var ph=document.getElementById('av-ph');
   if(p.avatar){img.src=p.avatar;img.style.display='block';ph.style.display='none';}
   else{img.style.display='none';ph.style.display='block';}
@@ -650,8 +670,14 @@ function scv(){
 function sn(){
   var t=document.getElementById('fnt').value.trim();
   if(!t){toast('Başlık gerekli',true);return;}
-  D.notes.unshift({id:uid(),title:t,body:document.getElementById('fnb').value,rem:document.getElementById('fnr').value,created:td2()});
-  sv2();rnh();rnf();cm();toast('✓ Not eklendi');
+  var rem=document.getElementById('fnr').value;
+  D.notes.unshift({id:uid(),title:t,body:document.getElementById('fnb').value,rem:rem,created:td2()});
+  sv2();rnh();rnf();cm();
+  if(rem){
+    toast('✓ Not eklendi  🔔 '+rem);
+  } else {
+    toast('✓ Not eklendi');
+  }
 }
 function dn(i){D.notes.splice(i,1);sv2();rnh();rnf();toast('Not silindi');}
 function sep(){
@@ -669,7 +695,56 @@ function scp(){
   if(n!==r){toast("PIN'ler uyuşmuyor",true);return;}
   D.pin=n;sv2();cm();toast('✓ PIN değiştirildi');
 }
-function sr(){D.rates.USD=parseFloat(document.getElementById('rusd').value)||0;D.rates.EUR=parseFloat(document.getElementById('reur').value)||0;D.rd=td2();document.getElementById('rdlbl').textContent='Son: '+D.rd;sv2();}
+function sr(){}
+function kurCek(){
+  var btn=document.getElementById('kur-btn');
+  var lbl=document.getElementById('kur-yukleniyor');
+  if(btn)btn.textContent='Yükleniyor...';
+  if(lbl)lbl.textContent='Kurlar güncelleniyor...';
+  fetch('https://api.frankfurter.app/latest?from=TRY&to=USD,EUR,GBP')
+    .then(function(r){return r.json();})
+    .then(function(data){
+      if(!data||!data.rates){throw new Error('Veri yok');}
+      var usd=data.rates.USD?parseFloat((1/data.rates.USD).toFixed(4)):0;
+      var eur=data.rates.EUR?parseFloat((1/data.rates.EUR).toFixed(4)):0;
+      var gbp=data.rates.GBP?parseFloat((1/data.rates.GBP).toFixed(4)):0;
+      D.rates.USD=usd;
+      D.rates.EUR=eur;
+      D.rates.GBP=gbp;
+      D.rd=data.date||td2();
+      sv2();
+      var uEl=document.getElementById('kur-usd-val');
+      var eEl=document.getElementById('kur-eur-val');
+      var gEl=document.getElementById('kur-gbp-val');
+      var tEl=document.getElementById('kur-tarih');
+      var lEl=document.getElementById('kur-yukleniyor');
+      if(uEl)uEl.textContent=fm(usd,4);
+      if(eEl)eEl.textContent=fm(eur,4);
+      if(gEl)gEl.textContent=fm(gbp,4);
+      if(tEl)tEl.textContent=D.rd;
+      if(lEl)lEl.textContent='Son güncelleme: '+D.rd;
+      if(btn)btn.textContent='Kurları Güncelle';
+      toast('Kurlar güncellendi');
+    })
+    .catch(function(){
+      if(btn)btn.textContent='Kurları Güncelle';
+      var lEl=document.getElementById('kur-yukleniyor');
+      if(lEl)lEl.textContent='Bağlantı yok - önceki kur kullanılıyor';
+      toast('İnternet yok, eski kur kullanılıyor', true);
+    });
+}
+function kurGoster(){
+  var uEl=document.getElementById('kur-usd-val');
+  var eEl=document.getElementById('kur-eur-val');
+  var gEl=document.getElementById('kur-gbp-val');
+  var tEl=document.getElementById('kur-tarih');
+  var lEl=document.getElementById('kur-yukleniyor');
+  if(D.rates.USD&&uEl)uEl.textContent=fm(D.rates.USD,4);
+  if(D.rates.EUR&&eEl)eEl.textContent=fm(D.rates.EUR,4);
+  if(D.rates.GBP&&gEl)gEl.textContent=fm(D.rates.GBP||0,4);
+  if(D.rd&&tEl)tEl.textContent=D.rd;
+  if(D.rd&&lEl)lEl.textContent='Son güncelleme: '+D.rd;
+}
 function ha(inp){var f=inp.files[0];if(!f)return;var r=new FileReader();r.onload=function(e){D.profile.avatar=e.target.result;sv2();rp();toast('✓ Fotoğraf güncellendi');};r.readAsDataURL(f);}
 
 /* ═══════ VERİ YÖNETİMİ ═══════ */
@@ -751,6 +826,8 @@ if('serviceWorker' in navigator){
 ad();
 sv('home');
 document.getElementById('pin-screen').style.display='flex';
+kurGoster();
+setTimeout(function(){kurCek();},1500);
 </script>
 </body>
 </html>
