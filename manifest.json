@@ -1,8 +1,8 @@
 {
   "name": "Civciv Cüzdan",
   "short_name": "Civciv",
-  "description": "Kişisel para takip uygulaması",
-  "start_url": "/Civciv/civciv.html",
+  "description": "Kisisel para takip uygulamasi",
+  "start_url": "/Civciv/",
   "display": "fullscreen",
   "background_color": "#f7f5f0",
   "theme_color": "#c8890a",
