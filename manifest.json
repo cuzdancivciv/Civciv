@@ -2,11 +2,13 @@
   "name": "Civciv Cüzdan",
   "short_name": "Civciv",
   "description": "Kisisel para takip uygulamasi",
-  "start_url": "/Civciv/",
+  "start_url": "/Civciv/index.html",
+  "scope": "/Civciv/",
   "display": "fullscreen",
+  "display_override": ["fullscreen", "standalone", "minimal-ui"],
+  "orientation": "portrait",
   "background_color": "#f7f5f0",
   "theme_color": "#c8890a",
-  "orientation": "portrait",
   "icons": [
     {
       "src": "https://cuzdancivciv.github.io/Civciv/icon.png",
