@@ -443,7 +443,7 @@ textarea.fi{min-height:85px;resize:vertical;}
   <div id="popup-bg" onclick="togglePopup()"></div>
   <div id="popup-box">
     <div style="font-size:13px;font-weight:800;color:#9a9a9a;margin-bottom:8px;text-transform:uppercase;letter-spacing:.8px;">Civciv Cüzdan</div>
-    <div class="popup-item" style="cursor:default;opacity:.5;">
+    <div class="popup-item" onclick="showAbout()">
       <span>ℹ️</span><span>Hakkımızda</span>
     </div>
     <div class="popup-item" onclick="showSupport()">
@@ -498,9 +498,23 @@ function ex(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').r
 function ad(){
   var dk=D.dark;
   document.body.classList.toggle('dark',dk);
+  /* tema butonu */
   var tb=document.getElementById('theme-btn');
   if(tb)tb.textContent=dk?'☀️ Gündüz Moduna Geç':'🌙 Gece Moduna Geç';
-  document.getElementById('pname').style.color=dk?'#FFD93D':'#c8890a';
+  /* pin ekranı logo rengi */
+  var pnEl=document.getElementById('pname');
+  if(pnEl)pnEl.style.color=dk?'#FFD93D':'#c8890a';
+  /* profil isim rengi */
+  var pndEl=document.getElementById('pnd');
+  if(pndEl)pndEl.style.color=dk?'#f0f0f0':'#1a1a1a';
+  /* topbar arkaplan */
+  var tb2=document.getElementById('topbar');
+  if(tb2){tb2.style.background=dk?'#1c1c1c':'#fff';tb2.style.borderColor=dk?'#2c2c2c':'#e2ddd2';}
+  /* balstrip */
+  var bs=document.getElementById('balstrip');
+  if(bs){bs.style.background=dk?'#1c1c1c':'';bs.style.borderColor=dk?'#2c2c2c':'';}
+  /* USD/EUR etiket renkleri */
+  ['ul','el'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.color=dk?'#f0f0f0':'#1a1a1a';});
 }
 function td(){D.dark=!D.dark;sv2();ad();}
 
@@ -856,27 +870,35 @@ function rnf(){
 /* ═══ PROFILE ═══ */
 function rp(){
   var p=D.profile;
-  document.getElementById('pnd').textContent=p.name||'Ad Soyad';
-  document.getElementById('ped').textContent=p.email||'';
-  document.getElementById('pph').textContent=p.phone||'';
-  document.getElementById('pnd').style.color=D.dark?'#f0f0f0':'#1a1a1a';
-  /* isim rengi dark moda gore */
+  var dk=D.dark;
+  /* İsim ve bilgiler */
   var pndEl=document.getElementById('pnd');
-  if(pndEl){pndEl.style.color=D.dark?'#f0f0f0':'#1a1a1a';}
+  if(pndEl){pndEl.textContent=p.name||'Ad Soyad';pndEl.style.color=dk?'#f0f0f0':'#1a1a1a';}
+  var pedEl=document.getElementById('ped');
+  if(pedEl){pedEl.textContent=p.email||'';pedEl.style.color='#9a9a9a';}
+  var pphEl=document.getElementById('pph');
+  if(pphEl){pphEl.textContent=p.phone||'';pphEl.style.color='#9a9a9a';}
+  /* Avatar */
   var img=document.getElementById('av-img');var ph=document.getElementById('av-ph');
-  if(p.avatar){img.src=p.avatar;img.style.display='block';ph.style.display='none';}
-  else{img.style.display='none';ph.style.display='block';}
+  if(img&&ph){
+    if(p.avatar){img.src=p.avatar;img.style.display='block';ph.style.display='none';}
+    else{img.style.display='none';ph.style.display='block';}
+  }
+  /* Alt bar profil ikonu */
   var ni=document.getElementById('nbpi');
-  if(p.avatar)ni.innerHTML='<img src="'+p.avatar+'" style="width:22px;height:22px;border-radius:50%;object-fit:cover;">';
-  else ni.textContent='👤';
-  /* Üyelik günü */
+  if(ni){
+    if(p.avatar)ni.innerHTML='<img src="'+p.avatar+'" style="width:22px;height:22px;border-radius:50%;object-fit:cover;">';
+    else ni.textContent='👤';
+  }
+  /* Üyelik kartı */
   var join=D.joinDate||td2();
-  var joinMs=new Date(join).getTime();
-  var nowMs=new Date().getTime();
-  var days=Math.floor((nowMs-joinMs)/86400000);
-  document.getElementById('mc-days').textContent=days;
-  var mcSince=document.getElementById('mc-since');
-  if(mcSince)mcSince.textContent='Katılım: '+join;
+  var days=Math.floor((new Date().getTime()-new Date(join).getTime())/86400000);
+  var mcDays=document.getElementById('mc-days');if(mcDays)mcDays.textContent=days;
+  var mcName=document.getElementById('mc-name');if(mcName)mcName.textContent=p.name&&p.name!='Ad Soyad'?'Sayın '+p.name:'';
+  var mcSince=document.getElementById('mc-since');if(mcSince)mcSince.textContent='Katılım: '+join;
+  /* Top bar isim */
+  var tnEl=document.getElementById('top-name-lbl');
+  if(tnEl){tnEl.textContent=p.name&&p.name!='Ad Soyad'?p.name:'';}
 }
 
 /* ═══ RAPOR VE PIE ═══ */
@@ -1033,6 +1055,21 @@ function om(type,arg){
      +'<div style="margin:10px 0;padding:12px;background:'+(D.dark?'#252525':'#f5f5f2')+';border-radius:11px;font-size:14px;font-weight:700;color:'+ac+';word-break:break-all;">cuzdancivciv@gmail.com</div>'
      +'<div style="font-size:13px;color:#9a9a9a;">adresinden bize ulaşabilirsiniz.</div>'
      +'<button class="fb fc" onclick="cm()">Kapat</button>';
+  } else if(type==='about'){
+    var tx=D.dark?'#f0f0f0':'#1a1a1a';
+    var bg2=D.dark?'#252525':'#f5f5f2';
+    h='<div class="sht">Hakkımızda</div>'
+     +'<div style="font-size:14px;color:'+tx+';line-height:1.9;">'
+     +'<p style="margin-bottom:12px;"><strong style="color:'+ac+';">Merhaba, ben Evsiz Ali.</strong></p>'
+     +'<p style="margin-bottom:12px;">Sokaklarda yaşayan, eski püskü bir telefonla vaktimi değerlendirmek için geliştirdiğim bu uygulamayı sizlerle paylaşmaktan büyük mutluluk duyuyorum.</p>'
+     +'<p style="margin-bottom:12px;">Civciv Cüzdan; tamamen ücretsiz, reklamsız ve internet bağlantısı gerektirmeden çalışan kişisel bir para takip uygulamasıdır. Gönül rahatlığıyla kullanabilirsiniz.</p>'
+     +'<p style="margin-bottom:12px;">Beğendiyseniz arkadaşlarınızla paylaşarak beni en çok mutlu edecek şeyi yapmış olursunuz.</p>'
+     +'<p style="margin-bottom:6px;">Bağış yapmak isterseniz</p>'
+     +'<p style="margin-bottom:12px;padding:10px 12px;background:'+bg2+';border-radius:10px;font-weight:700;color:'+ac+';word-break:break-all;">cuzdancivciv@gmail.com</p>'
+     +'<p>adresine e-posta gönderebilirsiniz.</p>'
+     +'</div>'
+     +'<div style="margin-top:16px;margin-bottom:4px;font-size:15px;font-weight:800;color:'+ac+';text-align:center;">Civcivli günler.</div>'
+     +'<button class="fb fc" onclick="cm()" style="margin-top:10px;">Kapat</button>';
   }
   document.getElementById('sc').innerHTML=h;
   document.getElementById('ov').classList.add('on');
@@ -1047,6 +1084,10 @@ function togglePopup(){
 function showSupport(){
   togglePopup();
   om('support');
+}
+function showAbout(){
+  togglePopup();
+  om('about');
 }
 
 /* ═══ ACTIONS ═══ */
@@ -1172,18 +1213,7 @@ function toast(m,e){
   tt=setTimeout(function(){el.style.display='none';},2500);
 }
 
-/* ═══ KURU OTO ÇEK ═══ */
-function kurCek(){
-  fetch('https://api.frankfurter.app/latest?from=TRY&to=USD,EUR')
-    .then(function(r){return r.json();})
-    .then(function(data){
-      if(!data||!data.rates)return;
-      if(data.rates.USD)D.rates.USD=parseFloat((1/data.rates.USD).toFixed(4));
-      if(data.rates.EUR)D.rates.EUR=parseFloat((1/data.rates.EUR).toFixed(4));
-      D.rd=data.date||td2();
-      sv2();
-    }).catch(function(){});
-}
+
 
 /* ═══ INIT ═══ */
 if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(function(){});}
@@ -1194,7 +1224,6 @@ document.getElementById('pin-screen').style.display='flex';
 topMeta();
 /* Saat her dakika guncelle */
 setInterval(function(){updateSaat();},60000);
-setTimeout(kurCek,2000);
 </script>
 </body>
 </html>
