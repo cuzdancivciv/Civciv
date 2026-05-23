@@ -148,6 +148,11 @@ textarea.fi{min-height:85px;resize:vertical;}
 /* ── PIN ── */
 #pin-screen{position:fixed;inset:0;background:#f7f5f0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;}
 .dark #pin-screen{background:#111;}
+.dark #li-user,.dark #li-pass{background:#252525!important;border-color:#333!important;color:#f0f0f0!important;}
+.dark #reg-box{background:#1c1c1c;}
+.dark #reg-box input{background:#252525;border-color:#333;color:#f0f0f0;}
+.dark #reg-box label{color:#9a9a9a;}
+.dark #reg-box div[style*="font-size:18px"]{color:#f0f0f0;}
 #pdots{display:flex;gap:14px;margin-bottom:8px;}
 .pd{width:14px;height:14px;border-radius:50%;background:#e2ddd2;transition:background .12s;}
 .pd.on{background:#c8890a;}.dark .pd.on{background:#FFD93D;}
@@ -176,29 +181,77 @@ textarea.fi{min-height:85px;resize:vertical;}
 </head>
 <body>
 
-<!-- PIN -->
+<!-- GİRİŞ EKRANI -->
 <div id="pin-screen">
-  <svg width="50" height="50" viewBox="0 0 64 64" fill="none">
-    <ellipse cx="32" cy="40" rx="20" ry="16" fill="#FFD93D"/>
-    <ellipse cx="32" cy="24" rx="14" ry="13" fill="#FFD93D"/>
-    <ellipse cx="26" cy="21" rx="3" ry="3.5" fill="white"/>
-    <ellipse cx="38" cy="21" rx="3" ry="3.5" fill="white"/>
-    <circle cx="26.5" cy="21.5" r="1.5" fill="#111"/>
-    <circle cx="38.5" cy="21.5" r="1.5" fill="#111"/>
-    <ellipse cx="32" cy="29" rx="4" ry="2.5" fill="#FF9F43"/>
-    <path d="M29 28.5 Q32 32 35 28.5" stroke="#FF9F43" stroke-width="1.5" fill="#FF9F43"/>
-    <ellipse cx="14" cy="36" rx="7" ry="5" fill="#FFD93D" transform="rotate(-20 14 36)"/>
-    <ellipse cx="50" cy="36" rx="7" ry="5" fill="#FFD93D" transform="rotate(20 50 36)"/>
-  </svg>
-  <div id="pname" style="font-size:26px;font-weight:800;color:#c8890a;margin-top:10px;">Civciv</div>
-  <div style="font-size:13px;color:#9a9a9a;margin-top:4px;margin-bottom:26px;">PIN giriniz</div>
-  <div id="pdots"><div class="pd" id="d0"></div><div class="pd" id="d1"></div><div class="pd" id="d2"></div><div class="pd" id="d3"></div></div>
-  <div id="perr" style="height:22px;font-size:13px;font-weight:700;color:#dc2626;text-align:center;margin-top:4px;"></div>
-  <div id="pgrid">
-    <button class="pk" onclick="pt('1')">1</button><button class="pk" onclick="pt('2')">2</button><button class="pk" onclick="pt('3')">3</button>
-    <button class="pk" onclick="pt('4')">4</button><button class="pk" onclick="pt('5')">5</button><button class="pk" onclick="pt('6')">6</button>
-    <button class="pk" onclick="pt('7')">7</button><button class="pk" onclick="pt('8')">8</button><button class="pk" onclick="pt('9')">9</button>
-    <button class="pk emp"></button><button class="pk" onclick="pt('0')">0</button><button class="pk" onclick="pd()">⌫</button>
+  <div id="auth-wrap" style="width:100%;max-width:340px;padding:0 20px;display:flex;flex-direction:column;align-items:center;">
+    <svg width="56" height="56" viewBox="0 0 64 64" fill="none">
+      <ellipse cx="32" cy="40" rx="20" ry="16" fill="#FFD93D"/>
+      <ellipse cx="32" cy="24" rx="14" ry="13" fill="#FFD93D"/>
+      <ellipse cx="26" cy="21" rx="3" ry="3.5" fill="white"/>
+      <ellipse cx="38" cy="21" rx="3" ry="3.5" fill="white"/>
+      <circle cx="26.5" cy="21.5" r="1.5" fill="#111"/>
+      <circle cx="38.5" cy="21.5" r="1.5" fill="#111"/>
+      <ellipse cx="32" cy="29" rx="4" ry="2.5" fill="#FF9F43"/>
+      <path d="M29 28.5 Q32 32 35 28.5" stroke="#FF9F43" stroke-width="1.5" fill="#FF9F43"/>
+      <ellipse cx="14" cy="36" rx="7" ry="5" fill="#FFD93D" transform="rotate(-20 14 36)"/>
+      <ellipse cx="50" cy="36" rx="7" ry="5" fill="#FFD93D" transform="rotate(20 50 36)"/>
+    </svg>
+    <div id="pname" style="font-size:22px;font-weight:800;color:#c8890a;margin-top:10px;text-align:center;">Cüzdan Civciv'e Hoşgeldin 🐥</div>
+    <div style="font-size:12px;color:#9a9a9a;margin-top:4px;margin-bottom:20px;text-align:center;">Kişisel para takip uygulamanız</div>
+
+    <!-- GİRİŞ FORMU -->
+    <div id="login-form" style="width:100%;">
+      <input type="text" id="li-user" placeholder="Kullanıcı adı" autocomplete="username"
+        style="width:100%;padding:13px 14px;border-radius:12px;border:1.5px solid #ddd8cc;background:#f5f5f2;color:#1a1a1a;font-size:14px;outline:none;margin-bottom:10px;font-family:inherit;box-sizing:border-box;">
+      <div style="position:relative;margin-bottom:10px;">
+        <input type="password" id="li-pass" placeholder="Şifre" autocomplete="current-password"
+          style="width:100%;padding:13px 14px;border-radius:12px;border:1.5px solid #ddd8cc;background:#f5f5f2;color:#1a1a1a;font-size:14px;outline:none;font-family:inherit;box-sizing:border-box;">
+        <button onclick="togglePass('li-pass',this)" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;color:#9a9a9a;">👁️</button>
+      </div>
+      <div id="li-err" style="min-height:20px;font-size:12px;font-weight:700;color:#dc2626;text-align:center;margin-bottom:8px;"></div>
+      <div id="li-countdown" style="display:none;text-align:center;padding:10px;background:#fee2e2;border-radius:10px;font-size:13px;font-weight:700;color:#dc2626;margin-bottom:10px;"></div>
+      <button onclick="doLogin()" id="li-btn"
+        style="width:100%;padding:14px;border-radius:13px;border:none;background:#c8890a;color:#fff;font-weight:800;font-size:15px;cursor:pointer;font-family:inherit;margin-bottom:12px;">
+        Giriş Yap
+      </button>
+      <div style="text-align:center;font-size:13px;color:#9a9a9a;">Hesabın yok mu?
+        <button onclick="showRegister()" style="background:none;border:none;color:#c8890a;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit;">Kayıt Ol</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- KAYIT POPUP -->
+<div id="reg-overlay" style="position:fixed;inset:0;background:#0009;z-index:1000;display:none;align-items:flex-end;justify-content:center;">
+  <div id="reg-box" style="background:#fff;border-radius:20px 20px 0 0;padding:20px 18px 36px;width:100%;max-width:430px;max-height:90vh;overflow-y:auto;">
+    <div style="font-size:18px;font-weight:800;color:#1a1a1a;margin-bottom:16px;">🐥 Kayıt Ol</div>
+    <label style="font-size:11px;font-weight:600;color:#9a9a9a;display:block;margin-bottom:3px;">Ad Soyad *</label>
+    <input type="text" id="rg-name" class="fi" placeholder="Ad Soyad">
+    <label style="font-size:11px;font-weight:600;color:#9a9a9a;display:block;margin-bottom:3px;">Kullanıcı Adı *</label>
+    <input type="text" id="rg-user" class="fi" placeholder="kullaniciadi">
+    <label style="font-size:11px;font-weight:600;color:#9a9a9a;display:block;margin-bottom:3px;">Şifre * (en az 4 karakter)</label>
+    <div style="position:relative;margin-bottom:9px;">
+      <input type="password" id="rg-pass" class="fi" placeholder="Şifre" style="margin-bottom:0;">
+      <button onclick="togglePass('rg-pass',this)" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;color:#9a9a9a;">👁️</button>
+    </div>
+    <label style="font-size:11px;font-weight:600;color:#9a9a9a;display:block;margin-bottom:3px;">Şifre Tekrar *</label>
+    <div style="position:relative;margin-bottom:9px;">
+      <input type="password" id="rg-pass2" class="fi" placeholder="Şifre tekrar" style="margin-bottom:0;">
+      <button onclick="togglePass('rg-pass2',this)" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;color:#9a9a9a;">👁️</button>
+    </div>
+    <label style="font-size:11px;font-weight:600;color:#9a9a9a;display:block;margin-bottom:3px;">E-posta *</label>
+    <input type="email" id="rg-email" class="fi" placeholder="ornek@mail.com">
+    <label style="font-size:11px;font-weight:600;color:#9a9a9a;display:block;margin-bottom:3px;">Telefon</label>
+    <input type="tel" id="rg-phone" class="fi" placeholder="05xx xxx xx xx">
+    <div id="rg-err" style="min-height:20px;font-size:12px;font-weight:700;color:#dc2626;text-align:center;margin-bottom:8px;"></div>
+    <button onclick="doRegister()"
+      style="width:100%;padding:13px;border-radius:13px;border:none;background:#c8890a;color:#fff;font-weight:800;font-size:15px;cursor:pointer;font-family:inherit;margin-top:4px;">
+      Kaydet
+    </button>
+    <button onclick="hideRegister()"
+      style="width:100%;padding:13px;border-radius:13px;border:none;background:transparent;color:#9a9a9a;font-weight:700;font-size:14px;cursor:pointer;font-family:inherit;margin-top:6px;">
+      İptal
+    </button>
   </div>
 </div>
 
@@ -398,6 +451,7 @@ textarea.fi{min-height:85px;resize:vertical;}
 var SK='cv7';
 var D={
   pin:'1234',dark:false,
+  username:'',password:'',
   profile:{name:'Ad Soyad',email:'',phone:'',avatar:null},
   txs:[],notes:[],
   rates:{USD:32.5,EUR:35.2},
@@ -411,6 +465,7 @@ var D={
     if(r){
       var s=JSON.parse(r);
       D.pin=s.pin||D.pin;D.dark=!!s.dark;
+      D.username=s.username||'';D.password=s.password||'';
       D.profile=s.profile||D.profile;
       D.txs=s.txs||[];D.notes=s.notes||[];
       D.rates=s.rates||D.rates;D.rd=s.rd||'';
@@ -436,25 +491,132 @@ function ad(){
 }
 function td(){D.dark=!D.dark;sv2();ad();}
 
-/* ═══ PIN ═══ */
-var pb='';
-function upd(){for(var i=0;i<4;i++){var d=document.getElementById('d'+i);d.classList.toggle('on',i<pb.length);d.classList.remove('err');}}
-function pt(d){
-  if(pb.length>=4)return;
-  pb+=d;upd();
-  if(pb.length===4){
-    setTimeout(function(){
-      if(pb===D.pin){document.getElementById('pin-screen').style.display='none';ra();}
-      else{
-        for(var i=0;i<4;i++)document.getElementById('d'+i).classList.add('err');
-        document.getElementById('perr').textContent='Hatali PIN!';
-        setTimeout(function(){pb='';upd();document.getElementById('perr').textContent='';},700);
-      }
-    },80);
+/* ═══ GİRİŞ SİSTEMİ ═══ */
+var failCount=0;
+var lockUntil=0;
+var countdownTimer=null;
+
+function togglePass(id,btn){
+  var el=document.getElementById(id);
+  if(el.type==='password'){el.type='text';btn.textContent='🙈';}
+  else{el.type='password';btn.textContent='👁️';}
+}
+
+function showRegister(){
+  document.getElementById('rg-name').value='';
+  document.getElementById('rg-user').value='';
+  document.getElementById('rg-pass').value='';
+  document.getElementById('rg-pass2').value='';
+  document.getElementById('rg-email').value='';
+  document.getElementById('rg-phone').value='';
+  document.getElementById('rg-err').textContent='';
+  document.getElementById('reg-overlay').style.display='flex';
+}
+function hideRegister(){
+  document.getElementById('reg-overlay').style.display='none';
+}
+
+function doRegister(){
+  var name=document.getElementById('rg-name').value.trim();
+  var user=document.getElementById('rg-user').value.trim();
+  var pass=document.getElementById('rg-pass').value;
+  var pass2=document.getElementById('rg-pass2').value;
+  var email=document.getElementById('rg-email').value.trim();
+  var phone=document.getElementById('rg-phone').value.trim();
+  var errEl=document.getElementById('rg-err');
+
+  if(!name){errEl.textContent='Ad Soyad zorunludur';return;}
+  if(!user||user.length<3){errEl.textContent='Kullanici adi en az 3 karakter olmali';return;}
+  if(!/^[a-zA-Z0-9_]+$/.test(user)){errEl.textContent='Kullanici adi sadece harf, rakam ve _ icermelidir';return;}
+  if(!pass||pass.length<4){errEl.textContent='Sifre en az 4 karakter olmali';return;}
+  if(pass!==pass2){errEl.textContent='Sifreler uyusmuyor';return;}
+  if(!email||!email.includes('@')){errEl.textContent='Gecerli bir e-posta girin';return;}
+
+  /* Kaydet */
+  D.profile.name=name;
+  D.profile.email=email;
+  D.profile.phone=phone;
+  D.username=user;
+  D.password=pass;
+  D.pin=pass;
+  D.joinDate=td2();
+  sv2();
+
+  hideRegister();
+  /* Kullanici adini login formuna yaz */
+  document.getElementById('li-user').value=user;
+  document.getElementById('li-pass').value='';
+  document.getElementById('li-err').textContent='';
+  toast('Kayit basarili! Simdi giris yapin');
+}
+
+document.addEventListener('keydown',function(e){
+  if(e.key==='Enter'&&document.getElementById('pin-screen').style.display!=='none'){
+    doLogin();
+  }
+});
+function doLogin(){
+  var now=new Date().getTime();
+  if(now<lockUntil){return;}
+
+  var user=document.getElementById('li-user').value.trim();
+  var pass=document.getElementById('li-pass').value;
+  var errEl=document.getElementById('li-err');
+
+  if(!user||!pass){errEl.textContent='Kullanici adi ve sifre girin';return;}
+
+  /* İlk kez kullanıyorsa (kayıt yoksa) */
+  if(!D.username){
+    errEl.textContent='Once kayit olun';return;
+  }
+
+  var ok=(user===D.username&&pass===D.password)||(user===D.username&&pass===D.pin);
+
+  if(ok){
+    failCount=0;
+    document.getElementById('pin-screen').style.display='none';
+    ra();
+  } else {
+    failCount++;
+    if(failCount>=3){
+      lockUntil=new Date().getTime()+60000;
+      failCount=0;
+      startCountdown();
+    } else {
+      errEl.textContent='Kullanici adi veya sifre hatali! ('+(3-failCount)+' hak kaldi)';
+    }
   }
 }
-function pd(){pb=pb.slice(0,-1);upd();}
-function lock(){pb='';upd();document.getElementById('perr').textContent='';document.getElementById('pin-screen').style.display='flex';}
+
+function startCountdown(){
+  var btn=document.getElementById('li-btn');
+  var cd=document.getElementById('li-countdown');
+  var errEl=document.getElementById('li-err');
+  btn.disabled=true;
+  btn.style.opacity='0.5';
+  cd.style.display='block';
+  errEl.textContent='';
+  if(countdownTimer)clearInterval(countdownTimer);
+  countdownTimer=setInterval(function(){
+    var remaining=Math.ceil((lockUntil-new Date().getTime())/1000);
+    if(remaining<=0){
+      clearInterval(countdownTimer);
+      btn.disabled=false;
+      btn.style.opacity='1';
+      cd.style.display='none';
+      cd.textContent='';
+    } else {
+      cd.textContent='Cok fazla hatali giris! '+remaining+' saniye bekleyin...';
+    }
+  },500);
+}
+
+function lock(){
+  document.getElementById('li-user').value='';
+  document.getElementById('li-pass').value='';
+  document.getElementById('li-err').textContent='';
+  document.getElementById('pin-screen').style.display='flex';
+}
 
 /* ═══ SAAT VE SELAM ═══ */
 function getGreeting(){
@@ -863,13 +1025,14 @@ function fillAll(){
   var cur=document.getElementById('fcur')?document.getElementById('fcur').value:'TRY';
   var b=gb(cur);
   if(b<=0){toast('Bakiye yok',true);return;}
-  document.getElementById('famt').value=b.toFixed(2);
+  var decimals=cur==='TRY'?2:6;
+  document.getElementById('famt').value=parseFloat(b.toFixed(decimals));
 }
 function stx(type){
   var amt=parseFloat(document.getElementById('famt').value);
   if(!amt||amt<=0){toast('Gecerli tutar girin',true);return;}
   var cur=document.getElementById('fcur').value;
-  if(type==='exp'&&amt>gb(cur)+0.001){toast('Bakiyeden fazla girilemez',true);return;}
+  if(type==='exp'&&amt>gb(cur)+0.01){toast('Bakiyeden fazla girilemez',true);return;}
   var desc=document.getElementById('fdsc').value;
   var date=document.getElementById('fdt').value||td2();
   D.txs.unshift({id:uid(),tp:type==='inc'?'inc':'exp',cur:cur,amt:amt,desc:desc,date:date});
@@ -946,6 +1109,7 @@ function restoreData(inp){
       var p=JSON.parse(e.target.result);
       if(!p.txs&&!p.notes){toast('Gecersiz yedek',true);return;}
       D.pin=p.pin||'1234';D.dark=!!p.dark;
+      D.username=p.username||'';D.password=p.password||'';
       D.profile=p.profile||D.profile;
       D.txs=p.txs||[];D.notes=p.notes||[];
       D.rates=p.rates||D.rates;D.rd=p.rd||'';
