@@ -205,6 +205,7 @@ textarea.fi{min-height:85px;resize:vertical;}
 
     <!-- GİRİŞ FORMU -->
     <div id="login-form" style="width:100%;">
+      
       <input type="text" id="li-user" placeholder="Kullanıcı adı" autocomplete="username"
         style="width:100%;padding:13px 14px;border-radius:12px;border:1.5px solid #ddd8cc;background:#f5f5f2;color:#1a1a1a;font-size:14px;outline:none;margin-bottom:10px;font-family:inherit;box-sizing:border-box;">
       <div style="position:relative;margin-bottom:10px;">
@@ -215,9 +216,17 @@ textarea.fi{min-height:85px;resize:vertical;}
       <div id="li-err" style="min-height:20px;font-size:12px;font-weight:700;color:#dc2626;text-align:center;margin-bottom:8px;"></div>
       <div id="li-countdown" style="display:none;text-align:center;padding:10px;background:#fee2e2;border-radius:10px;font-size:13px;font-weight:700;color:#dc2626;margin-bottom:10px;"></div>
       <button onclick="doLogin()" id="li-btn"
-        style="width:100%;padding:14px;border-radius:13px;border:none;background:#c8890a;color:#fff;font-weight:800;font-size:15px;cursor:pointer;font-family:inherit;margin-bottom:12px;">
+        style="width:100%;padding:14px;border-radius:13px;border:none;background:#c8890a;color:#fff;font-weight:800;font-size:15px;cursor:pointer;font-family:inherit;margin-bottom:0px;">
         Giriş Yap
       </button>
+      <div style="text-align:center;padding:14px 0;position:relative;">
+        <div style="position:absolute;top:50%;left:0;right:0;height:1px;background:#e2ddd2;"></div>
+        <span style="position:relative;background:#f7f5f0;padding:0 12px;font-size:12px;color:#9a9a9a;">veya</span>
+      </div>
+      <div onclick="doDemo()" style="text-align:center;cursor:pointer;padding:8px;border-radius:12px;border:1.5px dashed #c8890a;">
+        <span style="font-size:13px;font-weight:700;color:#c8890a;">Demo Olarak Giriş Yap</span>
+        <div style="font-size:11px;color:#9a9a9a;margin-top:3px;">Üye olmadan uygulamayı tanıyın</div>
+      </div>
       <div style="text-align:center;font-size:13px;color:#9a9a9a;">Hesabın yok mu?
         <button onclick="showRegister()" style="background:none;border:none;color:#c8890a;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit;">Kayıt Ol</button>
       </div>
@@ -311,6 +320,12 @@ textarea.fi{min-height:85px;resize:vertical;}
   <button class="qb" style="background:#dc2626;color:#fff;" onclick="om('inc')">+ Gelir Ekle</button>
   <button class="qb" style="background:#16a34a;color:#fff;" onclick="om('exp')">− Gider Ekle</button>
   <button class="qb" style="background:#1d6fa4;color:#fff;" onclick="om('conv')">⇄ Dönüştür</button>
+</div>
+
+<!-- DEMO BANNER -->
+<div id="demo-banner" style="display:none;background:#fff3cd;padding:7px 14px;font-size:12px;color:#856404;text-align:center;border-bottom:1px solid #ffc107;">
+  🐥 <strong>Demo Mod</strong> — 1 işlem hakkınız var.
+  <button onclick="lock();showRegister()" style="background:none;border:none;color:#c8890a;font-weight:700;cursor:pointer;font-size:12px;font-family:inherit;margin-left:6px;">Üye Ol →</button>
 </div>
 
 <!-- CONTENT -->
@@ -443,6 +458,9 @@ textarea.fi{min-height:85px;resize:vertical;}
   <div id="popup-bg" onclick="togglePopup()"></div>
   <div id="popup-box">
     <div style="font-size:13px;font-weight:800;color:#9a9a9a;margin-bottom:8px;text-transform:uppercase;letter-spacing:.8px;">Civciv Cüzdan</div>
+    <div class="popup-item" onclick="startTourFromPopup()">
+      <span>🎯</span><span>Uygulamayı Tanı</span>
+    </div>
     <div class="popup-item" onclick="showAbout()">
       <span>ℹ️</span><span>Hakkımızda</span>
     </div>
@@ -471,6 +489,8 @@ var D={
   rd:'',
   joinDate:''
 };
+var DEMO_MODE=false;
+var DEMO_USED={inc:false,exp:false,conv:false};
 (function(){
   try{
     var r=localStorage.getItem(SK);
@@ -587,6 +607,13 @@ function eskiVeriTemizle(){
   document.getElementById('li-reset-wrap').style.display='none';
   toast('Veriler temizlendi. Simdi kayit olun.');
 }
+function doDemo(){
+  DEMO_MODE=true;
+  DEMO_USED={inc:false,exp:false,conv:false};
+  document.getElementById('pin-screen').style.display='none';
+  ra();
+  setTimeout(function(){showTour();},600);
+}
 document.addEventListener('keydown',function(e){
   if(e.key==='Enter'&&document.getElementById('pin-screen').style.display!=='none'){
     doLogin();
@@ -609,6 +636,8 @@ function doLogin(){
     document.getElementById('li-reset-wrap').style.display='block';
     return;
   }
+
+  DEMO_MODE=false;
 
   var ok=(user===D.username&&pass===D.password)||(user===D.username&&pass===D.pin);
 
@@ -652,7 +681,10 @@ function startCountdown(){
 }
 
 function lock(){
-  document.getElementById('li-user').value='';
+  DEMO_MODE=false;
+  DEMO_USED={inc:false,exp:false,conv:false};
+  D.txs=[];
+  document.getElementById('li-user').value='demo';
   document.getElementById('li-pass').value='';
   document.getElementById('li-err').textContent='';
   document.getElementById('pin-screen').style.display='flex';
@@ -971,18 +1003,22 @@ function drawPie(slices){
 }
 
 /* ═══ RENDER ALL ═══ */
-function ra(){rb();rtx();rnh();rnf();rp();rr();ad();topMeta();}
+function ra(){
+  rb();rtx();rnh();rnf();rp();rr();ad();topMeta();
+  /* Demo banner */
+  var db=document.getElementById('demo-banner');
+  if(db)db.style.display=DEMO_MODE?'block':'none';
+}
 
 /* ═══ VIEWS ═══ */
 function sv(v){
+  if(DEMO_MODE&&(v==='notes'||v==='profile')){showDemoBlock(v);return;}
   var map={home:0,notes:1,reports:2,profile:3};
   document.querySelectorAll('.view').forEach(function(e){e.classList.remove('on');});
   document.querySelectorAll('.nb').forEach(function(e){e.classList.remove('on');});
   document.getElementById('view-'+v).classList.add('on');
   document.getElementById('nb'+map[v]).classList.add('on');
-  /* qbar sadece home */
   document.getElementById('qbar').style.display=v==='home'?'flex':'none';
-  /* topbar profilde gizle */
   var tb=document.getElementById('topbar');
   tb.className=v==='profile'?'hidden':'';
   if(v==='reports')rr();
@@ -1081,6 +1117,11 @@ function togglePopup(){
   var p=document.getElementById('popup');
   p.classList.toggle('on');
 }
+function startTourFromPopup(){
+  togglePopup();
+  tourStep=0;
+  showTourStep();
+}
 function showSupport(){
   togglePopup();
   om('support');
@@ -1099,12 +1140,21 @@ function fillAll(){
   document.getElementById('famt').value=parseFloat(b.toFixed(decimals));
 }
 function stx(type){
+  var dkey=type==='inc'?'inc':'exp';
+  if(DEMO_MODE&&DEMO_USED[dkey]){cm();showDemoLimit(dkey);return;}
   var amt=parseFloat(document.getElementById('famt').value);
   if(!amt||amt<=0){toast('Gecerli tutar girin',true);return;}
   var cur=document.getElementById('fcur').value;
   if(type==='exp'&&amt>gb(cur)+0.01){toast('Bakiyeden fazla girilemez',true);return;}
   var desc=document.getElementById('fdsc').value;
   var date=document.getElementById('fdt').value||td2();
+  if(DEMO_MODE){
+    DEMO_USED[dkey]=true;
+    D.txs.unshift({id:uid(),tp:type==='inc'?'inc':'exp',cur:cur,amt:amt,desc:desc,date:date});
+    rb();rtx();cm();
+    toast((type==='inc'?'Demo: Gelir eklendi':'Demo: Gider eklendi')+' (kaydedilmez)');
+    return;
+  }
   D.txs.unshift({id:uid(),tp:type==='inc'?'inc':'exp',cur:cur,amt:amt,desc:desc,date:date});
   sv2();rb();rtx();rr();cm();
   toast(type==='inc'?'Gelir eklendi':'Gider eklendi');
@@ -1120,10 +1170,19 @@ function ucp(){
   } else p.style.display='none';
 }
 function scv(){
+  if(DEMO_MODE&&DEMO_USED.conv){cm();showDemoLimit('conv');return;}
   var amt=parseFloat(document.getElementById('fcamt').value);
   if(!amt||amt<=0){toast('Gecerli tutar girin',true);return;}
   var to=document.getElementById('fcto').value;
   var got=parseFloat((amt/D.rates[to]).toFixed(6));
+  if(DEMO_MODE){
+    DEMO_USED.conv=true;
+    D.txs.unshift({id:uid(),tp:'inc',cur:to,amt:got,desc:'Demo: TRY → '+to,date:td2()});
+    D.txs.unshift({id:uid(),tp:'exp',cur:'TRY',amt:amt,desc:'Demo: '+to+' donusumu',date:td2()});
+    rb();rtx();cm();
+    toast('Demo: '+fm(amt)+' TL → '+fm(got,4)+' '+to+' (kaydedilmez)');
+    return;
+  }
   D.txs.unshift({id:uid(),tp:'inc',cur:to,amt:got,desc:'TRY → '+to,date:td2()});
   D.txs.unshift({id:uid(),tp:'exp',cur:'TRY',amt:amt,desc:to+' donusumu',date:td2()});
   sv2();rb();rtx();rr();cm();
@@ -1202,6 +1261,88 @@ function doDelete(){
   try{localStorage.removeItem(SK);localStorage.removeItem('cv6');}catch(e){}
   D={pin:'1234',dark:false,profile:{name:'Ad Soyad',email:'',phone:'',avatar:null},txs:[],notes:[],rates:{USD:32.5,EUR:35.2},rd:'',joinDate:td2()};
   sv2();cm();ra();lock();toast('Hesap silindi');
+}
+
+/* ═══ DEMO FONKSİYONLARI ═══ */
+function showDemoLimit(type){
+  var ac=D.dark?'#FFD93D':'#c8890a';
+  var tx=D.dark?'#f0f0f0':'#1a1a1a';
+  var labels={inc:'Gelir ekleme',exp:'Gider ekleme',conv:'Dönüştürme'};
+  var label=labels[type]||'Bu işlem';
+  var kalan=[];
+  if(!DEMO_USED.inc)kalan.push('Gelir ekle');
+  if(!DEMO_USED.exp)kalan.push('Gider ekle');
+  if(!DEMO_USED.conv)kalan.push('Dönüştür');
+  var h='<div class="sht">Demo Hakkı Doldu</div>'
+   +'<div style="font-size:14px;color:'+tx+';line-height:1.8;margin-bottom:10px;">'
+   +'<strong>'+label+'</strong> hakkınızı kullandınız.'
+   +'</div>'
+   +(kalan.length>0
+     ?'<div style="font-size:13px;color:'+tx+';margin-bottom:14px;">Hâlâ kullanabileceğiniz: <strong>'+kalan.join(', ')+'</strong></div>'
+     :'<div style="font-size:13px;color:'+tx+';margin-bottom:14px;">Tüm demo haklarınızı kullandınız. Üye olarak sınırsız kullanabilirsiniz!</div>'
+   )
+   +'<button class="fb" style="background:'+ac+';color:'+(D.dark?'#111':'#fff')+';" onclick="cm();lock();showRegister();">Ücretsiz Üye Ol</button>'
+   +'<button class="fb fc" onclick="cm()">Devam Et</button>';
+  document.getElementById('sc').innerHTML=h;
+  document.getElementById('ov').classList.add('on');
+}
+function showDemoBlock(v){
+  var ac=D.dark?'#FFD93D':'#c8890a';
+  var tx=D.dark?'#f0f0f0':'#1a1a1a';
+  var feature=v==='notes'?'Not ekleme':'Profil ve ayarlar';
+  var h='<div class="sht">Demo Kısıtlaması</div>'
+   +'<div style="font-size:14px;color:'+tx+';line-height:1.8;margin-bottom:14px;">'
+   +'<strong>'+feature+'</strong> özelliği demo modunda kullanılamamaktadır.<br><br>'
+   +'Tüm özelliklere erişmek için üye olun!'
+   +'</div>'
+   +'<button class="fb" style="background:'+ac+';color:'+(D.dark?'#111':'#fff')+';" onclick="cm();lock();showRegister();">Üye Ol (Ücretsiz)</button>'
+   +'<button class="fb fc" onclick="cm()">Tamam</button>';
+  document.getElementById('sc').innerHTML=h;
+  document.getElementById('ov').classList.add('on');
+}
+
+/* ═══ TANITIM TURU ═══ */
+var tourStep=0;
+var tourSteps=[
+  {title:"Civciv Çüzdan’a Hoşgeldiniz!",text:"Demo modundasınız. Gelir ekle, gider ekle ve dönüştür işlemlerini birer kez deneyebilirsiniz. Kayıt olmadan keşfedin!"},
+  {title:"Menüyü Keşfedin",text:"Sol üstteki Civciv logosuna tıklayın. Hakkımızda, destek ve uygulama versiyonu bilgilerine oradan ulaşabilirsiniz."},
+  {title:"Bakiye Şeridi",text:"Ekranın üstündeki renkli şeritte anlık bakiyeleriniz görünür. Kırmızı=TL, Yeşil=Dolar, Mavi=Euro bakiyenizi gösterir."},
+  {title:"Gelir ve Gider Ekle",text:"Yeşil butonla gelir ekleyin, kırmızıyla gider çıkarın. Para birimi olarak TL, Dolar veya Euro seçebilirsiniz."},
+  {title:"Döviz Dönüştür",text:"TL bakiyenizi Dolara veya Euro’ya anında dönüştürün. Dönüştür butonuna tıklayarak işlemi gerçekleştirin."},
+  {title:"Raporlar",text:"Alt menüden Raporlar sekmesine geçin. Günlük, haftalık, aylık ve yıllık gelir/gider analizinizi pasta grafikle görüntüleyin."},
+  {title:"Üretsiz Üye Olun!",text:"Not ekleme, profil ve sınırsız işlem için üye olun. Tamamen üretsiz ve reklamsız. Verileriniz sadece sizin telefonunuzda!"}
+];
+function showTour(){
+  tourStep=0;
+  showTourStep();
+}
+function showTourStep(){
+  var s=tourSteps[tourStep];
+  var ac=D.dark?'#FFD93D':'#c8890a';
+  var tx=D.dark?'#f0f0f0':'#1a1a1a';
+  var isLast=tourStep===tourSteps.length-1;
+  var dots='';
+  for(var i=0;i<tourSteps.length;i++){
+    dots+='<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:'+(i===tourStep?ac:'#ddd')+';margin:0 3px;transition:background .2s;"></span>';
+  }
+  var stepNum=(tourStep+1)+' / '+tourSteps.length;
+  var h='<div style="text-align:center;margin-bottom:8px;">'+dots+'</div>'
+   +'<div style="text-align:center;font-size:10px;color:#9a9a9a;margin-bottom:10px;">'+stepNum+'</div>'
+   +'<div style="font-size:16px;font-weight:800;color:'+ac+';text-align:center;margin-bottom:10px;">'+s.title+'</div>'
+   +'<div style="font-size:14px;color:'+tx+';line-height:1.8;text-align:center;margin-bottom:22px;">'+s.text+'</div>'
+   +(isLast
+     ?'<button class="fb" style="background:'+ac+';color:'+(D.dark?'#111':'#fff')+';" onclick="cm();lock();showRegister();">Ücretsiz Üye Ol</button>'
+      +'<button class="fb fc" onclick="cm()">Demoya Devam Et</button>'
+     :'<button class="fb" style="background:'+ac+';color:'+(D.dark?'#111':'#fff')+';" onclick="tourNext()">Devam →</button>'
+      +'<button class="fb fc" onclick="cm()">Atla</button>'
+   );
+  document.getElementById('sc').innerHTML=h;
+  document.getElementById('ov').classList.add('on');
+}
+function tourNext(){
+  tourStep++;
+  if(tourStep>=tourSteps.length){cm();return;}
+  showTourStep();
 }
 
 /* ═══ TOAST ═══ */
