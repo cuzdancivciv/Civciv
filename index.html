@@ -716,9 +716,9 @@ function topMeta(){
 function updateSaat(){
   var now=new Date();
   var saat=now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0');
-  var gun=['Paz','Pzt','Sal','Çar','Per','Cum','Cmt'][now.getDay()];
-  var ay=['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'][now.getMonth()];
-  var tarih=gun+' '+now.getDate()+' '+ay;
+  var gunler=['Pazar','Pazartesi','Salı','Çarşamba','Perşembe','Cuma','Cumartesi'];
+  var aylar=['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
+  var tarih=now.getDate()+' '+aylar[now.getMonth()]+' '+now.getFullYear()+' '+gunler[now.getDay()];
   var meta=tarih+' · '+saat;
   if(window._sehir)meta+=' · '+window._sehir;
   if(window._hava)meta+=' '+window._hava;
@@ -899,7 +899,12 @@ function rp(){
   var days=Math.floor((new Date().getTime()-new Date(join).getTime())/86400000);
   var mcDays=document.getElementById('mc-days');if(mcDays)mcDays.textContent=days;
   var mcName=document.getElementById('mc-name');if(mcName)mcName.textContent=p.name&&p.name!='Ad Soyad'?'Sayın '+p.name:'';
-  var mcSince=document.getElementById('mc-since');if(mcSince)mcSince.textContent='Katılım: '+join;
+  var mcSince=document.getElementById('mc-since');
+  if(mcSince){
+    var joinParts=join.split('-');
+    var joinFmt=joinParts.length===3?joinParts[2]+'/'+joinParts[1]+'/'+joinParts[0]:join;
+    mcSince.textContent='Katılım: '+joinFmt;
+  }
   /* Top bar isim */
   var tnEl=document.getElementById('top-name-lbl');
   if(tnEl){tnEl.textContent=p.name&&p.name!='Ad Soyad'?p.name:'';}
