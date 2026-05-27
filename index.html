@@ -206,7 +206,7 @@ textarea.fi{min-height:85px;resize:vertical;}
     <!-- GİRİŞ FORMU -->
     <div id="login-form" style="width:100%;">
       
-      <input type="text" id="li-user" placeholder="Kullanıcı adı" autocomplete="username"
+      <input type="text" id="li-user" placeholder="Kullanıcı adı" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false"
         style="width:100%;padding:13px 14px;border-radius:12px;border:1.5px solid #ddd8cc;background:#f5f5f2;color:#1a1a1a;font-size:14px;outline:none;margin-bottom:10px;font-family:inherit;box-sizing:border-box;">
       <div style="position:relative;margin-bottom:10px;">
         <input type="password" id="li-pass" placeholder="Şifre (max 6 rakam)" autocomplete="current-password" inputmode="numeric" maxlength="6"
@@ -240,7 +240,7 @@ textarea.fi{min-height:85px;resize:vertical;}
     <label style="font-size:11px;font-weight:600;color:#9a9a9a;display:block;margin-bottom:3px;">Ad Soyad *</label>
     <input type="text" id="rg-name" class="fi" placeholder="Ad Soyad">
     <label style="font-size:11px;font-weight:600;color:#9a9a9a;display:block;margin-bottom:3px;">Kullanıcı Adı *</label>
-    <input type="text" id="rg-user" class="fi" placeholder="kullaniciadi">
+    <input type="text" id="rg-user" class="fi" placeholder="kullaniciadi" autocapitalize="none" autocorrect="off" spellcheck="false">
     <label style="font-size:11px;font-weight:600;color:#9a9a9a;display:block;margin-bottom:3px;">Şifre * (4-6 rakam)</label>
     <input type="password" id="rg-pass" class="fi" placeholder="Örn: 1234" inputmode="numeric" pattern="[0-9]*" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,6);">
     <div style="background:#fff3cd;border-radius:10px;padding:9px 12px;margin-bottom:10px;font-size:11px;color:#856404;line-height:1.5;">
@@ -720,10 +720,14 @@ function updateSaat(){
   var aylar=['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
   var tarih=now.getDate()+' '+aylar[now.getMonth()]+' '+now.getFullYear()+' '+gunler[now.getDay()];
   var meta=tarih+' · '+saat;
-  if(window._sehir)meta+=' · '+window._sehir;
-  if(window._hava)meta+=' '+window._hava;
   var el=document.getElementById('top-meta');
-  if(el)el.textContent=meta;
+  if(el){
+    var satirlar=[tarih+' · '+saat];
+    var alt='';
+    if(window._sehir)alt+=window._sehir;
+    if(window._hava)alt+=(alt?' ':'')+'· '+window._hava;
+    el.innerHTML=satirlar[0]+(alt?'<br><span style="font-size:9px;">'+alt+'</span>':'');
+  }
 }
 function updateMetaDisplay(){updateSaat();}
 
