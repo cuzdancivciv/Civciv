@@ -200,13 +200,13 @@ textarea.fi{min-height:85px;resize:vertical;}
       <ellipse cx="14" cy="36" rx="7" ry="5" fill="#FFD93D" transform="rotate(-20 14 36)"/>
       <ellipse cx="50" cy="36" rx="7" ry="5" fill="#FFD93D" transform="rotate(20 50 36)"/>
     </svg>
-    <div id="pname" style="font-size:22px;font-weight:800;color:#c8890a;margin-top:10px;text-align:center;">Cüzdan Civciv'e Hoşgeldin 🐥</div>
+    <div id="pname" style="font-size:22px;font-weight:800;color:#c8890a;margin-top:10px;text-align:center;">Cüzdan Civciv'e Hoşgeldin</div>
     <div style="font-size:12px;color:#9a9a9a;margin-top:4px;margin-bottom:20px;text-align:center;">Kişisel para takip uygulamanız</div>
 
     <!-- GİRİŞ FORMU -->
     <div id="login-form" style="width:100%;">
       
-      <input type="text" id="li-user" placeholder="Kullanıcı adı" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false"
+      <input type="email" id="li-user" placeholder="E-posta adresi" autocomplete="email" autocapitalize="none" autocorrect="off" spellcheck="false" inputmode="email"
         style="width:100%;padding:13px 14px;border-radius:12px;border:1.5px solid #ddd8cc;background:#f5f5f2;color:#1a1a1a;font-size:14px;outline:none;margin-bottom:10px;font-family:inherit;box-sizing:border-box;">
       <div style="position:relative;margin-bottom:10px;">
         <input type="password" id="li-pass" placeholder="Şifre (max 6 rakam)" autocomplete="current-password" inputmode="numeric" maxlength="6"
@@ -239,8 +239,7 @@ textarea.fi{min-height:85px;resize:vertical;}
     <div style="font-size:18px;font-weight:800;color:#1a1a1a;margin-bottom:16px;">🐥 Kayıt Ol</div>
     <label style="font-size:11px;font-weight:600;color:#9a9a9a;display:block;margin-bottom:3px;">Ad Soyad *</label>
     <input type="text" id="rg-name" class="fi" placeholder="Ad Soyad">
-    <label style="font-size:11px;font-weight:600;color:#9a9a9a;display:block;margin-bottom:3px;">Kullanıcı Adı *</label>
-    <input type="text" id="rg-user" class="fi" placeholder="kullaniciadi" autocapitalize="none" autocorrect="off" spellcheck="false">
+
     <label style="font-size:11px;font-weight:600;color:#9a9a9a;display:block;margin-bottom:3px;">Şifre * (4-6 rakam)</label>
     <input type="password" id="rg-pass" class="fi" placeholder="Örn: 1234" inputmode="numeric" pattern="[0-9]*" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,6);">
     <div style="background:#fff3cd;border-radius:10px;padding:9px 12px;margin-bottom:10px;font-size:11px;color:#856404;line-height:1.5;">
@@ -528,7 +527,6 @@ function togglePass(id,btn){
 
 function showRegister(){
   document.getElementById('rg-name').value='';
-  document.getElementById('rg-user').value='';
   document.getElementById('rg-pass').value='';
   document.getElementById('rg-pass2').value='';
   document.getElementById('rg-email').value='';
@@ -542,7 +540,6 @@ function hideRegister(){
 
 function doRegister(){
   var name=document.getElementById('rg-name').value.trim();
-  var user=document.getElementById('rg-user').value.trim();
   var pass=document.getElementById('rg-pass').value;
   var pass2=document.getElementById('rg-pass2').value;
   var email=document.getElementById('rg-email').value.trim();
@@ -550,25 +547,23 @@ function doRegister(){
   var errEl=document.getElementById('rg-err');
 
   if(!name){errEl.textContent='Ad Soyad zorunludur';return;}
-  if(!user||user.length<3){errEl.textContent='Kullanici adi en az 3 karakter olmali';return;}
-  if(!/^[a-zA-Z0-9_]+$/.test(user)){errEl.textContent='Kullanici adi sadece harf, rakam ve _ icermelidir';return;}
+  if(!email||!email.includes('@')||!email.includes('.')){errEl.textContent='Geçerli bir e-posta adresi girin';return;}
   if(!pass||pass.length<4||pass.length>6||!/^[0-9]+$/.test(pass)){errEl.textContent='Şifre 4-6 rakamdan oluşmalıdır';return;}
-  if(pass!==pass2){errEl.textContent='Sifreler uyusmuyor';return;}
-  if(!email||!email.includes('@')){errEl.textContent='Geçerli bir e-posta girin';return;}
-  if(phone&&(phone.length!==10||!/^[0-9]+$/.test(phone))){errEl.textContent='Telefon numarası başında 0 olmadan 10 hane olmalıdır';return;}
+  if(pass!==pass2){errEl.textContent='Şifreler uyuşmuyor';return;}
+  if(phone&&(phone.length!==10||!/^[0-9]+$/.test(phone))){errEl.textContent='Telefon başında 0 olmadan 10 hane olmalıdır';return;}
 
   /* Kaydet */
   D.profile.name=name;
   D.profile.email=email;
   D.profile.phone=phone;
-  D.username=user;
+  D.username=email;
   D.password=pass;
   D.pin=pass;
   D.joinDate=td2();
   sv2();
 
   hideRegister();
-  document.getElementById('li-user').value=user;
+  document.getElementById('li-user').value=email;
   document.getElementById('li-pass').value='';
   document.getElementById('li-err').textContent='';
   toast('Kayıt başarılı! Giriş yapın');
@@ -598,18 +593,18 @@ function doLogin(){
   var pass=document.getElementById('li-pass').value;
   var errEl=document.getElementById('li-err');
 
-  if(!user||!pass){errEl.textContent='Kullanici adi ve sifre girin';return;}
+  if(!user||!pass){errEl.textContent='E-posta ve şifre girin';return;}
 
-  /* İlk kez kullanıyorsa (kayıt yoksa) */
-  if(!D.username){
-    errEl.textContent='Once kayit olun!';
-    document.getElementById('li-hint').style.display='block';
-    document.getElementById('li-reset-wrap').style.display='block';
+  if(!D.profile.email){
+    errEl.textContent='Önce kayıt olun!';
+    var hint=document.getElementById('li-hint');
+    var reset=document.getElementById('li-reset-wrap');
+    if(hint)hint.style.display='block';
+    if(reset)reset.style.display='block';
     return;
   }
 
-
-  var ok=(user===D.username&&pass===D.password)||(user===D.username&&pass===D.pin);
+  var ok=(user===D.profile.email&&pass===D.password);
 
   if(ok){
     failCount=0;
@@ -622,7 +617,7 @@ function doLogin(){
       failCount=0;
       startCountdown();
     } else {
-      errEl.textContent='Kullanici adi veya sifre hatali! ('+(3-failCount)+' hak kaldi)';
+      errEl.textContent='E-posta veya şifre hatalı! ('+(3-failCount)+' hak kaldı)';
     }
   }
 }
@@ -652,7 +647,7 @@ function startCountdown(){
 
 function lock(){
   D.txs=[];
-  document.getElementById('li-user').value='';
+  document.getElementById('li-user').value=D.profile.email||'';
   document.getElementById('li-pass').value='';
   document.getElementById('li-err').textContent='';
   document.getElementById('pin-screen').style.display='flex';
