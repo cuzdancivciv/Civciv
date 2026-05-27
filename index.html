@@ -153,7 +153,6 @@ textarea.fi{min-height:85px;resize:vertical;}
 #pin-screen{position:fixed;inset:0;background:#f7f5f0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;}
 .dark #pin-screen{background:#111;}
 .dark #li-user,.dark #li-pass{background:#252525!important;border-color:#333!important;color:#f0f0f0!important;}
-.dark #li-pass-show{color:#f0f0f0!important;background:#252525;border-color:#333;}
 .dark #reg-box{background:#1c1c1c;}
 .dark #reg-box input{background:#252525;border-color:#333;color:#f0f0f0;}
 .dark #reg-box label{color:#9a9a9a;}
@@ -209,29 +208,17 @@ textarea.fi{min-height:85px;resize:vertical;}
       
       <input type="text" id="li-user" placeholder="Kullanıcı adı" autocomplete="username"
         style="width:100%;padding:13px 14px;border-radius:12px;border:1.5px solid #ddd8cc;background:#f5f5f2;color:#1a1a1a;font-size:14px;outline:none;margin-bottom:10px;font-family:inherit;box-sizing:border-box;">
-      <!-- Şifre göstergesi -->
-      <div style="background:#f5f5f2;border-radius:12px;border:1.5px solid #ddd8cc;padding:13px 14px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;">
-        <span id="li-pass-show" style="font-size:24px;letter-spacing:8px;color:#1a1a1a;">——</span>
-        <button onclick="liPassBack()" style="background:none;border:none;cursor:pointer;font-size:18px;color:#9a9a9a;padding:0;">⌫</button>
+      <div style="position:relative;margin-bottom:10px;">
+        <input type="password" id="li-pass" placeholder="Şifre (max 6 rakam)" autocomplete="current-password" inputmode="numeric" maxlength="6"
+          style="width:100%;padding:13px 14px;border-radius:12px;border:1.5px solid #ddd8cc;background:#f5f5f2;color:#1a1a1a;font-size:14px;outline:none;font-family:inherit;box-sizing:border-box;">
+        <button onclick="togglePass('li-pass',this)" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;color:#9a9a9a;">👁️</button>
       </div>
-      <input type="hidden" id="li-pass">
-      <div id="li-err" style="min-height:18px;font-size:12px;font-weight:700;color:#dc2626;text-align:center;margin-bottom:4px;"></div>
-      <div id="li-countdown" style="display:none;text-align:center;padding:8px;background:#fee2e2;border-radius:10px;font-size:13px;font-weight:700;color:#dc2626;margin-bottom:6px;"></div>
-      <!-- Numpad -->
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px;">
-        <button onclick="liPad('1')" style="padding:14px 0;border-radius:12px;border:none;background:#ece9e1;color:#1a1a1a;font-size:20px;font-weight:700;cursor:pointer;font-family:inherit;">1</button>
-        <button onclick="liPad('2')" style="padding:14px 0;border-radius:12px;border:none;background:#ece9e1;color:#1a1a1a;font-size:20px;font-weight:700;cursor:pointer;font-family:inherit;">2</button>
-        <button onclick="liPad('3')" style="padding:14px 0;border-radius:12px;border:none;background:#ece9e1;color:#1a1a1a;font-size:20px;font-weight:700;cursor:pointer;font-family:inherit;">3</button>
-        <button onclick="liPad('4')" style="padding:14px 0;border-radius:12px;border:none;background:#ece9e1;color:#1a1a1a;font-size:20px;font-weight:700;cursor:pointer;font-family:inherit;">4</button>
-        <button onclick="liPad('5')" style="padding:14px 0;border-radius:12px;border:none;background:#ece9e1;color:#1a1a1a;font-size:20px;font-weight:700;cursor:pointer;font-family:inherit;">5</button>
-        <button onclick="liPad('6')" style="padding:14px 0;border-radius:12px;border:none;background:#ece9e1;color:#1a1a1a;font-size:20px;font-weight:700;cursor:pointer;font-family:inherit;">6</button>
-        <button onclick="liPad('7')" style="padding:14px 0;border-radius:12px;border:none;background:#ece9e1;color:#1a1a1a;font-size:20px;font-weight:700;cursor:pointer;font-family:inherit;">7</button>
-        <button onclick="liPad('8')" style="padding:14px 0;border-radius:12px;border:none;background:#ece9e1;color:#1a1a1a;font-size:20px;font-weight:700;cursor:pointer;font-family:inherit;">8</button>
-        <button onclick="liPad('9')" style="padding:14px 0;border-radius:12px;border:none;background:#ece9e1;color:#1a1a1a;font-size:20px;font-weight:700;cursor:pointer;font-family:inherit;">9</button>
-        <div></div>
-        <button onclick="liPad('0')" style="padding:14px 0;border-radius:12px;border:none;background:#ece9e1;color:#1a1a1a;font-size:20px;font-weight:700;cursor:pointer;font-family:inherit;">0</button>
-        <button onclick="doLogin()" style="padding:14px 0;border-radius:12px;border:none;background:#c8890a;color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;">Giriş</button>
-      </div>
+      <div id="li-err" style="min-height:20px;font-size:12px;font-weight:700;color:#dc2626;text-align:center;margin-bottom:8px;"></div>
+      <div id="li-countdown" style="display:none;text-align:center;padding:10px;background:#fee2e2;border-radius:10px;font-size:13px;font-weight:700;color:#dc2626;margin-bottom:10px;"></div>
+      <button onclick="doLogin()" id="li-btn"
+        style="width:100%;padding:14px;border-radius:13px;border:none;background:#c8890a;color:#fff;font-weight:800;font-size:15px;cursor:pointer;font-family:inherit;margin-bottom:12px;">
+        Giriş Yap
+      </button>
 
       <div style="text-align:center;font-size:13px;color:#9a9a9a;">Hesabın yok mu?
         <button onclick="showRegister()" style="background:none;border:none;color:#c8890a;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit;">Kayıt Ol</button>
@@ -529,22 +516,6 @@ function ad(){
 function td(){D.dark=!D.dark;sv2();ad();}
 
 /* ═══ GİRİŞ SİSTEMİ ═══ */
-var liPassBuf='';
-function liPad(d){
-  if(liPassBuf.length>=6)return;
-  liPassBuf+=d;
-  document.getElementById('li-pass').value=liPassBuf;
-  var dots='';
-  for(var i=0;i<liPassBuf.length;i++)dots+='●';
-  document.getElementById('li-pass-show').textContent=dots||'——';
-}
-function liPassBack(){
-  liPassBuf=liPassBuf.slice(0,-1);
-  document.getElementById('li-pass').value=liPassBuf;
-  var dots='';
-  for(var i=0;i<liPassBuf.length;i++)dots+='●';
-  document.getElementById('li-pass-show').textContent=dots||'——';
-}
 var failCount=0;
 var lockUntil=0;
 var countdownTimer=null;
@@ -681,11 +652,8 @@ function startCountdown(){
 
 function lock(){
   D.txs=[];
-  liPassBuf='';
   document.getElementById('li-user').value='';
   document.getElementById('li-pass').value='';
-  var ps=document.getElementById('li-pass-show');
-  if(ps)ps.textContent='——';
   document.getElementById('li-err').textContent='';
   document.getElementById('pin-screen').style.display='flex';
 }
