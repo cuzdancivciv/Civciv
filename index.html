@@ -345,14 +345,39 @@ textarea.fi{min-height:85px;resize:vertical;}
       <button class="rtab" onclick="srt('yearly',this)">Yıllık</button>
     </div>
     <!-- TRY -->
-    <div class="rc"><span class="rl">TRY Gelir</span><span class="rv inc" id="ri-try">₺0</span></div>
-    <div class="rc"><span class="rl">TRY Gider</span><span class="rv exp" id="re-try">₺0</span></div>
-    <!-- USD -->
-    <div class="rc"><span class="rl">USD Gelir</span><span class="rv inc" id="ri-usd">$0</span></div>
-    <div class="rc"><span class="rl">USD Gider</span><span class="rv exp" id="re-usd">$0</span></div>
-    <!-- EUR -->
-    <div class="rc"><span class="rl">EUR Gelir</span><span class="rv inc" id="ri-eur">€0</span></div>
-    <div class="rc"><span class="rl">EUR Gider</span><span class="rv exp" id="re-eur">€0</span></div>
+    <!-- TRY yan yana -->
+    <div style="display:flex;gap:8px;margin-bottom:8px;">
+      <div class="rc" style="flex:1;flex-direction:column;align-items:flex-start;gap:4px;">
+        <span class="rl">🇹🇷 TL Gelir</span>
+        <span class="rv inc" id="ri-try">₺0</span>
+      </div>
+      <div class="rc" style="flex:1;flex-direction:column;align-items:flex-start;gap:4px;">
+        <span class="rl">🇹🇷 TL Gider</span>
+        <span class="rv exp" id="re-try">₺0</span>
+      </div>
+    </div>
+    <!-- USD yan yana -->
+    <div style="display:flex;gap:8px;margin-bottom:8px;">
+      <div class="rc" style="flex:1;flex-direction:column;align-items:flex-start;gap:4px;">
+        <span class="rl">🇺🇸 USD Gelir</span>
+        <span class="rv inc" id="ri-usd">$0</span>
+      </div>
+      <div class="rc" style="flex:1;flex-direction:column;align-items:flex-start;gap:4px;">
+        <span class="rl">🇺🇸 USD Gider</span>
+        <span class="rv exp" id="re-usd">$0</span>
+      </div>
+    </div>
+    <!-- EUR yan yana -->
+    <div style="display:flex;gap:8px;margin-bottom:8px;">
+      <div class="rc" style="flex:1;flex-direction:column;align-items:flex-start;gap:4px;">
+        <span class="rl">🇪🇺 EUR Gelir</span>
+        <span class="rv inc" id="ri-eur">€0</span>
+      </div>
+      <div class="rc" style="flex:1;flex-direction:column;align-items:flex-start;gap:4px;">
+        <span class="rl">🇪🇺 EUR Gider</span>
+        <span class="rv exp" id="re-eur">€0</span>
+      </div>
+    </div>
     <!-- PIE CHART -->
     <div id="pie-wrap">
       <canvas id="pie-canvas" width="110" height="110"></canvas>
@@ -447,6 +472,9 @@ textarea.fi{min-height:85px;resize:vertical;}
     <div class="popup-item" style="cursor:default;">
       <span>🏷️</span>
       <span>Uygulama Versiyonu <span class="popup-ver">v1.0</span></span>
+    </div>
+    <div class="popup-item" onclick="togglePopup();lock();" style="color:#dc2626;">
+      <span>🔒</span><span style="color:#dc2626;">Kilitle / Çıkış</span>
     </div>
   </div>
 </div>
