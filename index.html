@@ -213,6 +213,10 @@ textarea.fi{min-height:85px;resize:vertical;}
           style="width:100%;padding:13px 14px;border-radius:12px;border:1.5px solid #ddd8cc;background:#f5f5f2;color:#1a1a1a;font-size:14px;outline:none;font-family:inherit;box-sizing:border-box;">
         <button onclick="togglePass('li-pass',this)" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;color:#9a9a9a;">👁️</button>
       </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+        <input type="checkbox" id="li-remember" style="width:16px;height:16px;cursor:pointer;accent-color:#c8890a;" onchange="toggleRemember()">
+        <label for="li-remember" style="font-size:13px;color:#9a9a9a;cursor:pointer;">E-posta adresimi hatırla</label>
+      </div>
       <div id="li-err" style="min-height:20px;font-size:12px;font-weight:700;color:#dc2626;text-align:center;margin-bottom:8px;"></div>
       <div id="li-countdown" style="display:none;text-align:center;padding:10px;background:#fee2e2;border-radius:10px;font-size:13px;font-weight:700;color:#dc2626;margin-bottom:10px;"></div>
       <button onclick="doLogin()" id="li-btn"
@@ -237,18 +241,29 @@ textarea.fi{min-height:85px;resize:vertical;}
 <div id="reg-overlay" style="position:fixed;inset:0;background:#0009;z-index:1000;display:none;align-items:flex-end;justify-content:center;">
   <div id="reg-box" style="background:#fff;border-radius:20px 20px 0 0;padding:20px 18px 36px;width:100%;max-width:430px;max-height:90vh;overflow-y:auto;">
     <div style="font-size:18px;font-weight:800;color:#1a1a1a;margin-bottom:16px;">🐥 Kayıt Ol</div>
+
     <label style="font-size:11px;font-weight:600;color:#9a9a9a;display:block;margin-bottom:3px;">Ad Soyad *</label>
     <input type="text" id="rg-name" class="fi" placeholder="Ad Soyad">
 
+    <label style="font-size:11px;font-weight:600;color:#9a9a9a;display:block;margin-bottom:3px;">E-posta *</label>
+    <input type="email" id="rg-email" class="fi" placeholder="ornek@mail.com" autocapitalize="none">
+
     <label style="font-size:11px;font-weight:600;color:#9a9a9a;display:block;margin-bottom:3px;">Şifre * (4-6 rakam)</label>
-    <input type="password" id="rg-pass" class="fi" placeholder="Örn: 1234" inputmode="numeric" pattern="[0-9]*" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,6);">
+    <div style="position:relative;margin-bottom:9px;">
+      <input type="password" id="rg-pass" class="fi" placeholder="Örn: 1234" inputmode="numeric" pattern="[0-9]*" style="margin-bottom:0;" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,6);">
+      <button onclick="togglePass('rg-pass',this)" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;color:#9a9a9a;">👁️</button>
+    </div>
+
+    <label style="font-size:11px;font-weight:600;color:#9a9a9a;display:block;margin-bottom:3px;">Şifre Tekrar *</label>
+    <div style="position:relative;margin-bottom:9px;">
+      <input type="password" id="rg-pass2" class="fi" placeholder="Şifreyi tekrar girin" inputmode="numeric" pattern="[0-9]*" style="margin-bottom:0;" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,6);">
+      <button onclick="togglePass('rg-pass2',this)" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;color:#9a9a9a;">👁️</button>
+    </div>
+
     <div style="background:#fff3cd;border-radius:10px;padding:9px 12px;margin-bottom:10px;font-size:11px;color:#856404;line-height:1.5;">
       ⚠️ <strong>Şifre dışındaki bilgileriniz kaydedildikten sonra değiştirilemez.</strong> Lütfen bilgilerinizi doğru girin.
     </div>
-    <label style="font-size:11px;font-weight:600;color:#9a9a9a;display:block;margin-bottom:3px;">Şifre Tekrar *</label>
-    <input type="password" id="rg-pass2" class="fi" placeholder="Şifreyi tekrar girin" inputmode="numeric" pattern="[0-9]*" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,6);">
-    <label style="font-size:11px;font-weight:600;color:#9a9a9a;display:block;margin-bottom:3px;">E-posta *</label>
-    <input type="email" id="rg-email" class="fi" placeholder="ornek@mail.com">
+
     <label style="font-size:11px;font-weight:600;color:#9a9a9a;display:block;margin-bottom:3px;">Telefon (Başında 0 olmadan 10 hane)</label>
     <input type="tel" id="rg-phone" class="fi" placeholder="5xx xxx xx xx" maxlength="10" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,10);">
     <div id="rg-err" style="min-height:20px;font-size:12px;font-weight:700;color:#dc2626;text-align:center;margin-bottom:8px;"></div>
@@ -543,6 +558,24 @@ function ad(){
 function td(){D.dark=!D.dark;sv2();ad();}
 
 /* ═══ GİRİŞ SİSTEMİ ═══ */
+/* Hatırla */
+function toggleRemember(){
+  var cb=document.getElementById('li-remember');
+  if(cb.checked){
+    try{localStorage.setItem('cv_remember',document.getElementById('li-user').value);}catch(e){}
+  } else {
+    try{localStorage.removeItem('cv_remember');}catch(e){}
+  }
+}
+function loadRemembered(){
+  try{
+    var saved=localStorage.getItem('cv_remember');
+    if(saved){
+      document.getElementById('li-user').value=saved;
+      document.getElementById('li-remember').checked=true;
+    }
+  }catch(e){}
+}
 var failCount=0;
 var lockUntil=0;
 var countdownTimer=null;
@@ -635,6 +668,13 @@ function doLogin(){
 
   if(ok){
     failCount=0;
+    /* Hatırla seçiliyse e-postayı kaydet */
+    var cb=document.getElementById('li-remember');
+    if(cb&&cb.checked){
+      try{localStorage.setItem('cv_remember',user);}catch(e){}
+    } else {
+      try{localStorage.removeItem('cv_remember');}catch(e){}
+    }
     document.getElementById('pin-screen').style.display='none';
     ra();
   } else {
@@ -677,7 +717,8 @@ function lock(){
   document.getElementById('li-user').value=D.profile.email||'';
   document.getElementById('li-pass').value='';
   document.getElementById('li-err').textContent='';
-  document.getElementById('pin-screen').style.display='flex';
+  loadRemembered();
+document.getElementById('pin-screen').style.display='flex';
 }
 
 /* ═══ SAAT VE SELAM ═══ */
@@ -1262,6 +1303,7 @@ if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch
 ad();
 sv('home');
 document.getElementById('qbar').style.display='flex';
+loadRemembered();
 document.getElementById('pin-screen').style.display='flex';
 topMeta();
 /* Saat her saniye guncelle */
