@@ -395,7 +395,7 @@ textarea.fi{min-height:85px;resize:vertical;}
     <!-- Güvenlik -->
     <div class="ps">
       <div class="pst">Güvenlik</div>
-      <button class="pb" onclick="om('changePin')">🔒 PIN Değiştir</button>
+      <button class="pb" onclick="om('changePin')">🔒 Şifre Değiştir</button>
     </div>
 
     <!-- Görünüm -->
@@ -458,7 +458,7 @@ textarea.fi{min-height:85px;resize:vertical;}
 /* ═══ DATA ═══ */
 var SK='cv7';
 var D={
-  pin:'1234',dark:false,
+  dark:false,
   username:'',password:'',
   profile:{name:'Ad Soyad',email:'',phone:'',avatar:null},
   txs:[],notes:[],
@@ -473,7 +473,7 @@ var D={
     if(!r){r=localStorage.getItem('cv6');}
     if(r){
       var s=JSON.parse(r);
-      D.pin=s.pin||D.pin;D.dark=!!s.dark;
+      D.dark=!!s.dark;
       D.username=s.username||'';D.password=s.password||'';
       D.profile=s.profile||D.profile;
       D.txs=s.txs||[];D.notes=s.notes||[];
@@ -497,7 +497,7 @@ function ad(){
   /* tema butonu */
   var tb=document.getElementById('theme-btn');
   if(tb)tb.textContent=dk?'☀️ Gündüz Moduna Geç':'🌙 Gece Moduna Geç';
-  /* pin ekranı logo rengi */
+  /* giriş ekranı logo rengi */
   var pnEl=document.getElementById('pname');
   if(pnEl)pnEl.style.color=dk?'#FFD93D':'#c8890a';
   /* profil isim rengi */
@@ -558,7 +558,6 @@ function doRegister(){
   D.profile.phone=phone;
   D.username=email;
   D.password=pass;
-  D.pin=pass;
   D.joinDate=td2();
   sv2();
 
@@ -571,7 +570,7 @@ function doRegister(){
 
 function eskiVeriTemizle(){
   try{localStorage.removeItem('cv7');localStorage.removeItem('cv6');}catch(e){}
-  D={pin:'1234',dark:D.dark,username:'',password:'',
+  D={dark:D.dark,username:'',password:'',
     profile:{name:'Ad Soyad',email:'',phone:'',avatar:null},
     txs:[],notes:[],rates:{USD:32.5,EUR:35.2},rd:'',joinDate:''};
   document.getElementById('li-err').textContent='';
@@ -1045,11 +1044,11 @@ function om(type,arg){
      +'<button class="fb" style="background:'+ac+';color:'+(D.dark?'#111':'#fff')+';\" onclick="sep()">Kaydet</button>'
      +'<button class="fb fc" onclick="cm()">İptal</button>';
   } else if(type==='changePin'){
-    h='<div class="sht">🔒 PIN Değiştir</div>'
-     +'<label class="fl">Mevcut PIN</label><input type="password" class="fi" id="cpo" maxlength="4" placeholder="••••">'
-     +'<label class="fl">Yeni PIN (4 rakam)</label><input type="password" class="fi" id="cpn" maxlength="4" placeholder="••••">'
-     +'<label class="fl">Tekrar</label><input type="password" class="fi" id="cpr" maxlength="4" placeholder="••••">'
-     +'<button class="fb" style="background:'+ac+';color:'+(D.dark?'#111':'#fff')+';\" onclick="scp()">Değiştir</button>'
+    h='<div class="sht">🔒 Şifre Değiştir</div>'
+     +'<label class="fl">Mevcut Şifre</label><input type="password" class="fi" id="cpo" inputmode="numeric" maxlength="6" placeholder="Mevcut şifreniz">'
+     +'<label class="fl">Yeni Şifre (4-6 rakam)</label><input type="password" class="fi" id="cpn" inputmode="numeric" maxlength="6" placeholder="Yeni şifre">'
+     +'<label class="fl">Tekrar</label><input type="password" class="fi" id="cpr" inputmode="numeric" maxlength="6" placeholder="Tekrar girin">'
+     +'<button class="fb" style="background:'+ac+';color:'+(D.dark?'#111':'#fff')+';" onclick="scp()">Değiştir</button>'
      +'<button class="fb fc" onclick="cm()">İptal</button>';
   } else if(type==='confirm'){
     var cfg=arg;
@@ -1160,10 +1159,10 @@ function scp(){
   var o=document.getElementById('cpo').value;
   var n=document.getElementById('cpn').value;
   var r=document.getElementById('cpr').value;
-  if(o!==D.pin){toast('Mevcut PIN hatali',true);return;}
-  if(!/^\d{4}$/.test(n)){toast('Yeni PIN 4 rakam olmali',true);return;}
-  if(n!==r){toast('PINler uyusmuyor',true);return;}
-  D.pin=n;sv2();cm();toast('PIN degistirildi');
+  if(o!==D.password){toast('Mevcut şifre hatalı',true);return;}
+  if(!n||n.length<4||n.length>6||!/^[0-9]+$/.test(n)){toast('Yeni şifre 4-6 rakam olmalıdır',true);return;}
+  if(n!==r){toast('Şifreler uyuşmuyor',true);return;}
+  D.password=n;sv2();cm();toast('✓ Şifre değiştirildi');
 }
 function ha(inp){
   var f=inp.files[0];if(!f)return;
@@ -1190,7 +1189,7 @@ function restoreData(inp){
     try{
       var p=JSON.parse(e.target.result);
       if(!p.txs&&!p.notes){toast('Gecersiz yedek',true);return;}
-      D.pin=p.pin||'1234';D.dark=!!p.dark;
+      D.dark=!!p.dark;
       D.username=p.username||'';D.password=p.password||'';
       D.profile=p.profile||D.profile;
       D.txs=p.txs||[];D.notes=p.notes||[];
@@ -1212,7 +1211,7 @@ function deleteAccount(){
 }
 function doDelete(){
   try{localStorage.removeItem(SK);localStorage.removeItem('cv6');}catch(e){}
-  D={pin:'1234',dark:false,profile:{name:'Ad Soyad',email:'',phone:'',avatar:null},txs:[],notes:[],rates:{USD:32.5,EUR:35.2},rd:'',joinDate:td2()};
+  D={dark:false,username:'',password:'',profile:{name:'Ad Soyad',email:'',phone:'',avatar:null},txs:[],notes:[],rates:{USD:32.5,EUR:35.2},rd:'',joinDate:td2()};
   sv2();cm();ra();lock();toast('Hesap silindi');
 }
 
