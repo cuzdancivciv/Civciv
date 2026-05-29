@@ -149,7 +149,6 @@ textarea.fi{min-height:85px;resize:vertical;}
 .dark #cprev{background:#201c00;}
 #cpv{font-size:22px;font-weight:800;color:#1d6fa4;margin-top:3px;}.dark #cpv{color:#60a5fa;}
 
-/* ── PIN ── */
 #pin-screen{position:fixed;inset:0;background:#f7f5f0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;}
 .dark #pin-screen{background:#111;}
 .dark #li-user,.dark #li-pass{background:#252525!important;border-color:#333!important;color:#f0f0f0!important;}
@@ -227,12 +226,7 @@ textarea.fi{min-height:85px;resize:vertical;}
       <div style="text-align:center;font-size:13px;color:#9a9a9a;">Hesabın yok mu?
         <button onclick="showRegister()" style="background:none;border:none;color:#c8890a;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit;">Kayıt Ol</button>
       </div>
-      <div id="li-hint" style="display:none;margin-top:12px;background:#fff3cd;border-radius:10px;padding:10px 12px;font-size:12px;color:#856404;text-align:center;line-height:1.5;">
-        ⚠️ Daha önce hesap oluşturmadınız.<br>Lütfen <strong>Kayıt Ol</strong> butonuna tıklayın.
-      </div>
-      <div id="li-reset-wrap" style="text-align:center;margin-top:10px;display:none;">
-        <button onclick="eskiVeriTemizle()" style="background:none;border:none;color:#9a9a9a;font-size:11px;cursor:pointer;font-family:inherit;text-decoration:underline;">Eski verilerimi sıfırla ve yeniden başla</button>
-      </div>
+
     </div>
   </div>
 </div>
@@ -502,7 +496,7 @@ textarea.fi{min-height:85px;resize:vertical;}
 var SK='cv7';
 var D={
   dark:false,
-  username:'',password:'',
+  password:'',
   profile:{name:'Ad Soyad',email:'',phone:'',avatar:null},
   txs:[],notes:[],
   rates:{USD:32.5,EUR:35.2},
@@ -517,7 +511,7 @@ var D={
     if(r){
       var s=JSON.parse(r);
       D.dark=!!s.dark;
-      D.username=s.username||'';D.password=s.password||'';
+      D.password=s.password||'';
       D.profile=s.profile||D.profile;
       D.txs=s.txs||[];D.notes=s.notes||[];
       D.rates=s.rates||D.rates;D.rd=s.rd||'';
@@ -617,7 +611,6 @@ function doRegister(){
   D.profile.name=name;
   D.profile.email=email;
   D.profile.phone=phone;
-  D.username=email;
   D.password=pass;
   D.joinDate=td2();
   sv2();
@@ -629,16 +622,6 @@ function doRegister(){
   toast('Kayıt başarılı! Giriş yapın');
 }
 
-function eskiVeriTemizle(){
-  try{localStorage.removeItem('cv7');localStorage.removeItem('cv6');}catch(e){}
-  D={dark:D.dark,username:'',password:'',
-    profile:{name:'Ad Soyad',email:'',phone:'',avatar:null},
-    txs:[],notes:[],rates:{USD:32.5,EUR:35.2},rd:'',joinDate:''};
-  document.getElementById('li-err').textContent='';
-  document.getElementById('li-hint').style.display='block';
-  document.getElementById('li-reset-wrap').style.display='none';
-  toast('Veriler temizlendi. Simdi kayit olun.');
-}
 
 document.addEventListener('keydown',function(e){
   if(e.key==='Enter'&&document.getElementById('pin-screen').style.display!=='none'){
@@ -657,10 +640,7 @@ function doLogin(){
 
   if(!D.profile.email){
     errEl.textContent='Önce kayıt olun!';
-    var hint=document.getElementById('li-hint');
-    var reset=document.getElementById('li-reset-wrap');
-    if(hint)hint.style.display='block';
-    if(reset)reset.style.display='block';
+
     return;
   }
 
@@ -714,11 +694,11 @@ function startCountdown(){
 
 function lock(){
   D.txs=[];
-  document.getElementById('li-user').value=D.profile.email||'';
+  document.getElementById('li-user').value='';
   document.getElementById('li-pass').value='';
   document.getElementById('li-err').textContent='';
   loadRemembered();
-document.getElementById('pin-screen').style.display='flex';
+  document.getElementById('pin-screen').style.display='flex';
 }
 
 /* ═══ SAAT VE SELAM ═══ */
@@ -792,7 +772,6 @@ function updateSaat(){
     el.innerHTML=satirlar[0]+(alt?'<br><span style="font-size:9px;">'+alt+'</span>':'');
   }
 }
-function updateMetaDisplay(){updateSaat();}
 
 /* ═══ BALANCES ═══ */
 function gb(c){return D.txs.filter(function(t){return t.cur===c;}).reduce(function(s,t){return t.tp==='inc'?s+t.amt:s-t.amt;},0);}
@@ -1259,7 +1238,7 @@ function restoreData(inp){
       var p=JSON.parse(e.target.result);
       if(!p.txs&&!p.notes){toast('Gecersiz yedek',true);return;}
       D.dark=!!p.dark;
-      D.username=p.username||'';D.password=p.password||'';
+      D.password=p.password||'';
       D.profile=p.profile||D.profile;
       D.txs=p.txs||[];D.notes=p.notes||[];
       D.rates=p.rates||D.rates;D.rd=p.rd||'';
@@ -1279,9 +1258,21 @@ function deleteAccount(){
   om('confirm',{msg:'Hesabiniz ve tum veriler silinecek! Bu islem GERI ALINAMAZ!',ok:'Evet, Sil',okColor:'#fff',okBg:'#dc2626',fn:'doDelete'});
 }
 function doDelete(){
-  try{localStorage.removeItem(SK);localStorage.removeItem('cv6');}catch(e){}
-  D={dark:false,username:'',password:'',profile:{name:'Ad Soyad',email:'',phone:'',avatar:null},txs:[],notes:[],rates:{USD:32.5,EUR:35.2},rd:'',joinDate:td2()};
-  sv2();cm();ra();lock();toast('Hesap silindi');
+  try{
+    localStorage.removeItem(SK);
+    localStorage.removeItem('cv6');
+    localStorage.removeItem('cv_remember');
+  }catch(e){}
+  D={dark:false,password:'',profile:{name:'Ad Soyad',email:'',phone:'',avatar:null},txs:[],notes:[],rates:{USD:32.5,EUR:35.2},rd:'',joinDate:''};
+  sv2();cm();
+  /* Giriş formunu tamamen temizle */
+  document.getElementById('li-user').value='';
+  document.getElementById('li-pass').value='';
+  document.getElementById('li-err').textContent='';
+  var cb=document.getElementById('li-remember');
+  if(cb)cb.checked=false;
+  document.getElementById('pin-screen').style.display='flex';
+  toast('Hesap silindi');
 }
 
 
