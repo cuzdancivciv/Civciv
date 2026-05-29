@@ -14,19 +14,15 @@
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none;}
 html{height:100%;}
 body{font-family:'Segoe UI',system-ui,sans-serif;background:#f7f5f0;max-width:430px;margin:0 auto;display:flex;flex-direction:column;height:100%;min-height:100vh;position:relative;padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom);}
-body.dark{background:#111;}
 input,textarea,select{-webkit-user-select:auto;user-select:auto;}
 
 /* ── TOPBAR: sol logo+isim+hava, sağ bakiyeler ── */
 #topbar{background:#fff;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;z-index:40;border-bottom:1px solid #e2ddd2;}
 #topbar.hidden{display:none!important;}
-.dark #topbar{background:#1c1c1c;border-color:#2c2c2c;}
 #logo-btn{display:flex;align-items:center;gap:9px;background:none;border:none;cursor:pointer;padding:0;flex:1;min-width:0;}
 #logo-info{display:flex;flex-direction:column;text-align:left;min-width:0;}
 #logo-text{font-weight:800;font-size:19px;color:#c8890a;line-height:1;}
-.dark #logo-text{color:#FFD93D;}
 #top-greeting{font-size:11px;font-weight:700;color:#c8890a;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.dark #top-greeting{color:#FFD93D;}
 #top-meta{font-size:10px;color:#9a9a9a;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 /* sağ bakiye sütunu */
 #top-balances{display:flex;flex-direction:column;align-items:flex-end;gap:2px;flex-shrink:0;margin-left:10px;}
@@ -45,18 +41,15 @@ input,textarea,select{-webkit-user-select:auto;user-select:auto;}
 
 /* ── CARDS ── */
 .card{background:#fff;border-radius:16px;margin:10px 14px;padding:13px;border:1px solid #e2ddd2;}
-.dark .card{background:#1c1c1c;border-color:#2c2c2c;}
-.ctitle{font-size:10px;font-weight:700;color:#9a9a9a;text-transform:uppercase;letter-spacing:.8px;margin-bottom:9px;}
+.ctitle{font-size:10px;font-weight:700;color:#9a9a9a;text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px;}
 
 /* ── TX ── */
 .txi{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid #e2ddd2;}
-.dark .txi{border-color:#2c2c2c;}
 .txi:last-child{border-bottom:none;}
-.txd{font-size:13px;font-weight:600;color:#1a1a1a;}.dark .txd{color:#f0f0f0;}
+.txd{font-size:13px;font-weight:600;color:#1a1a1a;}
 .txm{font-size:10px;color:#9a9a9a;margin-top:1px;}
 .txa{font-size:14px;font-weight:800;}
 .inc{color:#16a34a;}.exp{color:#dc2626;}
-.dark .inc{color:#22c55e;}.dark .exp{color:#ef4444;}
 .tx-edit-btn{background:none;border:none;cursor:pointer;font-size:14px;padding:2px 4px;color:#9a9a9a;}
 
 /* ── SCROLL ── */
@@ -64,105 +57,79 @@ input,textarea,select{-webkit-user-select:auto;user-select:auto;}
 #scroll-row{display:flex;gap:9px;overflow-x:auto;padding-bottom:6px;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
 #scroll-row::-webkit-scrollbar{display:none;}
 .sc{min-width:130px;background:#f0ede6;border-radius:13px;padding:11px;border:1px solid #e2ddd2;flex-shrink:0;}
-.dark .sc{background:#222;border-color:#2c2c2c;}
 .sca{font-size:13px;font-weight:800;margin-bottom:3px;}
-.scd{font-size:11px;font-weight:600;color:#1a1a1a;margin-bottom:1px;}.dark .scd{color:#f0f0f0;}
+.scd{font-size:11px;font-weight:600;color:#1a1a1a;margin-bottom:1px;}
 .scm{font-size:10px;color:#9a9a9a;}
 
 /* ── NOTES HOME ── */
 #notes-home{display:none;}
 .nhi{padding:8px 0;border-bottom:1px solid #e2ddd2;cursor:pointer;}
-.dark .nhi{border-color:#2c2c2c;}
 .nhi:last-child{border-bottom:none;}
-.nht{font-size:13px;font-weight:700;color:#1a1a1a;}.dark .nht{color:#f0f0f0;}
+.nht{font-size:13px;font-weight:700;color:#1a1a1a;}
 .nhb{font-size:11px;color:#9a9a9a;margin-top:2px;}
-.nhr{font-size:10px;font-weight:700;color:#c8890a;margin-top:3px;}.dark .nhr{color:#FFD93D;}
+.nhr{font-size:10px;font-weight:700;color:#c8890a;margin-top:3px;}
 
 /* ── REPORTS ── */
 #view-reports{padding:10px 14px;}
 .rtabs{display:flex;gap:5px;margin-bottom:13px;}
 .rtab{flex:1;padding:8px 0;border-radius:10px;border:none;background:#f0ede6;color:#9a9a9a;font-weight:700;font-size:11px;cursor:pointer;font-family:inherit;}
-.dark .rtab{background:#222;}
 .rtab.on{background:#c8890a;color:#fff;}
-.dark .rtab.on{background:#FFD93D;color:#111;}
 .rc{background:#fff;border-radius:14px;padding:13px 16px;border:1px solid #e2ddd2;display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
-.dark .rc{background:#1c1c1c;border-color:#2c2c2c;}
 .rl{font-size:13px;color:#9a9a9a;font-weight:600;}
 .rv{font-size:20px;font-weight:800;}
 
 /* ── PIE CHART ── */
 #pie-wrap{background:#fff;border-radius:14px;padding:14px;border:1px solid #e2ddd2;margin-bottom:8px;display:flex;align-items:center;gap:16px;}
-.dark #pie-wrap{background:#1c1c1c;border-color:#2c2c2c;}
 #pie-canvas{flex-shrink:0;}
 #pie-legend{flex:1;display:flex;flex-direction:column;gap:6px;}
 .pie-leg-item{display:flex;align-items:center;gap:6px;font-size:12px;}
 .pie-leg-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
 .pie-leg-lbl{color:#9a9a9a;flex:1;}
-.pie-leg-val{font-weight:700;color:#1a1a1a;}.dark .pie-leg-val{color:#f0f0f0;}
+.pie-leg-val{font-weight:700;color:#1a1a1a;}
 
 /* ── NOTES FULL ── */
 #view-notes{padding:10px 14px;}
 #nadd{width:100%;padding:12px;border-radius:13px;border:none;font-weight:700;font-size:14px;cursor:pointer;margin-bottom:4px;font-family:inherit;background:#c8890a;color:#fff;}
-.dark #nadd{background:#FFD93D;color:#111;}
 .nfi{padding:9px 0;border-bottom:1px solid #e2ddd2;cursor:pointer;display:flex;justify-content:space-between;align-items:flex-start;}
-.dark .nfi{border-color:#2c2c2c;}
-.nft{font-size:13px;font-weight:700;color:#1a1a1a;}.dark .nft{color:#f0f0f0;}
+.nft{font-size:13px;font-weight:700;color:#1a1a1a;}
 .nfb{font-size:11px;color:#9a9a9a;margin-top:2px;}
-.nfr{font-size:10px;font-weight:700;color:#c8890a;margin-top:3px;}.dark .nfr{color:#FFD93D;}
+.nfr{font-size:10px;font-weight:700;color:#c8890a;margin-top:3px;}
 .ndel{background:none;border:none;cursor:pointer;color:#9a9a9a;font-size:18px;padding:0;flex-shrink:0;margin-left:8px;}
 
 /* ── PROFILE ── */
 #view-profile{padding:10px 14px 100px;}
-.ps{background:#fff;border-radius:14px;margin-bottom:9px;padding:13px;border:1px solid #e2ddd2;}
-.dark .ps{background:#1c1c1c;border-color:#2c2c2c;}
+.ps{background:#fff;border-radius:14px;margin-bottom:6px;padding:13px;border:1px solid #e2ddd2;}
 .pst{font-size:10px;font-weight:700;color:#9a9a9a;text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px;}
 .avw{width:72px;height:72px;border-radius:50%;border:3px solid #c8890a;overflow:hidden;display:flex;align-items:center;justify-content:center;cursor:pointer;background:#fffaeb;font-size:28px;flex-shrink:0;}
-.dark .avw{border-color:#FFD93D;background:#201c00;}
 #av-img{width:100%;height:100%;object-fit:cover;display:none;}
 .pb{width:100%;padding:12px 13px;border-radius:11px;border:1.5px solid #e2ddd2;background:#f5f5f2;color:#1a1a1a;font-weight:600;font-size:13px;cursor:pointer;text-align:left;font-family:inherit;margin-bottom:0;}
-.dark .pb{background:#252525;border-color:#333;color:#f0f0f0;}
-.dark .pst{color:#777;}
-.dark #pnd{color:#f0f0f0;}
-.dark #ped,.dark #pph{color:#9a9a9a;}
-.dark #mc-days,.dark #mc-text,.dark #mc-name,.dark #mc-since{color:#fff;}
 
 /* ── BOTTOM BAR ── */
 #bbar{background:#fff;border-top:1px solid #e2ddd2;display:flex;padding:7px 0 calc(8px + env(safe-area-inset-bottom));flex-shrink:0;}
-.dark #bbar{background:#1c1c1c;border-color:#2c2c2c;}
 .nb{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;font-size:10px;font-weight:500;color:#9a9a9a;padding:3px 0;font-family:inherit;}
-.nb.on{color:#c8890a;font-weight:700;}.dark .nb.on{color:#FFD93D;}
+.nb.on{color:#c8890a;font-weight:700;}
 .ni{font-size:21px;line-height:1;}
 
 /* ── OVERLAY / SHEET ── */
 #ov{position:fixed;inset:0;background:#0009;z-index:200;display:none;align-items:flex-end;justify-content:center;}
 #ov.on{display:flex;}
 #sh{background:#fff;border-radius:20px 20px 0 0;padding:20px 16px 36px;width:100%;max-width:430px;max-height:88vh;overflow-y:auto;}
-.dark #sh{background:#1c1c1c;}
-.sht{font-size:17px;font-weight:800;color:#1a1a1a;margin-bottom:15px;}.dark .sht{color:#f0f0f0;}
+.sht{font-size:17px;font-weight:800;color:#1a1a1a;margin-bottom:15px;}
 .fl{font-size:11px;font-weight:600;color:#9a9a9a;display:block;margin-bottom:3px;}
-.fi{width:100%;padding:11px 13px;border-radius:11px;border:1.5px solid #ddd8cc;background:#f5f5f2;color:#1a1a1a;font-size:14px;outline:none;margin-bottom:9px;font-family:inherit;}
-.dark .fi{background:#252525;border-color:#333;color:#f0f0f0;}
+.fi{width:100%;padding:11px 13px;border-radius:11px;border:1.5px solid #ddd8cc;background:#f5f5f2;color:#1a1a1a;font-size:14px;outline:none;margin-bottom:6px;font-family:inherit;}
 textarea.fi{min-height:85px;resize:vertical;}
 .fb{width:100%;padding:13px;border-radius:13px;border:none;font-weight:700;font-size:14px;cursor:pointer;margin-top:5px;font-family:inherit;}
 .fc{background:transparent;color:#9a9a9a;}
-#cprev{background:#fffaeb;border-radius:11px;padding:13px;text-align:center;margin-bottom:9px;display:none;}
-.dark #cprev{background:#201c00;}
-#cpv{font-size:22px;font-weight:800;color:#1d6fa4;margin-top:3px;}.dark #cpv{color:#60a5fa;}
+#cprev{background:#fffaeb;border-radius:11px;padding:13px;text-align:center;margin-bottom:6px;display:none;}
+#cpv{font-size:22px;font-weight:800;color:#1d6fa4;margin-top:3px;}
 
 #pin-screen{position:fixed;inset:0;background:#f7f5f0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;}
-.dark #pin-screen{background:#111;}
-.dark #li-user,.dark #li-pass{background:#252525!important;border-color:#333!important;color:#f0f0f0!important;}
-.dark #reg-box{background:#1c1c1c;}
-.dark #reg-box input{background:#252525;border-color:#333;color:#f0f0f0;}
-.dark #reg-box label{color:#9a9a9a;}
-.dark #reg-box div[style*="font-size:18px"]{color:#f0f0f0;}
 #pdots{display:flex;gap:14px;margin-bottom:8px;}
 .pd{width:14px;height:14px;border-radius:50%;background:#e2ddd2;transition:background .12s;}
-.pd.on{background:#c8890a;}.dark .pd.on{background:#FFD93D;}
+.pd.on{background:#c8890a;}
 .pd.err{background:#dc2626!important;}
 #pgrid{display:grid;grid-template-columns:repeat(3,68px);gap:9px;margin-top:14px;}
 .pk{width:68px;height:68px;border-radius:17px;border:none;font-size:21px;font-weight:700;cursor:pointer;background:#ece9e1;color:#1a1a1a;font-family:inherit;}
-.dark .pk{background:#252525;color:#f0f0f0;}
 .pk.emp{background:transparent!important;cursor:default;}
 
 /* ── TOAST ── */
@@ -173,9 +140,7 @@ textarea.fi{min-height:85px;resize:vertical;}
 #popup.on{display:block;}
 #popup-bg{position:absolute;inset:0;background:#0005;}
 #popup-box{position:absolute;top:70px;left:14px;right:14px;background:#fff;border-radius:16px;padding:16px;box-shadow:0 8px 32px rgba(0,0,0,.15);max-width:300px;}
-.dark #popup-box{background:#1c1c1c;}
 .popup-item{padding:12px 0;border-bottom:1px solid #e2ddd2;cursor:pointer;font-size:14px;font-weight:600;color:#1a1a1a;display:flex;align-items:center;gap:10px;}
-.dark .popup-item{border-color:#2c2c2c;color:#f0f0f0;}
 .popup-item:last-child{border-bottom:none;}
 .popup-ver{font-size:12px;color:#9a9a9a;font-weight:400;}
 
@@ -243,13 +208,13 @@ textarea.fi{min-height:85px;resize:vertical;}
     <input type="email" id="rg-email" class="fi" placeholder="ornek@mail.com" autocapitalize="none">
 
     <label style="font-size:11px;font-weight:600;color:#9a9a9a;display:block;margin-bottom:3px;">Şifre * (4-6 rakam)</label>
-    <div style="position:relative;margin-bottom:9px;">
+    <div style="position:relative;margin-bottom:6px;">
       <input type="password" id="rg-pass" class="fi" placeholder="Örn: 1234" inputmode="numeric" pattern="[0-9]*" style="margin-bottom:0;" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,6);">
       <button onclick="togglePass('rg-pass',this)" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;color:#9a9a9a;">👁️</button>
     </div>
 
     <label style="font-size:11px;font-weight:600;color:#9a9a9a;display:block;margin-bottom:3px;">Şifre Tekrar *</label>
-    <div style="position:relative;margin-bottom:9px;">
+    <div style="position:relative;margin-bottom:6px;">
       <input type="password" id="rg-pass2" class="fi" placeholder="Şifreyi tekrar girin" inputmode="numeric" pattern="[0-9]*" style="margin-bottom:0;" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,6);">
       <button onclick="togglePass('rg-pass2',this)" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;color:#9a9a9a;">👁️</button>
     </div>
@@ -331,7 +296,7 @@ textarea.fi{min-height:85px;resize:vertical;}
       </div>
     </div>
     <div class="card" id="notes-home" style="display:none;">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:9px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
         <div class="ctitle" style="margin-bottom:0;">📝 Notlar</div>
         <button onclick="sv('notes')" style="font-size:11px;font-weight:700;color:#c8890a;background:none;border:none;cursor:pointer;">Tümü →</button>
       </div>
@@ -433,10 +398,7 @@ textarea.fi{min-height:85px;resize:vertical;}
     </div>
 
     <!-- Görünüm -->
-    <div class="ps">
-      <div class="pst">Görünüm</div>
-      <button class="pb" id="theme-btn" onclick="td()">🌙 Gece Moduna Geç</button>
-    </div>
+
 
     <!-- Veri -->
     <div class="ps">
@@ -495,7 +457,6 @@ textarea.fi{min-height:85px;resize:vertical;}
 /* ═══ DATA ═══ */
 var SK='cv7';
 var D={
-  dark:false,
   password:'',
   profile:{name:'Ad Soyad',email:'',phone:'',avatar:null},
   txs:[],notes:[],
@@ -510,7 +471,7 @@ var D={
     if(!r){r=localStorage.getItem('cv6');}
     if(r){
       var s=JSON.parse(r);
-      D.dark=!!s.dark;
+      
       D.password=s.password||'';
       D.profile=s.profile||D.profile;
       D.txs=s.txs||[];D.notes=s.notes||[];
@@ -527,40 +488,6 @@ function fm(n,d){if(d===undefined)d=2;return Number(n||0).toLocaleString('tr-TR'
 var SM={TRY:'₺',USD:'$',EUR:'€'};
 function ex(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
-/* ═══ DARK ═══ */
-function ad(){
-  var dk=D.dark;
-  document.body.classList.toggle('dark',dk);
-  /* tema butonu */
-  var tb=document.getElementById('theme-btn');
-  if(tb)tb.textContent=dk?'☀️ Gündüz Moduna Geç':'🌙 Gece Moduna Geç';
-  /* giriş ekranı logo rengi */
-  var pnEl=document.getElementById('pname');
-  if(pnEl)pnEl.style.color=dk?'#FFD93D':'#c8890a';
-  /* profil isim rengi */
-  var pndEl=document.getElementById('pnd');
-  if(pndEl)pndEl.style.color=dk?'#f0f0f0':'#1a1a1a';
-  /* topbar arkaplan */
-  var tb2=document.getElementById('topbar');
-  if(tb2){tb2.style.background=dk?'#1c1c1c':'#fff';tb2.style.borderColor=dk?'#2c2c2c':'#e2ddd2';}
-  /* balstrip */
-  var bs=document.getElementById('balstrip');
-  if(bs){bs.style.background=dk?'#1c1c1c':'';bs.style.borderColor=dk?'#2c2c2c':'';}
-  /* USD/EUR etiket renkleri */
-  ['ul','el'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.color=dk?'#f0f0f0':'#1a1a1a';});
-}
-function td(){D.dark=!D.dark;sv2();ad();}
-
-/* ═══ GİRİŞ SİSTEMİ ═══ */
-/* Hatırla */
-function toggleRemember(){
-  var cb=document.getElementById('li-remember');
-  if(cb.checked){
-    try{localStorage.setItem('cv_remember',document.getElementById('li-user').value);}catch(e){}
-  } else {
-    try{localStorage.removeItem('cv_remember');}catch(e){}
-  }
-}
 function loadRemembered(){
   try{
     var saved=localStorage.getItem('cv_remember');
@@ -829,7 +756,7 @@ function editTx(id){
   var t=null;
   for(var i=0;i<D.txs.length;i++){if(D.txs[i].id===id){t=D.txs[i];break;}}
   if(!t)return;
-  var ac=D.dark?'#FFD93D':'#c8890a';
+  var ac='#c8890a';
   var bg=t.tp==='inc'?'#16a34a':'#dc2626';
   var h='<div class="sht">✏️ İşlemi Düzenle</div>'
     +'<label class="fl">Para Birimi</label>'
@@ -839,9 +766,9 @@ function editTx(id){
     +'<option value="EUR"'+(t.cur==='EUR'?' selected':'')+'>Euro (€)</option>'
     +'</select>'
     +'<label class="fl">Tutar</label>'
-    +'<div style="display:flex;gap:8px;margin-bottom:9px;">'
+    +'<div style="display:flex;gap:8px;margin-bottom:6px;">'
     +'<input type="number" class="fi" id="e-amt" value="'+t.amt+'" style="flex:1;margin-bottom:0;">'
-    +(t.tp==='exp'?'<button onclick="fillAllEdit(\''+id+'\')" style="padding:0 12px;border-radius:11px;border:none;background:'+(D.dark?'#333':'#e2ddd2')+';color:'+ac+';font-weight:800;font-size:13px;cursor:pointer;">Hepsi</button>':'')
+    +(t.tp==='exp'?'<button onclick="fillAllEdit(\''+id+'\')" style="padding:0 12px;border-radius:11px;border:none;background:'+('#e2ddd2')+';color:'+ac+';font-weight:800;font-size:13px;cursor:pointer;">Hepsi</button>':'')
     +'</div>'
     +'<label class="fl">Açıklama</label>'
     +'<input type="text" class="fi" id="e-dsc" value="'+ex(t.desc||'')+'">'
@@ -920,10 +847,9 @@ function rnf(){
 /* ═══ PROFILE ═══ */
 function rp(){
   var p=D.profile;
-  var dk=D.dark;
-  /* İsim ve bilgiler */
+    /* İsim ve bilgiler */
   var pndEl=document.getElementById('pnd');
-  if(pndEl){pndEl.textContent=p.name||'Ad Soyad';pndEl.style.color=dk?'#f0f0f0':'#1a1a1a';}
+  if(pndEl){pndEl.textContent=p.name||'Ad Soyad';pndEl.style.color='#1a1a1a';}
   var pedEl=document.getElementById('ped');
   if(pedEl){pedEl.textContent=p.email||'';pedEl.style.color='#9a9a9a';}
   var pphEl=document.getElementById('pph');
@@ -996,7 +922,7 @@ function drawPie(slices){
   var legend=document.getElementById('pie-legend');
   if(total===0){
     ctx.beginPath();ctx.arc(55,55,50,0,Math.PI*2);
-    ctx.fillStyle=D.dark?'#333':'#e2ddd2';ctx.fill();
+    ctx.fillStyle='#e2ddd2';ctx.fill();
     legend.innerHTML='<div style="font-size:12px;color:#9a9a9a;text-align:center;">Veri yok</div>';
     return;
   }
@@ -1011,7 +937,7 @@ function drawPie(slices){
     ctx.closePath();
     ctx.fillStyle=sl.color;
     ctx.fill();
-    ctx.strokeStyle=D.dark?'#111':'#fff';
+    ctx.strokeStyle='#fff';
     ctx.lineWidth=2;
     ctx.stroke();
     start+=angle;
@@ -1027,7 +953,7 @@ function drawPie(slices){
 
 /* ═══ RENDER ALL ═══ */
 function ra(){
-  rb();rtx();rnh();rnf();rp();rr();ad();topMeta();
+  rb();rtx();rnh();rnf();rp();rr();topMeta();
 }
 
 /* ═══ VIEWS ═══ */
@@ -1046,16 +972,16 @@ function sv(v){
 
 /* ═══ MODAL ═══ */
 function om(type,arg){
-  var h='';var ac=D.dark?'#FFD93D':'#c8890a';
+  var h='';var ac='#c8890a';
   if(type==='inc'||type==='exp'){
     var ii=type==='inc';var bg=ii?'#16a34a':'#dc2626';
     h='<div class="sht">'+(ii?'💰 Gelir Ekle':'💸 Gider Ekle')+'</div>'
      +'<label class="fl">Para Birimi</label>'
      +'<select class="fi" id="fcur"><option value="TRY">Türk Lirası (₺)</option><option value="USD">Dolar ($)</option><option value="EUR">Euro (€)</option></select>'
      +'<label class="fl">Tutar</label>'
-     +'<div style="display:flex;gap:8px;margin-bottom:9px;">'
+     +'<div style="display:flex;gap:8px;margin-bottom:6px;">'
      +'<input type="number" class="fi" id="famt" placeholder="0.00" style="flex:1;margin-bottom:0;">'
-     +(ii?'':'<button onclick="fillAll()" style="padding:0 12px;border-radius:11px;border:none;background:'+(D.dark?'#333':'#e2ddd2')+';color:'+ac+';font-weight:800;font-size:13px;cursor:pointer;">Hepsi</button>')
+     +(ii?'':'<button onclick="fillAll()" style="padding:0 12px;border-radius:11px;border:none;background:'+('#e2ddd2')+';color:'+ac+';font-weight:800;font-size:13px;cursor:pointer;">Hepsi</button>')
      +'</div>'
      +'<label class="fl">Açıklama</label><input type="text" class="fi" id="fdsc" placeholder="'+(ii?'Maas, freelance':'Market, fatura')+'">'
      +'<label class="fl">Tarih</label><input type="date" class="fi" id="fdt" value="'+td2()+'">'
@@ -1063,7 +989,7 @@ function om(type,arg){
      +'<button class="fb fc" onclick="cm()">İptal</button>';
   } else if(type==='conv'){
     h='<div class="sht">🔄 Döviz Dönüştür</div>'
-     +'<div style="background:'+(D.dark?'#201c00':'#fffaeb')+';border-radius:11px;padding:9px 13px;margin-bottom:13px;font-size:12px;color:#9a9a9a;">1$ = ₺'+D.rates.USD+' | 1€ = ₺'+D.rates.EUR+'</div>'
+     +'<div style="background:'+('#fffaeb')+';border-radius:11px;padding:9px 13px;margin-bottom:13px;font-size:12px;color:#9a9a9a;">1$ = ₺'+D.rates.USD+' | 1€ = ₺'+D.rates.EUR+'</div>'
      +'<label class="fl">Kaç TL çevrilecek?</label><input type="number" class="fi" id="fcamt" placeholder="500" oninput="ucp()">'
      +'<label class="fl">Hedef Para Birimi</label><select class="fi" id="fcto" onchange="ucp()"><option value="USD">Dolar ($)</option><option value="EUR">Euro (€)</option></select>'
      +'<div id="cprev"><div style="font-size:11px;color:#9a9a9a;">Alacaginiz</div><div id="cpv"></div></div>'
@@ -1074,13 +1000,13 @@ function om(type,arg){
      +'<label class="fl">Baslik *</label><input type="text" class="fi" id="fnt">'
      +'<label class="fl">Mesaj</label><textarea class="fi" id="fnb" placeholder="Notunuzu yazin..."></textarea>'
      +'<label class="fl">Hatirlatma Tarihi</label><input type="date" class="fi" id="fnr">'
-     +'<button class="fb" style="background:'+ac+';color:'+(D.dark?'#111':'#fff')+';\" onclick="sn()">Kaydet</button>'
+     +'<button class="fb" style="background:'+ac+';color:'+('#fff')+';\" onclick="sn()">Kaydet</button>'
      +'<button class="fb fc" onclick="cm()">İptal</button>';
   } else if(type==='noteDetail'){
     var n=D.notes[arg];if(!n)return;
     h='<div class="sht">'+ex(n.title)+'</div>'
-     +(n.rem?'<div style="background:'+(D.dark?'#201c00':'#fffaeb')+';border-radius:11px;padding:8px 13px;margin-bottom:13px;font-size:12px;font-weight:700;color:'+ac+';">🔔 Hatirlatma: '+n.rem+'</div>':'')
-     +'<div style="font-size:14px;color:'+(D.dark?'#f0f0f0':'#1a1a1a')+';line-height:1.7;white-space:pre-wrap;margin-bottom:14px;">'+ex(n.body||'Icerik yok')+'</div>'
+     +(n.rem?'<div style="background:'+('#fffaeb')+';border-radius:11px;padding:8px 13px;margin-bottom:13px;font-size:12px;font-weight:700;color:'+ac+';">🔔 Hatirlatma: '+n.rem+'</div>':'')
+     +'<div style="font-size:14px;color:'+('#1a1a1a')+';line-height:1.7;white-space:pre-wrap;margin-bottom:14px;">'+ex(n.body||'Icerik yok')+'</div>'
      +'<div style="font-size:11px;color:#9a9a9a;">Eklenme: '+n.created+'</div>'
      +'<button class="fb fc" onclick="cm()">Kapat</button>';
   } else if(type==='editProfile'){
@@ -1089,30 +1015,30 @@ function om(type,arg){
      +'<label class="fl">Ad Soyad</label><input type="text" class="fi" id="epn" value="'+ex(p.name||'')+'">'
      +'<label class="fl">E-posta</label><input type="email" class="fi" id="epe" value="'+ex(p.email||'')+'">'
      +'<label class="fl">Telefon</label><input type="tel" class="fi" id="epp" value="'+ex(p.phone||'')+'">'
-     +'<button class="fb" style="background:'+ac+';color:'+(D.dark?'#111':'#fff')+';\" onclick="sep()">Kaydet</button>'
+     +'<button class="fb" style="background:'+ac+';color:'+('#fff')+';\" onclick="sep()">Kaydet</button>'
      +'<button class="fb fc" onclick="cm()">İptal</button>';
   } else if(type==='changePin'){
     h='<div class="sht">🔒 Şifre Değiştir</div>'
      +'<label class="fl">Mevcut Şifre</label><input type="password" class="fi" id="cpo" inputmode="numeric" maxlength="6" placeholder="Mevcut şifreniz">'
      +'<label class="fl">Yeni Şifre (4-6 rakam)</label><input type="password" class="fi" id="cpn" inputmode="numeric" maxlength="6" placeholder="Yeni şifre">'
      +'<label class="fl">Tekrar</label><input type="password" class="fi" id="cpr" inputmode="numeric" maxlength="6" placeholder="Tekrar girin">'
-     +'<button class="fb" style="background:'+ac+';color:'+(D.dark?'#111':'#fff')+';" onclick="scp()">Değiştir</button>'
+     +'<button class="fb" style="background:'+ac+';color:'+('#fff')+';" onclick="scp()">Değiştir</button>'
      +'<button class="fb fc" onclick="cm()">İptal</button>';
   } else if(type==='confirm'){
     var cfg=arg;
     h='<div class="sht">⚠️ Emin misiniz?</div>'
-     +'<div style="font-size:14px;color:'+(D.dark?'#f0f0f0':'#1a1a1a')+';line-height:1.7;margin-bottom:20px;">'+cfg.msg+'</div>'
+     +'<div style="font-size:14px;color:'+('#1a1a1a')+';line-height:1.7;margin-bottom:20px;">'+cfg.msg+'</div>'
      +'<button class="fb" style="background:'+cfg.okBg+';color:'+cfg.okColor+';" onclick="'+cfg.fn+'()">'+cfg.ok+'</button>'
      +'<button class="fb fc" onclick="cm()">İptal</button>';
   } else if(type==='support'){
     h='<div class="sht">🎧 Uygulama Destek</div>'
-     +'<div style="font-size:14px;color:'+(D.dark?'#f0f0f0':'#1a1a1a')+';line-height:1.8;">Soru ve sorunlarınız için lütfen</div>'
-     +'<div style="margin:10px 0;padding:12px;background:'+(D.dark?'#252525':'#f5f5f2')+';border-radius:11px;font-size:14px;font-weight:700;color:'+ac+';word-break:break-all;">cuzdancivciv@gmail.com</div>'
+     +'<div style="font-size:14px;color:'+('#1a1a1a')+';line-height:1.8;">Soru ve sorunlarınız için lütfen</div>'
+     +'<div style="margin:10px 0;padding:12px;background:'+('#f5f5f2')+';border-radius:11px;font-size:14px;font-weight:700;color:'+ac+';word-break:break-all;">cuzdancivciv@gmail.com</div>'
      +'<div style="font-size:13px;color:#9a9a9a;">adresinden bize ulaşabilirsiniz.</div>'
      +'<button class="fb fc" onclick="cm()">Kapat</button>';
   } else if(type==='about'){
-    var tx=D.dark?'#f0f0f0':'#1a1a1a';
-    var bg2=D.dark?'#252525':'#f5f5f2';
+    var tx='#1a1a1a';
+    var bg2='#f5f5f2';
     h='<div class="sht">Hakkımızda</div>'
      +'<div style="font-size:14px;color:'+tx+';line-height:1.9;">'
      +'<p style="margin-bottom:12px;"><strong style="color:'+ac+';">Merhaba, ben Evsiz Ali.</strong></p>'
@@ -1174,7 +1100,7 @@ function ucp(){
   if(a>0){
     p.style.display='block';
     pv.textContent=(a/D.rates[to]).toFixed(4)+' '+to;
-    pv.style.color=D.dark?'#60a5fa':'#1d6fa4';
+    pv.style.color='#1d6fa4';
   } else p.style.display='none';
 }
 function scv(){
@@ -1237,7 +1163,7 @@ function restoreData(inp){
     try{
       var p=JSON.parse(e.target.result);
       if(!p.txs&&!p.notes){toast('Gecersiz yedek',true);return;}
-      D.dark=!!p.dark;
+      
       D.password=p.password||'';
       D.profile=p.profile||D.profile;
       D.txs=p.txs||[];D.notes=p.notes||[];
@@ -1291,7 +1217,6 @@ function toast(m,e){
 
 /* ═══ INIT ═══ */
 if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(function(){});}
-ad();
 sv('home');
 document.getElementById('qbar').style.display='flex';
 loadRemembered();
