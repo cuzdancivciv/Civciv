@@ -535,10 +535,10 @@ function secDil(lang){
   sv2();
   document.getElementById('lang-screen').style.display='none';
   uygulaLang();
+  document.getElementById('pin-screen').style.display='flex';
   if(!D.profile.email){
     showRegister();
   }
-  document.getElementById('pin-screen').style.display='flex';
 }
 
 function dilDegistir(){
@@ -1300,7 +1300,9 @@ sv('home');
 document.getElementById('qbar').style.display='flex';
 uygulaLang();
 loadRemembered();
-if(!D.profile.email){
+if(!D.lang||D.lang===''){
+  document.getElementById('lang-screen').style.display='flex';
+} else if(!D.profile.email){
   document.getElementById('lang-screen').style.display='flex';
 } else {
   document.getElementById('pin-screen').style.display='flex';
