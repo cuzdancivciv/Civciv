@@ -295,6 +295,24 @@ textarea.fi{min-height:85px;resize:vertical;}
         <div id="scroll-row"></div>
       </div>
     </div>
+    <div class="card" id="budget-home">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:9px;">
+        <div class="ctitle" style="margin-bottom:0;">🎯 Bütçe Hedefi</div>
+        <button onclick="om('budget')" style="font-size:11px;font-weight:700;color:#c8890a;background:none;border:none;cursor:pointer;">Düzenle →</button>
+      </div>
+      <div id="budget-status" style="font-size:13px;color:#9a9a9a;margin-bottom:6px;">Bütçe hedefi belirlenmedi</div>
+      <div id="budget-bar-wrap" style="display:none;">
+        <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:700;margin-bottom:4px;">
+          <span id="budget-used-lbl" style="color:#dc2626;"></span>
+          <span id="budget-limit-lbl" style="color:#9a9a9a;"></span>
+        </div>
+        <div style="background:#e2ddd2;border-radius:8px;height:10px;overflow:hidden;">
+          <div id="budget-bar" style="height:100%;background:#16a34a;border-radius:8px;transition:width .4s;width:0%;"></div>
+        </div>
+        <div id="budget-pct" style="font-size:11px;color:#9a9a9a;margin-top:3px;text-align:right;"></div>
+      </div>
+    </div>
+
     <div class="card" id="notes-home" style="display:none;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
         <div class="ctitle" style="margin-bottom:0;">📝 Notlar</div>
@@ -405,22 +423,6 @@ textarea.fi{min-height:85px;resize:vertical;}
 
 
     <!-- Veri -->
-    <div class="ps" id="budget-card">
-      <div class="pst">Bütçe Hedefi</div>
-      <div id="budget-status" style="font-size:13px;color:#9a9a9a;margin-bottom:8px;">Bütçe hedefi belirlenmedi</div>
-      <div id="budget-bar-wrap" style="display:none;margin-bottom:10px;">
-        <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:700;margin-bottom:4px;">
-          <span id="budget-used-lbl" style="color:#dc2626;"></span>
-          <span id="budget-limit-lbl" style="color:#9a9a9a;"></span>
-        </div>
-        <div style="background:#e2ddd2;border-radius:8px;height:10px;overflow:hidden;">
-          <div id="budget-bar" style="height:100%;background:#16a34a;border-radius:8px;transition:width .4s;width:0%;"></div>
-        </div>
-        <div id="budget-pct" style="font-size:11px;color:#9a9a9a;margin-top:3px;text-align:right;"></div>
-      </div>
-      <button class="pb" onclick="om('budget')">🎯 Bütçe Hedefi Belirle</button>
-    </div>
-
     <div class="ps">
       <div class="pst">Veri Yönetimi</div>
       <button class="pb" onclick="backupData()" style="margin-bottom:8px;">📦 Verileri Yedekle (JSON)</button>
@@ -826,11 +828,11 @@ function saveTx(id){
   var eCat=document.getElementById('e-cat');if(eCat)D.txs[idx].cat=eCat.value;
   D.txs[idx].desc=document.getElementById('e-dsc').value;
   D.txs[idx].date=document.getElementById('e-dt').value||td2();
-  sv2();rb();rtx();rr();cm();toast('Islem guncellendi');
+  sv2();rb();rtx();rr();rbp();cm();toast('Islem guncellendi');
 }
 function delTx(id){
   D.txs=D.txs.filter(function(x){return x.id!==id;});
-  sv2();rb();rtx();rr();cm();toast('Islem silindi');
+  sv2();rb();rtx();rr();rbp();cm();toast('Islem silindi');
 }
 
 /* ═══ NOTES HOME ═══ */
@@ -1178,7 +1180,8 @@ function stx(type){
   var cat=catEl?catEl.value:'Diğer';
 
   D.txs.unshift({id:uid(),tp:type==='inc'?'inc':'exp',cur:cur,amt:amt,desc:desc,cat:cat,date:date});
-  /* Bütçe kontrolü */
+  /* Bütçe güncelle ve kontrol et */
+  rbp();
   if(type==='exp')checkBudget();
   sv2();rb();rtx();rr();cm();
   toast(type==='inc'?'Gelir eklendi':'Gider eklendi');
