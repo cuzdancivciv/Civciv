@@ -331,7 +331,7 @@ textarea.fi{min-height:85px;resize:vertical;}
   <!-- NOTES -->
   <div class="view" id="view-notes">
     <button id="nadd" onclick="om('addNote')">+ Yeni Not Ekle</button>
-    <div id="nfl"><div style="color:#9a9a9a;text-align:center;margin-top:32px;font-size:13px;">Henüz not yok</div></div>
+    <div id="nfl"><div id="no-notes-msg" style="color:#9a9a9a;text-align:center;margin-top:32px;font-size:13px;">Henüz not yok</div></div>
   </div>
 
   <!-- REPORTS -->
@@ -345,31 +345,31 @@ textarea.fi{min-height:85px;resize:vertical;}
     <!-- TRY -->
         <div style="display:flex;gap:8px;margin-bottom:8px;">
       <div class="rc" style="flex:1;flex-direction:column;align-items:flex-start;gap:4px;">
-        <span class="rl">🇹🇷 TL Gelir</span>
+        <span class="rl" data-key="tryInc">🇹🇷 TL Gelir</span>
         <span class="rv inc" id="ri-try">₺0</span>
       </div>
       <div class="rc" style="flex:1;flex-direction:column;align-items:flex-start;gap:4px;">
-        <span class="rl">🇹🇷 TL Gider</span>
+        <span class="rl" data-key="tryExp">🇹🇷 TL Gider</span>
         <span class="rv exp" id="re-try">₺0</span>
       </div>
     </div>
         <div style="display:flex;gap:8px;margin-bottom:8px;">
       <div class="rc" style="flex:1;flex-direction:column;align-items:flex-start;gap:4px;">
-        <span class="rl">🇺🇸 USD Gelir</span>
+        <span class="rl" data-key="usdInc">🇺🇸 USD Gelir</span>
         <span class="rv inc" id="ri-usd">$0</span>
       </div>
       <div class="rc" style="flex:1;flex-direction:column;align-items:flex-start;gap:4px;">
-        <span class="rl">🇺🇸 USD Gider</span>
+        <span class="rl" data-key="usdExp">🇺🇸 USD Gider</span>
         <span class="rv exp" id="re-usd">$0</span>
       </div>
     </div>
         <div style="display:flex;gap:8px;margin-bottom:8px;">
       <div class="rc" style="flex:1;flex-direction:column;align-items:flex-start;gap:4px;">
-        <span class="rl">🇪🇺 EUR Gelir</span>
+        <span class="rl" data-key="eurInc">🇪🇺 EUR Gelir</span>
         <span class="rv inc" id="ri-eur">€0</span>
       </div>
       <div class="rc" style="flex:1;flex-direction:column;align-items:flex-start;gap:4px;">
-        <span class="rl">🇪🇺 EUR Gider</span>
+        <span class="rl" data-key="eurExp">🇪🇺 EUR Gider</span>
         <span class="rv exp" id="re-eur">€0</span>
       </div>
     </div>
@@ -455,14 +455,14 @@ textarea.fi{min-height:85px;resize:vertical;}
   <div id="popup-box">
     <div style="font-size:13px;font-weight:800;color:#9a9a9a;margin-bottom:8px;text-transform:uppercase;letter-spacing:.8px;">Civciv Cüzdan</div>
     <div class="popup-item" onclick="showAbout()">
-      <span>ℹ️</span><span>Hakkımızda</span>
+      <span>ℹ️</span><span id="popup-about">Hakkımızda</span>
     </div>
     <div class="popup-item" onclick="showSupport()">
-      <span>🎧</span><span>Uygulama Destek</span>
+      <span>🎧</span><span id="popup-support">Uygulama Destek</span>
     </div>
     <div class="popup-item" style="cursor:default;">
       <span>🏷️</span>
-      <span>Uygulama Versiyonu <span class="popup-ver">v1.0</span></span>
+      <span id="popup-version">Uygulama Versiyonu </span><span class="popup-ver">v1.0</span>
     </div>
     <div class="popup-item" onclick="togglePopup();lock();" style="color:#dc2626;">
       <span>🔒</span><span id="popup-lock" style="color:#dc2626;">Kilitle / Çıkış</span>
@@ -628,14 +628,66 @@ function uygulaLang(){
   var mdl=document.getElementById('mc-days-lbl');if(mdl)mdl.textContent=en?'days active':'gündür aktif';
   var mll=document.getElementById('mc-login-lbl');if(mll)mll.textContent=en?'logins':'giriş yapıldı';
 
-  /* Selamlama */
+  /* Selamlama güncelle */
   var gr=document.getElementById('top-greeting');
-  if(gr&&gr.style.display!=='none'&&gr.textContent){
+  if(gr){
     var h=new Date().getHours();
     var grtxt=h>=5&&h<12?(en?'Good morning':'Günaydın'):h>=12&&h<17?(en?'Good day':'İyi günler'):h>=17&&h<21?(en?'Good evening':'İyi akşamlar'):(en?'Good night':'İyi geceler');
     var pname2=D.profile&&D.profile.name&&D.profile.name!='Ad Soyad'?D.profile.name:'';
-    if(pname2)gr.textContent=grtxt+', '+pname2;
+    if(pname2){gr.textContent=grtxt+', '+pname2;gr.style.display='block';}
   }
+
+  /* Henüz işlem/not yok mesajları */
+  var noTx=document.getElementById('no-tx-msg');
+  if(noTx)noTx.textContent=en?'No transactions yet':'Henüz işlem yok';
+  var noNotes=document.getElementById('no-notes-msg');
+  if(noNotes)noNotes.textContent=en?'No notes yet':'Henüz not yok';
+
+  /* Pie chart veri yok */
+  var pieMsg=document.getElementById('pie-no-data');
+  if(pieMsg)pieMsg.textContent=en?'No data':'Veri yok';
+
+  /* Rapor data-key etiketleri */
+  var lbls={
+    tryInc:en?'🇹🇷 TRY Income':'🇹🇷 TL Gelir',
+    tryExp:en?'🇹🇷 TRY Expense':'🇹🇷 TL Gider',
+    usdInc:en?'🇺🇸 USD Income':'🇺🇸 USD Gelir',
+    usdExp:en?'🇺🇸 USD Expense':'🇺🇸 USD Gider',
+    eurInc:en?'🇪🇺 EUR Income':'🇪🇺 EUR Gelir',
+    eurExp:en?'🇪🇺 EUR Expense':'🇪🇺 EUR Gider'
+  };
+  document.querySelectorAll('.rl[data-key]').forEach(function(el){
+    var k=el.getAttribute('data-key');
+    if(lbls[k])el.textContent=lbls[k];
+  });
+
+  /* Rapor sekmeleri */
+  var rtd=document.getElementById('rtab-d');if(rtd)rtd.textContent=en?'Daily':'Günlük';
+  var rtw=document.getElementById('rtab-w');if(rtw)rtw.textContent=en?'Weekly':'Haftalık';
+  var rtm=document.getElementById('rtab-m');if(rtm)rtm.textContent=en?'Monthly':'Aylık';
+  var rty=document.getElementById('rtab-y');if(rty)rty.textContent=en?'Yearly':'Yıllık';
+
+  /* Son işlemler / diğer işlemler başlıkları */
+  var ctlt=document.getElementById('ct-lasttx');if(ctlt)ctlt.textContent=en?'RECENT TRANSACTIONS':'SON İŞLEMLER';
+  var ctot=document.getElementById('ct-othertx');if(ctot)ctot.textContent=en?'OTHER TRANSACTIONS':'DİĞER İŞLEMLER';
+
+  /* Popup menü */
+  var pa=document.getElementById('popup-about');if(pa)pa.textContent=en?'About':'Hakkımızda';
+  var psp=document.getElementById('popup-support');if(psp)psp.textContent=en?'Support':'Uygulama Destek';
+  var pv=document.getElementById('popup-version');if(pv)pv.textContent=en?'App Version ':'Uygulama Versiyonu ';
+
+  /* Profil güncelle butonu */
+  var epb=document.getElementById('edit-profile-btn');
+  if(epb)epb.textContent=en?'Update Profile':'Profilimi Güncelle';
+  /* Üyelik tarihi */
+  var mcst=document.getElementById('mc-since');
+  if(mcst&&D.joinDate){
+    var jp=D.joinDate.split('-');
+    var jf=jp.length===3?jp[2]+'/'+jp[1]+'/'+jp[0]:D.joinDate;
+    mcst.textContent=(en?'Member since':'Üyelik tarihi')+': '+jf;
+  }
+  /* Saat güncelle */
+  updateSaat();
 }
 
 function loadRemembered(){
@@ -841,9 +893,10 @@ function topMeta(){
 function updateSaat(){
   var now=new Date();
   var saat=now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0');
-  var gunler=['Pazar','Pazartesi','Salı','Çarşamba','Perşembe','Cuma','Cumartesi'];
-  var aylar=['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
-  var tarih=now.getDate()+' '+aylar[now.getMonth()]+' '+now.getFullYear()+' '+gunler[now.getDay()];
+  var en=D.lang==='en';
+  var gunler=en?['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']:['Pazar','Pazartesi','Salı','Çarşamba','Perşembe','Cuma','Cumartesi'];
+  var aylar=en?['January','February','March','April','May','June','July','August','September','October','November','December']:['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
+  var tarih=en?(gunler[now.getDay()]+', '+aylar[now.getMonth()]+' '+now.getDate()+' '+now.getFullYear()):(now.getDate()+' '+aylar[now.getMonth()]+' '+now.getFullYear()+' '+gunler[now.getDay()]);
   var meta=tarih+' · '+saat;
   var el=document.getElementById('top-meta');
   if(el){
@@ -871,7 +924,8 @@ function rtx(){
   var sr=document.getElementById('scroll-row');
   var txs=D.txs;
   if(txs.length===0){
-    el5.innerHTML='<div style="color:#9a9a9a;font-size:13px;text-align:center;padding:18px 0;">Henüz işlem yok</div>';
+    var ntm=D.lang==='en'?'No transactions yet':'Henüz işlem yok';
+    el5.innerHTML='<div id="no-tx-msg" style="color:#9a9a9a;font-size:13px;text-align:center;padding:18px 0;">'+ntm+'</div>';
     sw.style.display='none';return;
   }
   var h='';
@@ -983,7 +1037,8 @@ function rnh(){
 function rnf(){
   var el=document.getElementById('nfl');
   if(!D.notes||D.notes.length===0){
-    el.innerHTML='<div style="color:#9a9a9a;text-align:center;margin-top:32px;font-size:13px;">Henüz not yok</div>';return;
+    var nnm=D.lang==='en'?'No notes yet':'Henüz not yok';
+    el.innerHTML='<div id="no-notes-msg" style="color:#9a9a9a;text-align:center;margin-top:32px;font-size:13px;">'+nnm+'</div>';return;
   }
   var h='';
   D.notes.forEach(function(n,i){
@@ -1077,7 +1132,7 @@ function drawPie(slices){
   if(total===0){
     ctx.beginPath();ctx.arc(55,55,50,0,Math.PI*2);
     ctx.fillStyle='#e2ddd2';ctx.fill();
-    legend.innerHTML='<div style="font-size:12px;color:#9a9a9a;text-align:center;">Veri yok</div>';
+    legend.innerHTML='<div id="pie-no-data" style="font-size:12px;color:#9a9a9a;text-align:center;">'+(D.lang==='en'?'No data':'Veri yok')+'</div>';
     return;
   }
   var start=-Math.PI/2;
@@ -1102,7 +1157,7 @@ function drawPie(slices){
       +'<span class="pie-leg-val">%'+pct+'</span>'
       +'</div>';
   });
-  legend.innerHTML=legHtml||'<div style="font-size:12px;color:#9a9a9a;">Veri yok</div>';
+  legend.innerHTML=legHtml||'<div style="font-size:12px;color:#9a9a9a;">'+(D.lang==='en'?'No data':'Veri yok')+'</div>';
 }
 
 /* ═══ RENDER ALL ═══ */
