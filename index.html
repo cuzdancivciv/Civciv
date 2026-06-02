@@ -149,30 +149,6 @@ textarea.fi{min-height:85px;resize:vertical;}
 </head>
 <body>
 
-<!-- DİL SEÇİM EKRANI -->
-<div id="lang-screen" style="position:fixed;inset:0;background:#f7f5f0;display:none;flex-direction:column;align-items:center;justify-content:center;z-index:998;padding:30px;">
-  <svg width="70" height="70" viewBox="0 0 64 64" fill="none">
-    <ellipse cx="32" cy="40" rx="20" ry="16" fill="#FFD93D"/>
-    <ellipse cx="32" cy="24" rx="14" ry="13" fill="#FFD93D"/>
-    <ellipse cx="26" cy="21" rx="3" ry="3.5" fill="white"/>
-    <ellipse cx="38" cy="21" rx="3" ry="3.5" fill="white"/>
-    <circle cx="26.5" cy="21.5" r="1.5" fill="#111"/>
-    <circle cx="38.5" cy="21.5" r="1.5" fill="#111"/>
-    <ellipse cx="32" cy="29" rx="4" ry="2.5" fill="#FF9F43"/>
-    <path d="M29 28.5 Q32 32 35 28.5" stroke="#FF9F43" stroke-width="1.5" fill="#FF9F43"/>
-    <ellipse cx="14" cy="36" rx="7" ry="5" fill="#FFD93D" transform="rotate(-20 14 36)"/>
-    <ellipse cx="50" cy="36" rx="7" ry="5" fill="#FFD93D" transform="rotate(20 50 36)"/>
-  </svg>
-  <div style="font-size:26px;font-weight:800;color:#c8890a;margin-top:14px;text-align:center;">Civciv Cüzdan</div>
-  <div style="font-size:13px;color:#9a9a9a;margin-top:6px;margin-bottom:40px;text-align:center;">Lütfen dilinizi seçin / Please select your language</div>
-  <button onclick="selectLang('tr')" style="width:100%;max-width:300px;padding:18px;border-radius:16px;border:2px solid #c8890a;background:#fff;font-size:17px;font-weight:700;cursor:pointer;font-family:inherit;margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:10px;">
-    🇹🇷 <span>Türkçe</span>
-  </button>
-  <button onclick="selectLang('en')" style="width:100%;max-width:300px;padding:18px;border-radius:16px;border:2px solid #e2ddd2;background:#fff;font-size:17px;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:10px;color:#555;">
-    🇬🇧 <span>English</span>
-  </button>
-</div>
-
 <!-- GİRİŞ EKRANI -->
 <div id="pin-screen">
   <div id="auth-wrap" style="width:100%;max-width:340px;padding:0 20px;display:flex;flex-direction:column;align-items:center;">
@@ -189,7 +165,7 @@ textarea.fi{min-height:85px;resize:vertical;}
       <ellipse cx="50" cy="36" rx="7" ry="5" fill="#FFD93D" transform="rotate(20 50 36)"/>
     </svg>
     <div id="pname" style="font-size:22px;font-weight:800;color:#c8890a;margin-top:10px;text-align:center;">Cüzdan Civciv'e Hoşgeldin</div>
-    <div id="p-subtitle" style="font-size:12px;color:#9a9a9a;margin-top:4px;margin-bottom:20px;text-align:center;">Kişisel para takip uygulamanız</div>
+    <div style="font-size:12px;color:#9a9a9a;margin-top:4px;margin-bottom:20px;text-align:center;">Kişisel para takip uygulamanız</div>
 
     <!-- GİRİŞ FORMU -->
     <div id="login-form" style="width:100%;">
@@ -212,7 +188,8 @@ textarea.fi{min-height:85px;resize:vertical;}
         Giriş Yap
       </button>
 
-      <div style="text-align:center;font-size:13px;"><span id="li-noacc" style="color:#9a9a9a;">Hesabın yok mu? </span><button id="li-regbtn" onclick="showRegister()" style="background:none;border:none;color:#c8890a;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit;">Kayıt Ol</button>
+      <div style="text-align:center;font-size:13px;color:#9a9a9a;">Hesabın yok mu?
+        <button onclick="showRegister()" style="background:none;border:none;color:#c8890a;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit;">Kayıt Ol</button>
       </div>
 
     </div>
@@ -222,7 +199,7 @@ textarea.fi{min-height:85px;resize:vertical;}
 <!-- KAYIT POPUP -->
 <div id="reg-overlay" style="position:fixed;inset:0;background:#0009;z-index:1000;display:none;align-items:flex-end;justify-content:center;">
   <div id="reg-box" style="background:#fff;border-radius:20px 20px 0 0;padding:20px 18px 36px;width:100%;max-width:430px;max-height:90vh;overflow-y:auto;">
-    <div id="reg-title" style="font-size:18px;font-weight:800;color:#1a1a1a;margin-bottom:16px;">🐥 Kayıt Ol</div>
+    <div style="font-size:18px;font-weight:800;color:#1a1a1a;margin-bottom:16px;">🐥 Kayıt Ol</div>
 
     <label style="font-size:11px;font-weight:600;color:#9a9a9a;display:block;margin-bottom:3px;">Ad Soyad *</label>
     <input type="text" id="rg-name" class="fi" placeholder="Ad Soyad">
@@ -311,10 +288,10 @@ textarea.fi{min-height:85px;resize:vertical;}
   <!-- HOME -->
   <div class="view on" id="view-home">
     <div class="card" style="padding:13px 13px 8px;">
-      <div class="ctitle" id="ct-lasttx">Son İşlemler</div>
+      <div class="ctitle">Son İşlemler</div>
       <div id="tx5"></div>
       <div id="scroll-wrap" style="display:none;">
-        <div class="ctitle" id="ct-othertx" style="margin-top:8px;">Diğer İşlemler</div>
+        <div class="ctitle" style="margin-top:8px;">Diğer İşlemler</div>
         <div id="scroll-row"></div>
       </div>
     </div>
@@ -336,39 +313,42 @@ textarea.fi{min-height:85px;resize:vertical;}
   <!-- REPORTS -->
   <div class="view" id="view-reports">
     <div class="rtabs">
-      <button class="rtab on" id="rtab-d" onclick="srt('daily',this)">Günlük</button>
-      <button class="rtab" id="rtab-w" onclick="srt('weekly',this)">Haftalık</button>
-      <button class="rtab" id="rtab-m" onclick="srt('monthly',this)">Aylık</button>
-      <button class="rtab" id="rtab-y" onclick="srt('yearly',this)">Yıllık</button>
+      <button class="rtab on" onclick="srt('daily',this)">Günlük</button>
+      <button class="rtab" onclick="srt('weekly',this)">Haftalık</button>
+      <button class="rtab" onclick="srt('monthly',this)">Aylık</button>
+      <button class="rtab" onclick="srt('yearly',this)">Yıllık</button>
     </div>
     <!-- TRY -->
-        <div style="display:flex;gap:8px;margin-bottom:8px;">
+    <!-- TRY yan yana -->
+    <div style="display:flex;gap:8px;margin-bottom:8px;">
       <div class="rc" style="flex:1;flex-direction:column;align-items:flex-start;gap:4px;">
-        <span class="rl" data-key="tryInc">🇹🇷 TL Gelir</span>
+        <span class="rl">🇹🇷 TL Gelir</span>
         <span class="rv inc" id="ri-try">₺0</span>
       </div>
       <div class="rc" style="flex:1;flex-direction:column;align-items:flex-start;gap:4px;">
-        <span class="rl" data-key="tryExp">🇹🇷 TL Gider</span>
+        <span class="rl">🇹🇷 TL Gider</span>
         <span class="rv exp" id="re-try">₺0</span>
       </div>
     </div>
-        <div style="display:flex;gap:8px;margin-bottom:8px;">
+    <!-- USD yan yana -->
+    <div style="display:flex;gap:8px;margin-bottom:8px;">
       <div class="rc" style="flex:1;flex-direction:column;align-items:flex-start;gap:4px;">
-        <span class="rl" data-key="usdInc">🇺🇸 USD Gelir</span>
+        <span class="rl">🇺🇸 USD Gelir</span>
         <span class="rv inc" id="ri-usd">$0</span>
       </div>
       <div class="rc" style="flex:1;flex-direction:column;align-items:flex-start;gap:4px;">
-        <span class="rl" data-key="usdExp">🇺🇸 USD Gider</span>
+        <span class="rl">🇺🇸 USD Gider</span>
         <span class="rv exp" id="re-usd">$0</span>
       </div>
     </div>
-        <div style="display:flex;gap:8px;margin-bottom:8px;">
+    <!-- EUR yan yana -->
+    <div style="display:flex;gap:8px;margin-bottom:8px;">
       <div class="rc" style="flex:1;flex-direction:column;align-items:flex-start;gap:4px;">
-        <span class="rl" data-key="eurInc">🇪🇺 EUR Gelir</span>
+        <span class="rl">🇪🇺 EUR Gelir</span>
         <span class="rv inc" id="ri-eur">€0</span>
       </div>
       <div class="rc" style="flex:1;flex-direction:column;align-items:flex-start;gap:4px;">
-        <span class="rl" data-key="eurExp">🇪🇺 EUR Gider</span>
+        <span class="rl">🇪🇺 EUR Gider</span>
         <span class="rv exp" id="re-eur">€0</span>
       </div>
     </div>
@@ -398,38 +378,27 @@ textarea.fi{min-height:85px;resize:vertical;}
       </div>
     </div>
 
-        <div class="ps" style="background:linear-gradient(135deg,#c8890a,#e6a820);border:none;padding:16px;">
-      <div style="display:flex;align-items:center;gap:12px;">
-        <span style="font-size:28px;">🐥</span>
-        <div style="flex:1;">
-          <div id="mc-name" style="font-size:13px;font-weight:700;color:#fff;opacity:0.9;margin-bottom:6px;"></div>
-          <div style="display:flex;gap:16px;">
-            <div style="text-align:center;">
-              <div id="mc-days" style="font-size:22px;font-weight:800;color:#fff;line-height:1;">0</div>
-              <div id="mc-days-lbl" style="font-size:10px;color:rgba(255,255,255,0.8);margin-top:2px;">gündür aktif</div>
-            </div>
-            <div style="width:1px;background:rgba(255,255,255,0.3);"></div>
-            <div style="text-align:center;">
-              <div id="mc-login" style="font-size:22px;font-weight:800;color:#fff;line-height:1;">0</div>
-              <div id="mc-login-lbl" style="font-size:10px;color:rgba(255,255,255,0.8);margin-top:2px;">giriş yapıldı</div>
-            </div>
-          </div>
-          <div id="mc-since" style="font-size:10px;color:rgba(255,255,255,0.7);margin-top:8px;"></div>
+    <!-- Üyelik küçük bandı -->
+    <div class="ps" style="padding:10px 14px;background:linear-gradient(90deg,#fffaeb,#fff8e0);">
+      <div class="dark" style="display:none;"></div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span style="font-size:18px;">🐥</span>
+        <div>
+          <span id="mc-days" style="font-size:15px;font-weight:800;color:#c8890a;">0</span>
+          <span style="font-size:13px;font-weight:600;color:#c8890a;"> gündür üyeliğiniz aktif</span>
         </div>
+        <div style="margin-left:auto;font-size:10px;color:#9a9a9a;" id="mc-since"></div>
       </div>
     </div>
 
     <!-- Güvenlik -->
     <div class="ps">
-      <div class="pst" id="lang-section-title">Dil / Language</div>
-      <button id="lang-btn" class="pb" onclick="switchLang()">🇬🇧 English</button>
-    </div>
-    <div class="ps">
       <div class="pst">Güvenlik</div>
-      <button class="pb" id="change-pass-btn" onclick="om('changePin')">🔒 Şifre Değiştir</button>
+      <button class="pb" onclick="om('changePin')">🔒 Şifre Değiştir</button>
     </div>
 
     <!-- Görünüm -->
+
 
     <!-- Veri -->
     <div class="ps">
@@ -438,10 +407,10 @@ textarea.fi{min-height:85px;resize:vertical;}
       <label for="restore-input" class="pb" style="display:block;margin-bottom:8px;cursor:pointer;">📥 Yedekten Geri Yükle</label>
       <input type="file" id="restore-input" accept=".json" style="display:none;position:absolute;" onchange="restoreData(this)">
       <button class="pb" onclick="resetData()" style="background:#fff3cd;color:#856404;border-color:#ffc107;margin-bottom:8px;">🗑️ Tüm Verileri Sıfırla</button>
-      <button class="pb" id="delete-btn" onclick="deleteAccount()" style="background:#fee2e2;color:#dc2626;border-color:#f5c6cb;">❌ Hesabı Tamamen Sil</button>
+      <button class="pb" onclick="deleteAccount()" style="background:#fee2e2;color:#dc2626;border-color:#f5c6cb;">❌ Hesabı Tamamen Sil</button>
     </div>
     <div class="ps" style="margin-bottom:30px;">
-      <button class="pb" id="lock-btn" onclick="lock()" style="background:#fee2e2;color:#dc2626;border-color:#fee2e2;">🔒 Kilitle / Çıkış</button>
+      <button class="pb" onclick="lock()" style="background:#fee2e2;color:#dc2626;border-color:#fee2e2;">🔒 Kilitle / Çıkış</button>
     </div>
   </div>
 
@@ -476,7 +445,7 @@ textarea.fi{min-height:85px;resize:vertical;}
       <span>Uygulama Versiyonu <span class="popup-ver">v1.0</span></span>
     </div>
     <div class="popup-item" onclick="togglePopup();lock();" style="color:#dc2626;">
-      <span>🔒</span><span id="popup-lock" style="color:#dc2626;">Kilitle / Çıkış</span>
+      <span>🔒</span><span style="color:#dc2626;">Kilitle / Çıkış</span>
     </div>
   </div>
 </div>
@@ -486,179 +455,9 @@ textarea.fi{min-height:85px;resize:vertical;}
 
 <script>
 /* ═══ DATA ═══ */
-var LANG={
-  tr:{
-    appName:"Civciv Cüzdan",
-    welcome:"Cüzdan Civcive Hoşgeldin",
-    subTitle:"Kişisel para takip uygulamanız",
-    login:'Giriş Yap',
-    register:'Kayıt Ol',
-    noAccount:'Hesabın yok mu?',
-    haveAccount:'Zaten hesabın var mı?',
-    email:'E-posta adresi',
-    password:'Şifre (max 6 rakam)',
-    remember:'E-posta adresimi hatırla',
-    emailErr:'E-posta ve şifre girin',
-    wrongErr:'E-posta veya şifre hatalı!',
-    waitErr:'Çok fazla hatalı giriş!',
-    haksKaldi:'hak kaldı',
-    saniyeBekle:'saniye bekleyin...',
-    regTitle:'Kayıt Ol',
-    nameLabel:'Ad Soyad *',
-    emailLabel:'E-posta *',
-    passLabel:'Şifre * (4-6 rakam)',
-    passLabel2:'Şifre Tekrar *',
-    phoneLabel:'Telefon (Başında 0 olmadan 10 hane)',
-    phonePh:'5xx xxx xx xx',
-    regBtn:'Kaydet',
-    cancel:'İptal',
-    regSuccess:'Kayıt başarılı! Giriş yapın',
-    nameErr:'Ad Soyad zorunludur',
-    emailErr2:'Geçerli bir e-posta adresi girin',
-    passErr:'Şifre 4-6 rakamdan oluşmalıdır',
-    passErr2:'Şifreler uyuşmuyor',
-    phoneErr:'Telefon başında 0 olmadan 10 hane olmalıdır',
-    home:'Ana Sayfa',
-    notes:'Notlar',
-    reports:'Raporlar',
-    profile:'Profil',
-    addIncome:'+ Gelir Ekle',
-    addExpense:'- Gider Ekle',
-    convert:'⇄ Dönüştür',
-    noTx:'Henüz işlem yok',
-    lastTx:'Son İşlemler',
-    otherTx:'Diğer İşlemler',
-    notesTitle:'📝 Notlar',
-    allNotes:'Tümü →',
-    addNote:'+ Yeni Not Ekle',
-    noNotes:'Henüz not yok',
-    security:'Güvenlik',
-    changePass:'🔒 Şifre Değiştir',
-    dataMgmt:'Veri Yönetimi',
-    backup:'📦 Verileri Yedekle (JSON)',
-    restore:'📥 Yedekten Geri Yükle',
-    reset:'🗑️ Tüm Verileri Sıfırla',
-    deleteAcc:'❌ Hesabı Tamamen Sil',
-    lockOut:'🔒 Kilitle / Çıkış',
-    language:'Dil',
-    langTr:'🇹🇷 Türkçe',
-    langEn:'🇬🇧 English',
-    daysActive:'gündür aktif',
-    loginCount:'giriş yapıldı',
-    joinDate:'Üyelik tarihi',
-    daily:'Günlük',weekly:'Haftalık',monthly:'Aylık',yearly:'Yıllık',
-    income:'Gelir',expense:'Gider',net:'Net',totalTx:'Toplam İşlem',
-    incomeAdd:'💰 Gelir Ekle',expenseAdd:'💸 Gider Ekle',
-    currency:'Para Birimi',amount:'Tutar',desc:'Açıklama',date:'Tarih',add:'Ekle',
-    all:'Hepsi',convertTitle:'🔄 Döviz Dönüştür',convertBtn:'Dönüştür',willGet:'Alacağınız',
-    noteTitle:'Başlık *',noteMsg:'Mesaj',noteRem:'Hatırlatma Tarihi',save:'Kaydet',
-    editTx:'✏️ İşlemi Düzenle',deleteTx:'Sil',updateTx:'Kaydet',
-    changePassTitle:'🔒 Şifre Değiştir',currentPass:'Mevcut Şifre',newPass:'Yeni Şifre (4-6 rakam)',newPass2:'Tekrar',change:'Değiştir',
-    about:'ℹ️ Hakkımızda',support:'🎧 Uygulama Destek',version:'Uygulama Versiyonu',close:'Kapat',
-    confirmTitle:'⚠️ Emin misiniz?',resetMsg:'Tüm işlemler ve notlar silinecek. Emin misiniz?',resetBtn:'Evet, Sıfırla',
-    deleteMsg:'Hesabınız ve tüm veriler silinecek! Bu işlem GERİ ALINAMAZ!',deleteBtn:'Evet, Sil',continue:'Devam Et',
-    backupDone:'Yedek indirildi',restoreDone:'Veriler geri yüklendi',restoreErr:'Dosya okunamadı',
-    resetDone:'Veriler sıfırlandı',deleteDone:'Hesap silindi',profileDone:'Profil güncellendi',passDone:'✓ Şifre değiştirildi',
-    passWrong:'Mevcut şifre hatalı',passFormat:'Yeni şifre 4-6 rakam olmalıdır',passMatch:'Şifreler uyuşmuyor',
-    noBalance:'Bakiye yok',overBalance:'Bakiyeden fazla girilemez',validAmount:'Geçerli tutar girin',
-    noteAdded:'Not eklendi',noteDeleted:'Not silindi',txUpdated:'İşlem güncellendi',txDeleted:'İşlem silindi',
-    noteRequired:'Başlık gerekli',sayın:'Sayın',
-    greeting_morning:'Günaydın',greeting_day:'İyi günler',greeting_evening:'İyi akşamlar',greeting_night:'İyi geceler',
-    updateProfile:'Profilimi Güncelle',namePh:'Ad Soyad',emailPh:'ornek@mail.com',phonePh2:'5xx xxx xx xx',
-    incLabel:'Gelir - ',expLabel:'Gider - ',
-    tryInc:'🇹🇷 TL Gelir',tryExp:'🇹🇷 TL Gider',usdInc:'🇺🇸 USD Gelir',usdExp:'🇺🇸 USD Gider',eurInc:'🇪🇺 EUR Gelir',eurExp:'🇪🇺 EUR Gider',
-    supportText:'Soru ve sorunlarınız için lütfen',supportAddr:'adresinden bize ulaşabilirsiniz.'
-  },
-  en:{
-    appName:"Civciv Wallet",
-    welcome:"Welcome to Civciv Wallet",
-    subTitle:"Your personal money tracker",
-    login:'Login',
-    register:'Sign Up',
-    noAccount:'No account?',
-    haveAccount:'Already have an account?',
-    email:'Email address',
-    password:'Password (max 6 digits)',
-    remember:'Remember my email',
-    emailErr:'Enter email and password',
-    wrongErr:'Wrong email or password!',
-    waitErr:'Too many failed attempts!',
-    haksKaldi:'attempts left',
-    saniyeBekle:'seconds wait...',
-    regTitle:'Sign Up',
-    nameLabel:'Full Name *',
-    emailLabel:'Email *',
-    passLabel:'Password * (4-6 digits)',
-    passLabel2:'Confirm Password *',
-    phoneLabel:'Phone (10 digits without leading 0)',
-    phonePh:'5xx xxx xx xx',
-    regBtn:'Save',
-    cancel:'Cancel',
-    regSuccess:'Registration successful! Please login.',
-    nameErr:'Full name is required',
-    emailErr2:'Enter a valid email address',
-    passErr:'Password must be 4-6 digits',
-    passErr2:'Passwords do not match',
-    phoneErr:'Phone must be 10 digits without leading 0',
-    home:'Home',
-    notes:'Notes',
-    reports:'Reports',
-    profile:'Profile',
-    addIncome:'+ Add Income',
-    addExpense:'- Add Expense',
-    convert:'⇄ Convert',
-    noTx:'No transactions yet',
-    lastTx:'Recent Transactions',
-    otherTx:'Other Transactions',
-    notesTitle:'📝 Notes',
-    allNotes:'All →',
-    addNote:'+ Add New Note',
-    noNotes:'No notes yet',
-    security:'Security',
-    changePass:'🔒 Change Password',
-    dataMgmt:'Data Management',
-    backup:'📦 Backup Data (JSON)',
-    restore:'📥 Restore from Backup',
-    reset:'🗑️ Reset All Data',
-    deleteAcc:'❌ Delete Account',
-    lockOut:'🔒 Lock / Logout',
-    language:'Language',
-    langTr:'🇹🇷 Türkçe',
-    langEn:'🇬🇧 English',
-    daysActive:'days active',
-    loginCount:'logins',
-    joinDate:'Member since',
-    daily:'Daily',weekly:'Weekly',monthly:'Monthly',yearly:'Yearly',
-    income:'Income',expense:'Expense',net:'Net',totalTx:'Total Transactions',
-    incomeAdd:'💰 Add Income',expenseAdd:'💸 Add Expense',
-    currency:'Currency',amount:'Amount',desc:'Description',date:'Date',add:'Add',
-    all:'All',convertTitle:'🔄 Convert Currency',convertBtn:'Convert',willGet:'You will get',
-    noteTitle:'Title *',noteMsg:'Message',noteRem:'Reminder Date',save:'Save',
-    editTx:'✏️ Edit Transaction',deleteTx:'Delete',updateTx:'Save',
-    changePassTitle:'🔒 Change Password',currentPass:'Current Password',newPass:'New Password (4-6 digits)',newPass2:'Confirm',change:'Change',
-    about:'ℹ️ About',support:'🎧 Support',version:'App Version',close:'Close',
-    confirmTitle:'⚠️ Are you sure?',resetMsg:'All transactions and notes will be deleted. Are you sure?',resetBtn:'Yes, Reset',
-    deleteMsg:'Your account and all data will be deleted! This cannot be undone!',deleteBtn:'Yes, Delete',continue:'Continue',
-    backupDone:'Backup downloaded',restoreDone:'Data restored',restoreErr:'File could not be read',
-    resetDone:'Data reset',deleteDone:'Account deleted',profileDone:'Profile updated',passDone:'✓ Password changed',
-    passWrong:'Current password is wrong',passFormat:'New password must be 4-6 digits',passMatch:'Passwords do not match',
-    noBalance:'No balance',overBalance:'Cannot exceed balance',validAmount:'Enter a valid amount',
-    noteAdded:'Note added',noteDeleted:'Note deleted',txUpdated:'Transaction updated',txDeleted:'Transaction deleted',
-    noteRequired:'Title is required',sayın:'Dear',
-    greeting_morning:'Good morning',greeting_day:'Good day',greeting_evening:'Good evening',greeting_night:'Good night',
-    updateProfile:'Update Profile',namePh:'Full Name',emailPh:'example@mail.com',phonePh2:'5xx xxx xx xx',
-    incLabel:'Income - ',expLabel:'Expense - ',
-    tryInc:'🇹🇷 TRY Income',tryExp:'🇹🇷 TRY Expense',usdInc:'🇺🇸 USD Income',usdExp:'🇺🇸 USD Expense',eurInc:'🇪🇺 EUR Income',eurExp:'🇪🇺 EUR Expense',
-    supportText:'For questions and issues please contact us at',supportAddr:''
-  }
-};
-function t(key){return (LANG[D.lang]||LANG.tr)[key]||LANG.tr[key]||key;}
-
 var SK='cv7';
 var D={
   password:'',
-  loginCount:0,
-  lang:'',
   profile:{name:'Ad Soyad',email:'',phone:'',avatar:null},
   txs:[],notes:[],
   rates:{USD:32.5,EUR:35.2},
@@ -674,8 +473,6 @@ var D={
       var s=JSON.parse(r);
       
       D.password=s.password||'';
-      D.loginCount=s.loginCount||0;
-      D.lang=s.lang||'';
       D.profile=s.profile||D.profile;
       D.txs=s.txs||[];D.notes=s.notes||[];
       D.rates=s.rates||D.rates;D.rd=s.rd||'';
@@ -690,86 +487,6 @@ function td2(){return new Date().toISOString().slice(0,10);}
 function fm(n,d){if(d===undefined)d=2;return Number(n||0).toLocaleString('tr-TR',{minimumFractionDigits:d,maximumFractionDigits:d});}
 var SM={TRY:'₺',USD:'$',EUR:'€'};
 function ex(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-
-/* ═══ DİL SİSTEMİ ═══ */
-function selectLang(lang){
-  D.lang=lang;sv2();
-  document.getElementById('lang-screen').style.display='none';
-  applyLang();
-  if(!D.profile.email){showRegister();}
-  document.getElementById('pin-screen').style.display='flex';
-}
-function applyLang(){
-  var l=D.lang||'tr';
-  var pname=document.getElementById('pname');if(pname)pname.textContent=t('welcome');
-  var psub=document.getElementById('p-subtitle');if(psub)psub.textContent=t('subTitle');
-  var liU=document.getElementById('li-user');if(liU)liU.placeholder=t('email');
-  var liP=document.getElementById('li-pass');if(liP)liP.placeholder=t('password');
-  var liBtn=document.getElementById('li-btn');if(liBtn)liBtn.textContent=t('login');
-  var liNoAcc=document.getElementById('li-noacc');if(liNoAcc)liNoAcc.textContent=t('noAccount')+' ';
-  var liReg=document.getElementById('li-regbtn');if(liReg)liReg.textContent=t('register');
-  var liRem=document.querySelector('label[for="li-remember"]');if(liRem)liRem.textContent=t('remember');
-  [['nb0','home'],['nb1','notes'],['nb2','reports'],['nb3','profile']].forEach(function(p){
-    var nb=document.getElementById(p[0]);
-    if(nb){var sp=nb.querySelectorAll('span');if(sp[1])sp[1].textContent=t(p[1]);}
-  });
-  var qbs=document.querySelectorAll('.qb');
-  if(qbs[0])qbs[0].textContent=t('addIncome');
-  if(qbs[1])qbs[1].textContent=t('addExpense');
-  if(qbs[2])qbs[2].textContent=t('convert');
-  var lb=document.getElementById('lang-btn');
-  if(lb)lb.textContent=(l==='en'?'🇹🇷 Türkçe':'🇬🇧 English');
-  /* Rapor sekmeleri */
-  var rtabs={d:'daily',w:'weekly',m:'monthly',y:'yearly'};
-  Object.keys(rtabs).forEach(function(k){
-    var el=document.getElementById('rtab-'+k);
-    if(el)el.textContent=t(rtabs[k]);
-  });
-  /* Son işlemler */
-  var ctLastTx=document.getElementById('ct-lasttx');if(ctLastTx)ctLastTx.textContent=t('lastTx');
-  var ctOtherTx=document.getElementById('ct-othertx');if(ctOtherTx)ctOtherTx.textContent=t('otherTx');
-  /* Not ekle butonu */
-  var naddBtn=document.getElementById('nadd');if(naddBtn)naddBtn.textContent='+ '+t('addNote').replace('+ ','');
-  /* Profil butonları */
-  var cpBtn=document.getElementById('change-pass-btn');if(cpBtn)cpBtn.textContent=t('changePass');
-  var bkBtn=document.getElementById('backup-btn');if(bkBtn)bkBtn.textContent=t('backup');
-  var rsBtn=document.getElementById('restore-btn');if(rsBtn)rsBtn.textContent=t('restore');
-  var rstBtn=document.getElementById('reset-btn');if(rstBtn)rstBtn.textContent=t('reset');
-  var delBtn=document.getElementById('delete-btn');if(delBtn)delBtn.textContent=t('deleteAcc');
-  var lkBtn=document.getElementById('lock-btn');if(lkBtn)lkBtn.textContent=t('lockOut');
-  var popLock=document.getElementById('popup-lock');if(popLock)popLock.textContent=t('lockOut');
-  /* Kayıt formu başlığı */
-  var regTitle=document.getElementById('reg-title');if(regTitle)regTitle.textContent='🐥 '+t('regTitle');
-  /* Gelir/gider kutucukları */
-  var tipInc=document.getElementById('bs-try-lbl');
-  /* Raporlar TRY/USD/EUR başlıkları */
-  var riTry=document.querySelector('[for="ri-try"]');
-  var rTryInc=document.querySelector('.rl[data-key="tryInc"]');
-  document.querySelectorAll('.rl[data-key]').forEach(function(el){
-    el.textContent=t(el.getAttribute('data-key'));
-  });
-  /* Selamlama güncelle */
-  var grEl=document.getElementById('top-greeting');
-  if(grEl&&grEl.style.display!=='none'){
-    var p=D.profile;
-    var pname2=p&&p.name&&p.name!='Ad Soyad'?p.name:'';
-    if(pname2)grEl.textContent=getGreeting()+', '+pname2;
-  }
-  /* Üyelik kartı */
-  var mcDaysLbl=document.getElementById('mc-days-lbl');if(mcDaysLbl)mcDaysLbl.textContent=t('daysActive');
-  var mcLoginLbl=document.getElementById('mc-login-lbl');if(mcLoginLbl)mcLoginLbl.textContent=t('loginCount');
-  var mcSinceEl=document.getElementById('mc-since');
-  if(mcSinceEl&&D.joinDate){
-    var jp=D.joinDate.split('-');
-    var jf=jp.length===3?jp[2]+'/'+jp[1]+'/'+jp[0]:D.joinDate;
-    mcSinceEl.textContent=t('joinDate')+': '+jf;
-  }
-}
-function switchLang(){
-  D.lang=D.lang==='en'?'tr':'en';
-  sv2();applyLang();ra();
-  toast(D.lang==='tr'?'Dil Türkçe yapıldı':'Language set to English');
-}
 
 function loadRemembered(){
   try{
@@ -811,11 +528,11 @@ function doRegister(){
   var phone=document.getElementById('rg-phone').value.trim();
   var errEl=document.getElementById('rg-err');
 
-  if(!name){errEl.textContent=t('nameErr');return;}
-  if(!email||!email.includes('@')||!email.includes('.')){errEl.textContent=t('emailErr2');return;}
-  if(!pass||pass.length<4||pass.length>6||!/^[0-9]+$/.test(pass)){errEl.textContent=t('passErr');return;}
-  if(pass!==pass2){errEl.textContent=t('passErr2');return;}
-  if(phone&&(phone.length!==10||!/^[0-9]+$/.test(phone))){errEl.textContent=t('phoneErr');return;}
+  if(!name){errEl.textContent='Ad Soyad zorunludur';return;}
+  if(!email||!email.includes('@')||!email.includes('.')){errEl.textContent='Geçerli bir e-posta adresi girin';return;}
+  if(!pass||pass.length<4||pass.length>6||!/^[0-9]+$/.test(pass)){errEl.textContent='Şifre 4-6 rakamdan oluşmalıdır';return;}
+  if(pass!==pass2){errEl.textContent='Şifreler uyuşmuyor';return;}
+  if(phone&&(phone.length!==10||!/^[0-9]+$/.test(phone))){errEl.textContent='Telefon başında 0 olmadan 10 hane olmalıdır';return;}
 
   /* Kaydet */
   D.profile.name=name;
@@ -829,8 +546,9 @@ function doRegister(){
   document.getElementById('li-user').value=email;
   document.getElementById('li-pass').value='';
   document.getElementById('li-err').textContent='';
-  toast(t('regSuccess'));
+  toast('Kayıt başarılı! Giriş yapın');
 }
+
 
 document.addEventListener('keydown',function(e){
   if(e.key==='Enter'&&document.getElementById('pin-screen').style.display!=='none'){
@@ -845,7 +563,7 @@ function doLogin(){
   var pass=document.getElementById('li-pass').value;
   var errEl=document.getElementById('li-err');
 
-  if(!user||!pass){errEl.textContent=t('emailErr');return;}
+  if(!user||!pass){errEl.textContent='E-posta ve şifre girin';return;}
 
   if(!D.profile.email){
     errEl.textContent='Önce kayıt olun!';
@@ -864,8 +582,6 @@ function doLogin(){
     } else {
       try{localStorage.removeItem('cv_remember');}catch(e){}
     }
-    D.loginCount=(D.loginCount||0)+1;
-    sv2();
     document.getElementById('pin-screen').style.display='none';
     ra();
   } else {
@@ -875,7 +591,7 @@ function doLogin(){
       failCount=0;
       startCountdown();
     } else {
-      errEl.textContent=t('wrongErr')+' ('+(3-failCount)+' '+t('haksKaldi')+')';
+      errEl.textContent='E-posta veya şifre hatalı! ('+(3-failCount)+' hak kaldı)';
     }
   }
 }
@@ -898,7 +614,7 @@ function startCountdown(){
       cd.style.display='none';
       cd.textContent='';
     } else {
-      cd.textContent=t('waitErr')+' '+remaining+' '+t('saniyeBekle');
+      cd.textContent='Cok fazla hatali giris! '+remaining+' saniye bekleyin...';
     }
   },500);
 }
@@ -915,10 +631,10 @@ function lock(){
 /* ═══ SAAT VE SELAM ═══ */
 function getGreeting(){
   var h=new Date().getHours();
-  if(h>=5&&h<12)return t('greeting_morning');
-  if(h>=12&&h<17)return t('greeting_day');
-  if(h>=17&&h<21)return t('greeting_evening');
-  return t('greeting_night');
+  if(h>=5&&h<12)return 'Günaydın';
+  if(h>=12&&h<17)return 'İyi günler';
+  if(h>=17&&h<21)return 'İyi akşamlar';
+  return 'İyi geceler';
 }
 function topMeta(){
   /* Selamlama ve isim */
@@ -1004,31 +720,31 @@ function rtx(){
     sw.style.display='none';return;
   }
   var h='';
-  txs.slice(0,5).forEach(function(tx){
-    var c=tx.tp==='inc'?'inc':'exp';var s=tx.tp==='inc'?'+':'−';
-    var tip=tx.tp==='inc'?(LANG[D.lang]||LANG.tr).income:(LANG[D.lang]||LANG.tr).expense;
-    var gorunen=tx.desc?(tip+' - '+tx.desc):tip;
+  txs.slice(0,5).forEach(function(t){
+    var c=t.tp==='inc'?'inc':'exp';var s=t.tp==='inc'?'+':'−';
+    var tip=t.tp==='inc'?'Gelir':'Gider';
+    var gorunen=t.desc?(tip+' - '+t.desc):tip;
     h+='<div class="txi">'
       +'<div><div class="txd">'+ex(gorunen)+'</div>'
-      +'<div class="txm">'+tx.date+' · '+tx.cur+'</div></div>'
+      +'<div class="txm">'+t.date+' · '+t.cur+'</div></div>'
       +'<div style="display:flex;align-items:center;gap:6px;">'
-      +'<span class="txa '+c+'">'+s+SM[tx.cur]+fm(tx.amt)+'</span>'
-      +'<button class="tx-edit-btn" onclick="editTx(\''+tx.id+'\')">✏️</button>'
+      +'<span class="txa '+c+'">'+s+SM[t.cur]+fm(t.amt)+'</span>'
+      +'<button class="tx-edit-btn" onclick="editTx(\''+t.id+'\')">✏️</button>'
       +'</div></div>';
   });
   el5.innerHTML=h;
   if(txs.length>5){
     sw.style.display='block';
     var sh='';
-    txs.slice(5).forEach(function(tx){
-      var c=tx.tp==='inc'?'inc':'exp';var s=tx.tp==='inc'?'+':'−';
-      var tip2=tx.tp==='inc'?(LANG[D.lang]||LANG.tr).income:(LANG[D.lang]||LANG.tr).expense;
-      var gorunen2=tx.desc?(tip2+' - '+tx.desc):tip2;
+    txs.slice(5).forEach(function(t){
+      var c=t.tp==='inc'?'inc':'exp';var s=t.tp==='inc'?'+':'−';
+      var tip2=t.tp==='inc'?'Gelir':'Gider';
+      var gorunen2=t.desc?(tip2+' - '+t.desc):tip2;
       sh+='<div class="sc">'
-        +'<div class="sca '+c+'">'+s+SM[tx.cur]+fm(tx.amt)+'</div>'
+        +'<div class="sca '+c+'">'+s+SM[t.cur]+fm(t.amt)+'</div>'
         +'<div class="scd">'+ex(gorunen2)+'</div>'
         +'<div class="scm">'+t.date+' · '+t.cur+'</div>'
-        +'<button class="tx-edit-btn" style="margin-top:4px;" onclick="editTx(\''+tx.id+'\')">✏️ Düzenle</button>'
+        +'<button class="tx-edit-btn" style="margin-top:4px;" onclick="editTx(\''+t.id+'\')">✏️ Düzenle</button>'
         +'</div>';
     });
     sr.innerHTML=sh;
@@ -1037,30 +753,30 @@ function rtx(){
 
 /* TX EDIT */
 function editTx(id){
-  var tx=null;
-  for(var i=0;i<D.txs.length;i++){if(D.txs[i].id===id){tx=D.txs[i];break;}}
-  if(!tx)return;
+  var t=null;
+  for(var i=0;i<D.txs.length;i++){if(D.txs[i].id===id){t=D.txs[i];break;}}
+  if(!t)return;
   var ac='#c8890a';
-  var bg=tx.tp==='inc'?'#16a34a':'#dc2626';
+  var bg=t.tp==='inc'?'#16a34a':'#dc2626';
   var h='<div class="sht">✏️ İşlemi Düzenle</div>'
-    +'<label class="fl">'+t('currency')+'</label>'
+    +'<label class="fl">Para Birimi</label>'
     +'<select class="fi" id="e-cur">'
-    +'<option value="TRY"'+(tx.cur==='TRY'?' selected':'')+'>Türk Lirası (₺)</option>'
-    +'<option value="USD"'+(tx.cur==='USD'?' selected':'')+'>Dolar ($)</option>'
-    +'<option value="EUR"'+(tx.cur==='EUR'?' selected':'')+'>Euro (€)</option>'
+    +'<option value="TRY"'+(t.cur==='TRY'?' selected':'')+'>Türk Lirası (₺)</option>'
+    +'<option value="USD"'+(t.cur==='USD'?' selected':'')+'>Dolar ($)</option>'
+    +'<option value="EUR"'+(t.cur==='EUR'?' selected':'')+'>Euro (€)</option>'
     +'</select>'
-    +'<label class="fl">'+t('amount')+'</label>'
+    +'<label class="fl">Tutar</label>'
     +'<div style="display:flex;gap:8px;margin-bottom:6px;">'
-    +'<input type="number" class="fi" id="e-amt" value="'+tx.amt+'" style="flex:1;margin-bottom:0;">'
+    +'<input type="number" class="fi" id="e-amt" value="'+t.amt+'" style="flex:1;margin-bottom:0;">'
     +(t.tp==='exp'?'<button onclick="fillAllEdit(\''+id+'\')" style="padding:0 12px;border-radius:11px;border:none;background:'+('#e2ddd2')+';color:'+ac+';font-weight:800;font-size:13px;cursor:pointer;">Hepsi</button>':'')
     +'</div>'
     +'<label class="fl">Açıklama</label>'
     +'<input type="text" class="fi" id="e-dsc" value="'+ex(t.desc||'')+'">'
     +'<label class="fl">Tarih</label>'
-    +'<input type="date" class="fi" id="e-dt" value="'+tx.date+'">'
+    +'<input type="date" class="fi" id="e-dt" value="'+t.date+'">'
     +'<button class="fb" style="background:'+bg+';color:#fff;" onclick="saveTx(\''+id+'\')">Kaydet</button>'
     +'<button class="fb" style="background:#fee2e2;color:#dc2626;margin-top:6px;" onclick="delTx(\''+id+'\')">Sil</button>'
-    +'<button class="fb fc" onclick="cm()">'+t('cancel')+'</button>';
+    +'<button class="fb fc" onclick="cm()">İptal</button>';
   document.getElementById('sc').innerHTML=h;
   document.getElementById('ov').classList.add('on');
 }
@@ -1077,16 +793,16 @@ function saveTx(id){
   for(var i=0;i<D.txs.length;i++){if(D.txs[i].id===id){idx=i;break;}}
   if(idx<0)return;
   var amt=parseFloat(document.getElementById('e-amt').value);
-  if(!amt||amt<=0){toast(t('validAmount'),true);return;}
+  if(!amt||amt<=0){toast('Gecerli tutar girin',true);return;}
   D.txs[idx].cur=document.getElementById('e-cur').value;
   D.txs[idx].amt=amt;
   D.txs[idx].desc=document.getElementById('e-dsc').value;
   D.txs[idx].date=document.getElementById('e-dt').value||td2();
-  sv2();rb();rtx();rr();cm();toast(t('txUpdated'));
+  sv2();rb();rtx();rr();cm();toast('Islem guncellendi');
 }
 function delTx(id){
   D.txs=D.txs.filter(function(x){return x.id!==id;});
-  sv2();rb();rtx();rr();cm();toast(t('txDeleted'));
+  sv2();rb();rtx();rr();cm();toast('Islem silindi');
 }
 
 /* ═══ NOTES HOME ═══ */
@@ -1154,15 +870,12 @@ function rp(){
   var join=D.joinDate||td2();
   var days=Math.floor((new Date().getTime()-new Date(join).getTime())/86400000);
   var mcDays=document.getElementById('mc-days');if(mcDays)mcDays.textContent=days;
-  var mcName=document.getElementById('mc-name');
-  if(mcName)mcName.textContent=p.name&&p.name!='Ad Soyad'?'Sayın '+p.name:'';
-  var mcLogin=document.getElementById('mc-login');
-  if(mcLogin)mcLogin.textContent=D.loginCount||0;
+  var mcName=document.getElementById('mc-name');if(mcName)mcName.textContent=p.name&&p.name!='Ad Soyad'?'Sayın '+p.name:'';
   var mcSince=document.getElementById('mc-since');
   if(mcSince){
     var joinParts=join.split('-');
     var joinFmt=joinParts.length===3?joinParts[2]+'/'+joinParts[1]+'/'+joinParts[0]:join;
-    mcSince.textContent='Üyelik tarihi: '+joinFmt;
+    mcSince.textContent='Katılım: '+joinFmt;
   }
   /* Top bar isim */
   var tnEl=document.getElementById('top-name-lbl');
@@ -1240,7 +953,7 @@ function drawPie(slices){
 
 /* ═══ RENDER ALL ═══ */
 function ra(){
-  rb();rtx();rnh();rnf();rp();rr();topMeta();applyLang();
+  rb();rtx();rnh();rnf();rp();rr();topMeta();
 }
 
 /* ═══ VIEWS ═══ */
@@ -1262,40 +975,40 @@ function om(type,arg){
   var h='';var ac='#c8890a';
   if(type==='inc'||type==='exp'){
     var ii=type==='inc';var bg=ii?'#16a34a':'#dc2626';
-    h='<div class="sht">'+(ii?t('incomeAdd'):t('expenseAdd'))+'</div>'
-     +'<label class="fl">'+t('currency')+'</label>'
+    h='<div class="sht">'+(ii?'💰 Gelir Ekle':'💸 Gider Ekle')+'</div>'
+     +'<label class="fl">Para Birimi</label>'
      +'<select class="fi" id="fcur"><option value="TRY">Türk Lirası (₺)</option><option value="USD">Dolar ($)</option><option value="EUR">Euro (€)</option></select>'
-     +'<label class="fl">'+t('amount')+'</label>'
+     +'<label class="fl">Tutar</label>'
      +'<div style="display:flex;gap:8px;margin-bottom:6px;">'
      +'<input type="number" class="fi" id="famt" placeholder="0.00" style="flex:1;margin-bottom:0;">'
      +(ii?'':'<button onclick="fillAll()" style="padding:0 12px;border-radius:11px;border:none;background:'+('#e2ddd2')+';color:'+ac+';font-weight:800;font-size:13px;cursor:pointer;">Hepsi</button>')
      +'</div>'
-     +'<label class="fl">'+t('desc')+'</label><input type="text" class="fi" id="fdsc" placeholder="'+(ii?'Maas, freelance':'Market, expense')+'">'
-     +'<label class="fl">'+t('date')+'</label><input type="date" class="fi" id="fdt" value="'+td2()+'">'
+     +'<label class="fl">Açıklama</label><input type="text" class="fi" id="fdsc" placeholder="'+(ii?'Maas, freelance':'Market, fatura')+'">'
+     +'<label class="fl">Tarih</label><input type="date" class="fi" id="fdt" value="'+td2()+'">'
      +'<button class="fb" style="background:'+bg+';color:#fff;" onclick="stx(\''+type+'\')">Ekle</button>'
-     +'<button class="fb fc" onclick="cm()">'+t('cancel')+'</button>';
+     +'<button class="fb fc" onclick="cm()">İptal</button>';
   } else if(type==='conv'){
-    h='<div class="sht">'+t('convertTitle')+'</div>'
+    h='<div class="sht">🔄 Döviz Dönüştür</div>'
      +'<div style="background:'+('#fffaeb')+';border-radius:11px;padding:9px 13px;margin-bottom:13px;font-size:12px;color:#9a9a9a;">1$ = ₺'+D.rates.USD+' | 1€ = ₺'+D.rates.EUR+'</div>'
      +'<label class="fl">Kaç TL çevrilecek?</label><input type="number" class="fi" id="fcamt" placeholder="500" oninput="ucp()">'
      +'<label class="fl">Hedef Para Birimi</label><select class="fi" id="fcto" onchange="ucp()"><option value="USD">Dolar ($)</option><option value="EUR">Euro (€)</option></select>'
      +'<div id="cprev"><div style="font-size:11px;color:#9a9a9a;">Alacaginiz</div><div id="cpv"></div></div>'
-     +'<button class="fb" style="background:#1d6fa4;color:#fff;" onclick="scv()">'+t('convertBtn')+'</button>'
-     +'<button class="fb fc" onclick="cm()">'+t('cancel')+'</button>';
+     +'<button class="fb" style="background:#1d6fa4;color:#fff;" onclick="scv()">Dönüştür</button>'
+     +'<button class="fb fc" onclick="cm()">İptal</button>';
   } else if(type==='addNote'){
-    h='<div class="sht">📝 '+t('notes')+'</div>'
+    h='<div class="sht">📝 Not Ekle</div>'
      +'<label class="fl">Baslik *</label><input type="text" class="fi" id="fnt">'
      +'<label class="fl">Mesaj</label><textarea class="fi" id="fnb" placeholder="Notunuzu yazin..."></textarea>'
      +'<label class="fl">Hatirlatma Tarihi</label><input type="date" class="fi" id="fnr">'
      +'<button class="fb" style="background:'+ac+';color:'+('#fff')+';\" onclick="sn()">Kaydet</button>'
-     +'<button class="fb fc" onclick="cm()">'+t('cancel')+'</button>';
+     +'<button class="fb fc" onclick="cm()">İptal</button>';
   } else if(type==='noteDetail'){
     var n=D.notes[arg];if(!n)return;
     h='<div class="sht">'+ex(n.title)+'</div>'
      +(n.rem?'<div style="background:'+('#fffaeb')+';border-radius:11px;padding:8px 13px;margin-bottom:13px;font-size:12px;font-weight:700;color:'+ac+';">🔔 Hatirlatma: '+n.rem+'</div>':'')
      +'<div style="font-size:14px;color:'+('#1a1a1a')+';line-height:1.7;white-space:pre-wrap;margin-bottom:14px;">'+ex(n.body||'Icerik yok')+'</div>'
      +'<div style="font-size:11px;color:#9a9a9a;">Eklenme: '+n.created+'</div>'
-     +'<button class="fb fc" onclick="cm()">'+t('close')+'</button>';
+     +'<button class="fb fc" onclick="cm()">Kapat</button>';
   } else if(type==='editProfile'){
     var p=D.profile;
     h='<div class="sht">👤 Profilimi Güncelle</div>'
@@ -1303,26 +1016,26 @@ function om(type,arg){
      +'<label class="fl">E-posta</label><input type="email" class="fi" id="epe" value="'+ex(p.email||'')+'">'
      +'<label class="fl">Telefon</label><input type="tel" class="fi" id="epp" value="'+ex(p.phone||'')+'">'
      +'<button class="fb" style="background:'+ac+';color:'+('#fff')+';\" onclick="sep()">Kaydet</button>'
-     +'<button class="fb fc" onclick="cm()">'+t('cancel')+'</button>';
+     +'<button class="fb fc" onclick="cm()">İptal</button>';
   } else if(type==='changePin'){
-    h='<div class="sht">'+t('changePassTitle')+'</div>'
+    h='<div class="sht">🔒 Şifre Değiştir</div>'
      +'<label class="fl">Mevcut Şifre</label><input type="password" class="fi" id="cpo" inputmode="numeric" maxlength="6" placeholder="Mevcut şifreniz">'
      +'<label class="fl">Yeni Şifre (4-6 rakam)</label><input type="password" class="fi" id="cpn" inputmode="numeric" maxlength="6" placeholder="Yeni şifre">'
      +'<label class="fl">Tekrar</label><input type="password" class="fi" id="cpr" inputmode="numeric" maxlength="6" placeholder="Tekrar girin">'
      +'<button class="fb" style="background:'+ac+';color:'+('#fff')+';" onclick="scp()">Değiştir</button>'
-     +'<button class="fb fc" onclick="cm()">'+t('cancel')+'</button>';
+     +'<button class="fb fc" onclick="cm()">İptal</button>';
   } else if(type==='confirm'){
     var cfg=arg;
     h='<div class="sht">⚠️ Emin misiniz?</div>'
      +'<div style="font-size:14px;color:'+('#1a1a1a')+';line-height:1.7;margin-bottom:20px;">'+cfg.msg+'</div>'
      +'<button class="fb" style="background:'+cfg.okBg+';color:'+cfg.okColor+';" onclick="'+cfg.fn+'()">'+cfg.ok+'</button>'
-     +'<button class="fb fc" onclick="cm()">'+t('cancel')+'</button>';
+     +'<button class="fb fc" onclick="cm()">İptal</button>';
   } else if(type==='support'){
     h='<div class="sht">🎧 Uygulama Destek</div>'
      +'<div style="font-size:14px;color:'+('#1a1a1a')+';line-height:1.8;">Soru ve sorunlarınız için lütfen</div>'
      +'<div style="margin:10px 0;padding:12px;background:'+('#f5f5f2')+';border-radius:11px;font-size:14px;font-weight:700;color:'+ac+';word-break:break-all;">cuzdancivciv@gmail.com</div>'
      +'<div style="font-size:13px;color:#9a9a9a;">adresinden bize ulaşabilirsiniz.</div>'
-     +'<button class="fb fc" onclick="cm()">'+t('close')+'</button>';
+     +'<button class="fb fc" onclick="cm()">Kapat</button>';
   } else if(type==='about'){
     var tx='#1a1a1a';
     var bg2='#f5f5f2';
@@ -1363,16 +1076,16 @@ function showAbout(){
 function fillAll(){
   var cur=document.getElementById('fcur')?document.getElementById('fcur').value:'TRY';
   var b=gb(cur);
-  if(b<=0){toast(t('noBalance'),true);return;}
+  if(b<=0){toast('Bakiye yok',true);return;}
   var decimals=cur==='TRY'?2:6;
   document.getElementById('famt').value=parseFloat(b.toFixed(decimals));
 }
 function stx(type){
 
   var amt=parseFloat(document.getElementById('famt').value);
-  if(!amt||amt<=0){toast(t('validAmount'),true);return;}
+  if(!amt||amt<=0){toast('Gecerli tutar girin',true);return;}
   var cur=document.getElementById('fcur').value;
-  if(type==='exp'&&amt>gb(cur)+0.01){toast(t('overBalance'),true);return;}
+  if(type==='exp'&&amt>gb(cur)+0.01){toast('Bakiyeden fazla girilemez',true);return;}
   var desc=document.getElementById('fdsc').value;
   var date=document.getElementById('fdt').value||td2();
 
@@ -1392,7 +1105,7 @@ function ucp(){
 }
 function scv(){
   var amt=parseFloat(document.getElementById('fcamt').value);
-  if(!amt||amt<=0){toast(t('validAmount'),true);return;}
+  if(!amt||amt<=0){toast('Gecerli tutar girin',true);return;}
   var to=document.getElementById('fcto').value;
   var got=parseFloat((amt/D.rates[to]).toFixed(6));
 
@@ -1403,32 +1116,32 @@ function scv(){
 }
 function sn(){
   var t=document.getElementById('fnt').value.trim();
-  if(!t){toast(t('noteRequired'),true);return;}
+  if(!t){toast('Baslik gerekli',true);return;}
   var rem=document.getElementById('fnr').value;
   D.notes.unshift({id:uid(),title:t,body:document.getElementById('fnb').value,rem:rem,created:td2()});
   sv2();rnh();rnf();cm();
-  toast(rem?t('noteAdded')+' 🔔 '+rem:t('noteAdded'));
+  toast(rem?'Not eklendi — 🔔 '+rem:'Not eklendi');
 }
-function dn(i){D.notes.splice(i,1);sv2();rnh();rnf();toast(t('noteDeleted'));}
+function dn(i){D.notes.splice(i,1);sv2();rnh();rnf();toast('Not silindi');}
 function sep(){
   D.profile.name=document.getElementById('epn').value||'';
   D.profile.email=document.getElementById('epe').value||'';
   D.profile.phone=document.getElementById('epp').value||'';
-  sv2();rp();topMeta();cm();toast(t('profileDone'));
+  sv2();rp();topMeta();cm();toast('Profil guncellendi');
 }
 function scp(){
   var o=document.getElementById('cpo').value;
   var n=document.getElementById('cpn').value;
   var r=document.getElementById('cpr').value;
-  if(o!==D.password){toast(t('passWrong'),true);return;}
-  if(!n||n.length<4||n.length>6||!/^[0-9]+$/.test(n)){toast(t('passFormat'),true);return;}
-  if(n!==r){toast(t('passMatch'),true);return;}
-  D.password=n;sv2();cm();toast(t('passDone'));
+  if(o!==D.password){toast('Mevcut şifre hatalı',true);return;}
+  if(!n||n.length<4||n.length>6||!/^[0-9]+$/.test(n)){toast('Yeni şifre 4-6 rakam olmalıdır',true);return;}
+  if(n!==r){toast('Şifreler uyuşmuyor',true);return;}
+  D.password=n;sv2();cm();toast('✓ Şifre değiştirildi');
 }
 function ha(inp){
   var f=inp.files[0];if(!f)return;
   var rd=new FileReader();
-  rd.onload=function(e){D.profile.avatar=e.target.result;sv2();rp();toast(t('profileDone'));};
+  rd.onload=function(e){D.profile.avatar=e.target.result;sv2();rp();toast('Fotograf guncellendi');};
   rd.readAsDataURL(f);
 }
 
@@ -1441,7 +1154,7 @@ function backupData(){
   a.href=url;a.download='civciv-yedek-'+td2()+'.json';
   document.body.appendChild(a);a.click();
   document.body.removeChild(a);URL.revokeObjectURL(url);
-  toast(t('backupDone'));
+  toast('Yedek indirildi');
 }
 function restoreData(inp){
   var file=inp.files[0];if(!file)return;
@@ -1449,16 +1162,15 @@ function restoreData(inp){
   rd.onload=function(e){
     try{
       var p=JSON.parse(e.target.result);
-      if(!p.txs&&!p.notes){toast(t('restoreErr'),true);return;}
+      if(!p.txs&&!p.notes){toast('Gecersiz yedek',true);return;}
       
       D.password=p.password||'';
       D.profile=p.profile||D.profile;
       D.txs=p.txs||[];D.notes=p.notes||[];
       D.rates=p.rates||D.rates;D.rd=p.rd||'';
       D.joinDate=p.joinDate||D.joinDate;
-      D.loginCount=p.loginCount||0;
-      sv2();ra();toast(t('restoreDone'));
-    }catch(err){toast(t('restoreErr'),true);}
+      sv2();ra();toast('Veriler geri yuklendi');
+    }catch(err){toast('Dosya okunamadi',true);}
   };
   rd.readAsText(file);
 }
@@ -1466,7 +1178,7 @@ function resetData(){
   om('confirm',{msg:'Tum islemler ve notlar silinecek. Emin misiniz?',ok:'Evet, Sifirla',okColor:'#856404',okBg:'#fff3cd',fn:'doReset'});
 }
 function doReset(){
-  D.txs=[];D.notes=[];sv2();ra();cm();toast(t('resetDone'));
+  D.txs=[];D.notes=[];sv2();ra();cm();toast('Veriler sifirlandi');
 }
 function deleteAccount(){
   om('confirm',{msg:'Hesabiniz ve tum veriler silinecek! Bu islem GERI ALINAMAZ!',ok:'Evet, Sil',okColor:'#fff',okBg:'#dc2626',fn:'doDelete'});
@@ -1479,16 +1191,18 @@ function doDelete(){
   }catch(e){}
   D={dark:false,password:'',profile:{name:'Ad Soyad',email:'',phone:'',avatar:null},txs:[],notes:[],rates:{USD:32.5,EUR:35.2},rd:'',joinDate:''};
   sv2();cm();
-    document.getElementById('li-user').value='';
+  /* Giriş formunu tamamen temizle */
+  document.getElementById('li-user').value='';
   document.getElementById('li-pass').value='';
   document.getElementById('li-err').textContent='';
   var cb=document.getElementById('li-remember');
   if(cb)cb.checked=false;
-  D.lang='';
-  sv2();
-  document.getElementById('lang-screen').style.display='flex';
-  toast(t('deleteDone'));
+  document.getElementById('pin-screen').style.display='flex';
+  toast('Hesap silindi');
 }
+
+
+
 
 /* ═══ TOAST ═══ */
 var tt;
@@ -1499,17 +1213,14 @@ function toast(m,e){
   tt=setTimeout(function(){el.style.display='none';},2500);
 }
 
+
+
 /* ═══ INIT ═══ */
 if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(function(){});}
 sv('home');
 document.getElementById('qbar').style.display='flex';
-if(!D.lang){
-  document.getElementById('lang-screen').style.display='flex';
-} else {
-  applyLang();
-  loadRemembered();
-  document.getElementById('pin-screen').style.display='flex';
-}
+loadRemembered();
+document.getElementById('pin-screen').style.display='flex';
 topMeta();
 /* Saat her saniye guncelle */
 setInterval(function(){updateSaat();},1000);
