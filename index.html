@@ -520,13 +520,21 @@ var TR={
   welcome:"Cüzdan Civciv'e Hoşgeldin",sub:"Kişisel para takip uygulamanız",
   emailPh:"E-posta adresi",passPh:"Şifre (max 6 rakam)",loginBtn:"Giriş Yap",
   noAcc:"Hesabın yok mu?",regLink:"Kayıt Ol",rememberLbl:"Kullanıcı adımı hatırla",
-  regTitle:"🐥 Kayıt Ol",langName:"Türkçe 🇹🇷"
+  regTitle:"🐥 Kayıt Ol",langName:"Türkçe 🇹🇷",
+  confirmReset:"Tüm işlemler ve notlar silinecek. Emin misiniz?",
+  confirmDelete:"Hesabınız ve tüm veriler silinecek! GERİ ALINAMAZ!",
+  yesReset:"Evet, Sıfırla",yesDelete:"Evet, Sil",sure:"⚠️ Emin misiniz?",cont:"Devam Et",
+  supportTxt:"Soru ve sorunlarınız için",supportAddr:"adresine e-posta gönderin."
 };
 var EN={
   welcome:"Welcome to Civciv Wallet",sub:"Your personal money tracker",
   emailPh:"Email address",passPh:"Password (max 6 digits)",loginBtn:"Login",
   noAcc:"No account?",regLink:"Sign Up",rememberLbl:"Remember my username",
-  regTitle:"🐥 Sign Up",langName:"English 🇬🇧"
+  regTitle:"🐥 Sign Up",langName:"English 🇬🇧",
+  confirmReset:"All transactions and notes will be deleted. Are you sure?",
+  confirmDelete:"Your account and all data will be deleted! CANNOT BE UNDONE!",
+  yesReset:"Yes, Reset",yesDelete:"Yes, Delete",sure:"⚠️ Are you sure?",cont:"Continue",
+  supportTxt:"For questions and issues please contact",supportAddr:""
 };
 function getLang(){return D.lang==='en'?EN:TR;}
 
@@ -550,6 +558,8 @@ function dilDegistir(){
 
 function uygulaLang(){
   var L=getLang();
+  var en=D.lang==='en';
+
   /* Giriş ekranı */
   var pn=document.getElementById('pname');if(pn)pn.textContent=L.welcome;
   var ps=document.getElementById('p-subtitle');if(ps)ps.textContent=L.sub;
@@ -558,12 +568,66 @@ function uygulaLang(){
   var lb=document.getElementById('li-btn');if(lb)lb.textContent=L.loginBtn;
   var lna=document.getElementById('li-noacc');if(lna)lna.textContent=L.noAcc+' ';
   var lrl=document.getElementById('li-regbtn');if(lrl)lrl.textContent=L.regLink;
-  /* Kayıt formu hatırla */
   var rrl=document.getElementById('rg-remember-lbl');if(rrl)rrl.textContent=L.rememberLbl;
-  /* Kayıt başlığı */
   var rt=document.getElementById('reg-title');if(rt)rt.textContent=L.regTitle;
-  /* Profil dil butonu */
   var lc=document.getElementById('lang-current');if(lc)lc.textContent=L.langName;
+
+  /* Alt menü */
+  var nbLabels=en?['Home','Notes','Reports','Profile']:['Ana Sayfa','Notlar','Raporlar','Profil'];
+  [0,1,2,3].forEach(function(i){
+    var nb=document.getElementById('nb'+i);
+    if(nb){var sp=nb.querySelectorAll('span');if(sp[1])sp[1].textContent=nbLabels[i];}
+  });
+
+  /* Hızlı butonlar */
+  var qbs=document.querySelectorAll('.qb');
+  if(qbs[0])qbs[0].textContent=en?'+ Add Income':'+ Gelir Ekle';
+  if(qbs[1])qbs[1].textContent=en?'- Add Expense':'- Gider Ekle';
+  if(qbs[2])qbs[2].textContent=en?'⇄ Convert':'⇄ Dönüştür';
+
+  /* Son işlemler başlığı */
+  var ct=document.getElementById('ct-lasttx');if(ct)ct.textContent=en?'Recent Transactions':'Son İşlemler';
+  var ct2=document.getElementById('ct-othertx');if(ct2)ct2.textContent=en?'Other Transactions':'Diğer İşlemler';
+
+  /* Not ekle butonu */
+  var nadd=document.getElementById('nadd');if(nadd)nadd.textContent=en?'+ Add New Note':'+ Yeni Not Ekle';
+
+  /* Rapor sekmeleri */
+  var rtabs=[[['rtab-d','Daily','Günlük'],['rtab-w','Weekly','Haftalık'],['rtab-m','Monthly','Aylık'],['rtab-y','Yearly','Yıllık']]];
+  rtabs[0].forEach(function(r){var el=document.getElementById(r[0]);if(el)el.textContent=en?r[1]:r[2];});
+
+  /* Rapor etiketleri */
+  document.querySelectorAll('.rl[data-key]').forEach(function(el){
+    var k=el.getAttribute('data-key');
+    var lbls={
+      tryInc:en?'🇹🇷 TRY Income':'🇹🇷 TL Gelir',tryExp:en?'🇹🇷 TRY Expense':'🇹🇷 TL Gider',
+      usdInc:en?'🇺🇸 USD Income':'🇺🇸 USD Gelir',usdExp:en?'🇺🇸 USD Expense':'🇺🇸 USD Gider',
+      eurInc:en?'🇪🇺 EUR Income':'🇪🇺 EUR Gelir',eurExp:en?'🇪🇺 EUR Expense':'🇪🇺 EUR Gider'
+    };
+    if(lbls[k])el.textContent=lbls[k];
+  });
+
+  /* Profil butonları */
+  var cpb=document.getElementById('change-pass-btn');if(cpb)cpb.textContent=en?'🔒 Change Password':(D.lang==='en'?'🔒 Change Password':'🔒 Şifre Değiştir');
+  var bkb=document.getElementById('backup-btn');if(bkb)bkb.textContent=en?'📦 Backup Data (JSON)':'📦 Verileri Yedekle (JSON)';
+  var rsb=document.getElementById('restore-btn');if(rsb)rsb.textContent=en?'📥 Restore from Backup':'📥 Yedekten Geri Yükle';
+  var rstb=document.getElementById('reset-btn');if(rstb)rstb.textContent=en?'🗑️ Reset All Data':'🗑️ Tüm Verileri Sıfırla';
+  var delb=document.getElementById('delete-btn');if(delb)delb.textContent=en?'❌ Delete Account':'❌ Hesabı Tamamen Sil';
+  var lkb=document.getElementById('lock-btn');if(lkb)lkb.textContent=en?'🔒 Lock / Logout':'🔒 Kilitle / Çıkış';
+  var plk=document.getElementById('popup-lock');if(plk)plk.textContent=en?'Lock / Logout':'Kilitle / Çıkış';
+
+  /* Üyelik kartı */
+  var mdl=document.getElementById('mc-days-lbl');if(mdl)mdl.textContent=en?'days active':'gündür aktif';
+  var mll=document.getElementById('mc-login-lbl');if(mll)mll.textContent=en?'logins':'giriş yapıldı';
+
+  /* Selamlama */
+  var gr=document.getElementById('top-greeting');
+  if(gr&&gr.style.display!=='none'&&gr.textContent){
+    var h=new Date().getHours();
+    var grtxt=h>=5&&h<12?(en?'Good morning':'Günaydın'):h>=12&&h<17?(en?'Good day':'İyi günler'):h>=17&&h<21?(en?'Good evening':'İyi akşamlar'):(en?'Good night':'İyi geceler');
+    var pname2=D.profile&&D.profile.name&&D.profile.name!='Ad Soyad'?D.profile.name:'';
+    if(pname2)gr.textContent=grtxt+', '+pname2;
+  }
 }
 
 function loadRemembered(){
@@ -609,7 +673,7 @@ function doRegister(){
   if(!name){errEl.textContent='Ad Soyad zorunludur';return;}
   if(!email||!email.includes('@')||!email.includes('.')){errEl.textContent='Geçerli bir e-posta adresi girin';return;}
   if(!pass||pass.length<4||pass.length>6||!/^[0-9]+$/.test(pass)){errEl.textContent='Şifre 4-6 rakamdan oluşmalıdır';return;}
-  if(pass!==pass2){errEl.textContent='Şifreler uyuşmuyor';return;}
+  if(pass!==pass2){errEl.textContent=(D.lang==='en'?'Passwords do not match':'Şifreler uyuşmuyor');return;}
   if(phone&&(phone.length!==10||!/^[0-9]+$/.test(phone))){errEl.textContent='Telefon başında 0 olmadan 10 hane olmalıdır';return;}
 
   /* Kaydet */
@@ -842,13 +906,13 @@ function editTx(id){
   var ac='#c8890a';
   var bg=tx.tp==='inc'?'#16a34a':'#dc2626';
   var h='<div class="sht">✏️ İşlemi Düzenle</div>'
-    +'<label class="fl">'+'Para Birimi'+'</label>'
+    +'<label class="fl">'+(D.lang==='en'?'Currency':'Para Birimi')+'</label>'
     +'<select class="fi" id="e-cur">'
     +'<option value="TRY"'+(tx.cur==='TRY'?' selected':'')+'>Türk Lirası (₺)</option>'
     +'<option value="USD"'+(tx.cur==='USD'?' selected':'')+'>Dolar ($)</option>'
     +'<option value="EUR"'+(tx.cur==='EUR'?' selected':'')+'>Euro (€)</option>'
     +'</select>'
-    +'<label class="fl">'+'Tutar'+'</label>'
+    +'<label class="fl">'+(D.lang==='en'?'Amount':'Tutar')+'</label>'
     +'<div style="display:flex;gap:8px;margin-bottom:6px;">'
     +'<input type="number" class="fi" id="e-amt" value="'+tx.amt+'" style="flex:1;margin-bottom:0;">'
     +(t.tp==='exp'?'<button onclick="fillAllEdit(\''+id+'\')" style="padding:0 12px;border-radius:11px;border:none;background:'+('#e2ddd2')+';color:'+ac+';font-weight:800;font-size:13px;cursor:pointer;">Hepsi</button>':'')
@@ -859,7 +923,7 @@ function editTx(id){
     +'<input type="date" class="fi" id="e-dt" value="'+tx.date+'">'
     +'<button class="fb" style="background:'+bg+';color:#fff;" onclick="saveTx(\''+id+'\')">Kaydet</button>'
     +'<button class="fb" style="background:#fee2e2;color:#dc2626;margin-top:6px;" onclick="delTx(\''+id+'\')">Sil</button>'
-    +'<button class="fb fc" onclick="cm()">'+'İptal'+'</button>';
+    +'<button class="fb fc" onclick="cm()">'+(D.lang==='en'?'Cancel':'İptal')+'</button>';
   document.getElementById('sc').innerHTML=h;
   document.getElementById('ov').classList.add('on');
 }
@@ -876,16 +940,16 @@ function saveTx(id){
   for(var i=0;i<D.txs.length;i++){if(D.txs[i].id===id){idx=i;break;}}
   if(idx<0)return;
   var amt=parseFloat(document.getElementById('e-amt').value);
-  if(!amt||amt<=0){toast('Geçerli tutar girin',true);return;}
+  if(!amt||amt<=0){toast((D.lang==='en'?'Enter valid amount':'Geçerli tutar girin'),true);return;}
   D.txs[idx].cur=document.getElementById('e-cur').value;
   D.txs[idx].amt=amt;
   D.txs[idx].desc=document.getElementById('e-dsc').value;
   D.txs[idx].date=document.getElementById('e-dt').value||td2();
-  sv2();rb();rtx();rr();cm();toast('İşlem güncellendi');
+  sv2();rb();rtx();rr();cm();toast((D.lang==='en'?'Transaction updated':'İşlem güncellendi'));
 }
 function delTx(id){
   D.txs=D.txs.filter(function(x){return x.id!==id;});
-  sv2();rb();rtx();rr();cm();toast('İşlem silindi');
+  sv2();rb();rtx();rr();cm();toast((D.lang==='en'?'Transaction deleted':'İşlem silindi'));
 }
 
 /* ═══ NOTES HOME ═══ */
@@ -1057,40 +1121,40 @@ function om(type,arg){
   var h='';var ac='#c8890a';
   if(type==='inc'||type==='exp'){
     var ii=type==='inc';var bg=ii?'#16a34a':'#dc2626';
-    h='<div class="sht">'+(ii?'💰 Gelir Ekle':'💸 Gider Ekle')+'</div>'
-     +'<label class="fl">'+'Para Birimi'+'</label>'
+    h='<div class="sht">'+(ii?(D.lang==='en'?'💰 Add Income':'💰 Gelir Ekle'):(D.lang==='en'?'💸 Add Expense':'💸 Gider Ekle'))+'</div>'
+     +'<label class="fl">'+(D.lang==='en'?'Currency':'Para Birimi')+'</label>'
      +'<select class="fi" id="fcur"><option value="TRY">Türk Lirası (₺)</option><option value="USD">Dolar ($)</option><option value="EUR">Euro (€)</option></select>'
-     +'<label class="fl">'+'Tutar'+'</label>'
+     +'<label class="fl">'+(D.lang==='en'?'Amount':'Tutar')+'</label>'
      +'<div style="display:flex;gap:8px;margin-bottom:6px;">'
      +'<input type="number" class="fi" id="famt" placeholder="0.00" style="flex:1;margin-bottom:0;">'
      +(ii?'':'<button onclick="fillAll()" style="padding:0 12px;border-radius:11px;border:none;background:'+('#e2ddd2')+';color:'+ac+';font-weight:800;font-size:13px;cursor:pointer;">Hepsi</button>')
      +'</div>'
-     +'<label class="fl">'+'Açıklama'+'</label><input type="text" class="fi" id="fdsc" placeholder="'+(ii?'Maas, freelance':'Market, expense')+'">'
-     +'<label class="fl">'+'Tarih'+'</label><input type="date" class="fi" id="fdt" value="'+td2()+'">'
+     +'<label class="fl">'+(D.lang==='en'?'Description':'Açıklama')+'</label><input type="text" class="fi" id="fdsc" placeholder="'+(ii?'Maas, freelance':'Market, expense')+'">'
+     +'<label class="fl">'+(D.lang==='en'?'Date':'Tarih')+'</label><input type="date" class="fi" id="fdt" value="'+td2()+'">'
      +'<button class="fb" style="background:'+bg+';color:#fff;" onclick="stx(\''+type+'\')">Ekle</button>'
-     +'<button class="fb fc" onclick="cm()">'+'İptal'+'</button>';
+     +'<button class="fb fc" onclick="cm()">'+(D.lang==='en'?'Cancel':'İptal')+'</button>';
   } else if(type==='conv'){
-    h='<div class="sht">'+'🔄 Döviz Dönüştür'+'</div>'
+    h='<div class="sht">'+(D.lang==='en'?'🔄 Convert Currency':'🔄 Döviz Dönüştür')+'</div>'
      +'<div style="background:'+('#fffaeb')+';border-radius:11px;padding:9px 13px;margin-bottom:13px;font-size:12px;color:#9a9a9a;">1$ = ₺'+D.rates.USD+' | 1€ = ₺'+D.rates.EUR+'</div>'
      +'<label class="fl">Kaç TL çevrilecek?</label><input type="number" class="fi" id="fcamt" placeholder="500" oninput="ucp()">'
      +'<label class="fl">Hedef Para Birimi</label><select class="fi" id="fcto" onchange="ucp()"><option value="USD">Dolar ($)</option><option value="EUR">Euro (€)</option></select>'
      +'<div id="cprev"><div style="font-size:11px;color:#9a9a9a;">Alacaginiz</div><div id="cpv"></div></div>'
-     +'<button class="fb" style="background:#1d6fa4;color:#fff;" onclick="scv()">'+'Dönüştür'+'</button>'
-     +'<button class="fb fc" onclick="cm()">'+'İptal'+'</button>';
+     +'<button class="fb" style="background:#1d6fa4;color:#fff;" onclick="scv()">'+(D.lang==='en'?'Convert':'Dönüştür')+'</button>'
+     +'<button class="fb fc" onclick="cm()">'+(D.lang==='en'?'Cancel':'İptal')+'</button>';
   } else if(type==='addNote'){
     h='<div class="sht">📝 '+'Notlar'+'</div>'
      +'<label class="fl">Baslik *</label><input type="text" class="fi" id="fnt">'
      +'<label class="fl">Mesaj</label><textarea class="fi" id="fnb" placeholder="Notunuzu yazin..."></textarea>'
      +'<label class="fl">Hatirlatma Tarihi</label><input type="date" class="fi" id="fnr">'
      +'<button class="fb" style="background:'+ac+';color:'+('#fff')+';\" onclick="sn()">Kaydet</button>'
-     +'<button class="fb fc" onclick="cm()">'+'İptal'+'</button>';
+     +'<button class="fb fc" onclick="cm()">'+(D.lang==='en'?'Cancel':'İptal')+'</button>';
   } else if(type==='noteDetail'){
     var n=D.notes[arg];if(!n)return;
     h='<div class="sht">'+ex(n.title)+'</div>'
      +(n.rem?'<div style="background:'+('#fffaeb')+';border-radius:11px;padding:8px 13px;margin-bottom:13px;font-size:12px;font-weight:700;color:'+ac+';">🔔 Hatirlatma: '+n.rem+'</div>':'')
      +'<div style="font-size:14px;color:'+('#1a1a1a')+';line-height:1.7;white-space:pre-wrap;margin-bottom:14px;">'+ex(n.body||'Icerik yok')+'</div>'
      +'<div style="font-size:11px;color:#9a9a9a;">Eklenme: '+n.created+'</div>'
-     +'<button class="fb fc" onclick="cm()">'+'Kapat'+'</button>';
+     +'<button class="fb fc" onclick="cm()">'+(D.lang==='en'?'Close':'Kapat')+'</button>';
   } else if(type==='editProfile'){
     var p=D.profile;
     h='<div class="sht">👤 Profilimi Güncelle</div>'
@@ -1098,26 +1162,26 @@ function om(type,arg){
      +'<label class="fl">E-posta</label><input type="email" class="fi" id="epe" value="'+ex(p.email||'')+'">'
      +'<label class="fl">Telefon</label><input type="tel" class="fi" id="epp" value="'+ex(p.phone||'')+'">'
      +'<button class="fb" style="background:'+ac+';color:'+('#fff')+';\" onclick="sep()">Kaydet</button>'
-     +'<button class="fb fc" onclick="cm()">'+'İptal'+'</button>';
+     +'<button class="fb fc" onclick="cm()">'+(D.lang==='en'?'Cancel':'İptal')+'</button>';
   } else if(type==='changePin'){
-    h='<div class="sht">'+'🔒 Şifre Değiştir'+'</div>'
+    h='<div class="sht">'+(D.lang==='en'?'🔒 Change Password':'🔒 Şifre Değiştir')+'</div>'
      +'<label class="fl">Mevcut Şifre</label><input type="password" class="fi" id="cpo" inputmode="numeric" maxlength="6" placeholder="Mevcut şifreniz">'
      +'<label class="fl">Yeni Şifre (4-6 rakam)</label><input type="password" class="fi" id="cpn" inputmode="numeric" maxlength="6" placeholder="Yeni şifre">'
      +'<label class="fl">Tekrar</label><input type="password" class="fi" id="cpr" inputmode="numeric" maxlength="6" placeholder="Tekrar girin">'
      +'<button class="fb" style="background:'+ac+';color:'+('#fff')+';" onclick="scp()">Değiştir</button>'
-     +'<button class="fb fc" onclick="cm()">'+'İptal'+'</button>';
+     +'<button class="fb fc" onclick="cm()">'+(D.lang==='en'?'Cancel':'İptal')+'</button>';
   } else if(type==='confirm'){
     var cfg=arg;
     h='<div class="sht">⚠️ Emin misiniz?</div>'
      +'<div style="font-size:14px;color:'+('#1a1a1a')+';line-height:1.7;margin-bottom:20px;">'+cfg.msg+'</div>'
      +'<button class="fb" style="background:'+cfg.okBg+';color:'+cfg.okColor+';" onclick="'+cfg.fn+'()">'+cfg.ok+'</button>'
-     +'<button class="fb fc" onclick="cm()">'+'İptal'+'</button>';
+     +'<button class="fb fc" onclick="cm()">'+(D.lang==='en'?'Cancel':'İptal')+'</button>';
   } else if(type==='support'){
     h='<div class="sht">🎧 Uygulama Destek</div>'
      +'<div style="font-size:14px;color:'+('#1a1a1a')+';line-height:1.8;">Soru ve sorunlarınız için lütfen</div>'
      +'<div style="margin:10px 0;padding:12px;background:'+('#f5f5f2')+';border-radius:11px;font-size:14px;font-weight:700;color:'+ac+';word-break:break-all;">cuzdancivciv@gmail.com</div>'
      +'<div style="font-size:13px;color:#9a9a9a;">adresinden bize ulaşabilirsiniz.</div>'
-     +'<button class="fb fc" onclick="cm()">'+'Kapat'+'</button>';
+     +'<button class="fb fc" onclick="cm()">'+(D.lang==='en'?'Close':'Kapat')+'</button>';
   } else if(type==='about'){
     var tx='#1a1a1a';
     var bg2='#f5f5f2';
@@ -1158,16 +1222,16 @@ function showAbout(){
 function fillAll(){
   var cur=document.getElementById('fcur')?document.getElementById('fcur').value:'TRY';
   var b=gb(cur);
-  if(b<=0){toast('Bakiye yok',true);return;}
+  if(b<=0){toast((D.lang==='en'?'No balance':'Bakiye yok'),true);return;}
   var decimals=cur==='TRY'?2:6;
   document.getElementById('famt').value=parseFloat(b.toFixed(decimals));
 }
 function stx(type){
 
   var amt=parseFloat(document.getElementById('famt').value);
-  if(!amt||amt<=0){toast('Geçerli tutar girin',true);return;}
+  if(!amt||amt<=0){toast((D.lang==='en'?'Enter valid amount':'Geçerli tutar girin'),true);return;}
   var cur=document.getElementById('fcur').value;
-  if(type==='exp'&&amt>gb(cur)+0.01){toast('Bakiyeden fazla girilemez',true);return;}
+  if(type==='exp'&&amt>gb(cur)+0.01){toast((D.lang==='en'?'Cannot exceed balance':'Bakiyeden fazla girilemez'),true);return;}
   var desc=document.getElementById('fdsc').value;
   var date=document.getElementById('fdt').value||td2();
 
@@ -1187,7 +1251,7 @@ function ucp(){
 }
 function scv(){
   var amt=parseFloat(document.getElementById('fcamt').value);
-  if(!amt||amt<=0){toast('Geçerli tutar girin',true);return;}
+  if(!amt||amt<=0){toast((D.lang==='en'?'Enter valid amount':'Geçerli tutar girin'),true);return;}
   var to=document.getElementById('fcto').value;
   var got=parseFloat((amt/D.rates[to]).toFixed(6));
 
@@ -1198,32 +1262,32 @@ function scv(){
 }
 function sn(){
   var t=document.getElementById('fnt').value.trim();
-  if(!t){toast('Başlık gerekli',true);return;}
+  if(!t){toast((D.lang==='en'?'Title required':'Başlık gerekli'),true);return;}
   var rem=document.getElementById('fnr').value;
   D.notes.unshift({id:uid(),title:t,body:document.getElementById('fnb').value,rem:rem,created:td2()});
   sv2();rnh();rnf();cm();
-  toast(rem?'Not eklendi'+' 🔔 '+rem:'Not eklendi');
+  toast(rem?(D.lang==='en'?'Note added':'Not eklendi')+' 🔔 '+rem:(D.lang==='en'?'Note added':'Not eklendi'));
 }
-function dn(i){D.notes.splice(i,1);sv2();rnh();rnf();toast('Not silindi');}
+function dn(i){D.notes.splice(i,1);sv2();rnh();rnf();toast((D.lang==='en'?'Note deleted':'Not silindi'));}
 function sep(){
   D.profile.name=document.getElementById('epn').value||'';
   D.profile.email=document.getElementById('epe').value||'';
   D.profile.phone=document.getElementById('epp').value||'';
-  sv2();rp();topMeta();cm();toast('Profil güncellendi');
+  sv2();rp();topMeta();cm();toast((D.lang==='en'?'Profile updated':'Profil güncellendi'));
 }
 function scp(){
   var o=document.getElementById('cpo').value;
   var n=document.getElementById('cpn').value;
   var r=document.getElementById('cpr').value;
-  if(o!==D.password){toast('Mevcut şifre hatalı',true);return;}
-  if(!n||n.length<4||n.length>6||!/^[0-9]+$/.test(n)){toast('Yeni şifre 4-6 rakam olmalıdır',true);return;}
-  if(n!==r){toast('Şifreler uyuşmuyor',true);return;}
-  D.password=n;sv2();cm();toast('✓ Şifre değiştirildi');
+  if(o!==D.password){toast((D.lang==='en'?'Wrong current password':'Mevcut şifre hatalı'),true);return;}
+  if(!n||n.length<4||n.length>6||!/^[0-9]+$/.test(n)){toast((D.lang==='en'?'Password must be 4-6 digits':'Yeni şifre 4-6 rakam olmalıdır'),true);return;}
+  if(n!==r){toast((D.lang==='en'?'Passwords do not match':'Şifreler uyuşmuyor'),true);return;}
+  D.password=n;sv2();cm();toast((D.lang==='en'?'✓ Password changed':'✓ Şifre değiştirildi'));
 }
 function ha(inp){
   var f=inp.files[0];if(!f)return;
   var rd=new FileReader();
-  rd.onload=function(e){D.profile.avatar=e.target.result;sv2();rp();toast('Profil güncellendi');};
+  rd.onload=function(e){D.profile.avatar=e.target.result;sv2();rp();toast((D.lang==='en'?'Profile updated':'Profil güncellendi'));};
   rd.readAsDataURL(f);
 }
 
@@ -1236,7 +1300,7 @@ function backupData(){
   a.href=url;a.download='civciv-yedek-'+td2()+'.json';
   document.body.appendChild(a);a.click();
   document.body.removeChild(a);URL.revokeObjectURL(url);
-  toast('Yedek indirildi');
+  toast((D.lang==='en'?'Backup downloaded':'Yedek indirildi'));
 }
 function restoreData(inp){
   var file=inp.files[0];if(!file)return;
@@ -1244,7 +1308,7 @@ function restoreData(inp){
   rd.onload=function(e){
     try{
       var p=JSON.parse(e.target.result);
-      if(!p.txs&&!p.notes){toast('Dosya okunamadı',true);return;}
+      if(!p.txs&&!p.notes){toast((D.lang==='en'?'File could not be read':'Dosya okunamadı'),true);return;}
       
       D.password=p.password||'';
       D.profile=p.profile||D.profile;
@@ -1252,8 +1316,8 @@ function restoreData(inp){
       D.rates=p.rates||D.rates;D.rd=p.rd||'';
       D.joinDate=p.joinDate||D.joinDate;
       D.loginCount=p.loginCount||0;
-      sv2();ra();toast('Veriler geri yüklendi');
-    }catch(err){toast('Dosya okunamadı',true);}
+      sv2();ra();toast((D.lang==='en'?'Data restored':'Veriler geri yüklendi'));
+    }catch(err){toast((D.lang==='en'?'File could not be read':'Dosya okunamadı'),true);}
   };
   rd.readAsText(file);
 }
@@ -1261,10 +1325,10 @@ function resetData(){
   om('confirm',{msg:'Tum islemler ve notlar silinecek. Emin misiniz?',ok:'Evet, Sifirla',okColor:'#856404',okBg:'#fff3cd',fn:'doReset'});
 }
 function doReset(){
-  D.txs=[];D.notes=[];sv2();ra();cm();toast('Veriler sıfırlandı');
+  D.txs=[];D.notes=[];sv2();ra();cm();toast((D.lang==='en'?'Data reset':'Veriler sıfırlandı'));
 }
 function deleteAccount(){
-  om('confirm',{msg:'Hesabiniz ve tum veriler silinecek! Bu islem GERI ALINAMAZ!',ok:'Evet, Sil',okColor:'#fff',okBg:'#dc2626',fn:'doDelete'});
+  om('confirm',{msg:'Hesabiniz ve tum veriler silinecek! Bu islem GERI ALINAMAZ!',ok:getLang().yesDelete,okColor:'#fff',okBg:'#dc2626',fn:'doDelete'});
 }
 function doDelete(){
   try{
@@ -1282,7 +1346,7 @@ function doDelete(){
   D.lang='';
   sv2();
   document.getElementById('pin-screen').style.display='flex';
-  toast('Hesap silindi');
+  toast((D.lang==='en'?'Account deleted':'Hesap silindi'));
 }
 
 /* ═══ TOAST ═══ */
