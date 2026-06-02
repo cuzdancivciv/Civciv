@@ -295,21 +295,21 @@ textarea.fi{min-height:85px;resize:vertical;}
         <div id="scroll-row"></div>
       </div>
     </div>
-    <div class="card" id="budget-home">
+    <div class="card" id="budget-home" style="display:none;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:9px;">
         <div class="ctitle" style="margin-bottom:0;">🎯 Bütçe Hedefi</div>
-        <button onclick="om('budget')" style="font-size:11px;font-weight:700;color:#c8890a;background:none;border:none;cursor:pointer;">Düzenle →</button>
+        <button onclick="sv('profile')" style="font-size:11px;font-weight:700;color:#c8890a;background:none;border:none;cursor:pointer;">Düzenle →</button>
       </div>
-      <div id="budget-status" style="font-size:13px;color:#9a9a9a;margin-bottom:6px;">Bütçe hedefi belirlenmedi</div>
-      <div id="budget-bar-wrap" style="display:none;">
+      <div id="bh-status" style="font-size:12px;color:#9a9a9a;margin-bottom:6px;"></div>
+      <div id="bh-bar-wrap" style="display:none;">
         <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:700;margin-bottom:4px;">
-          <span id="budget-used-lbl" style="color:#dc2626;"></span>
-          <span id="budget-limit-lbl" style="color:#9a9a9a;"></span>
+          <span id="bh-used-lbl" style="color:#dc2626;"></span>
+          <span id="bh-limit-lbl" style="color:#9a9a9a;"></span>
         </div>
         <div style="background:#e2ddd2;border-radius:8px;height:10px;overflow:hidden;">
-          <div id="budget-bar" style="height:100%;background:#16a34a;border-radius:8px;transition:width .4s;width:0%;"></div>
+          <div id="bh-bar" style="height:100%;background:#16a34a;border-radius:8px;transition:width .4s;width:0%;"></div>
         </div>
-        <div id="budget-pct" style="font-size:11px;color:#9a9a9a;margin-top:3px;text-align:right;"></div>
+        <div id="bh-pct" style="font-size:11px;color:#9a9a9a;margin-top:3px;text-align:right;"></div>
       </div>
     </div>
 
@@ -423,6 +423,22 @@ textarea.fi{min-height:85px;resize:vertical;}
 
 
     <!-- Veri -->
+    <div class="ps" id="budget-card">
+      <div class="pst">Bütçe Hedefi</div>
+      <div id="budget-status" style="font-size:13px;color:#9a9a9a;margin-bottom:8px;">Bütçe hedefi belirlenmedi</div>
+      <div id="budget-bar-wrap" style="display:none;margin-bottom:10px;">
+        <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:700;margin-bottom:4px;">
+          <span id="budget-used-lbl" style="color:#dc2626;"></span>
+          <span id="budget-limit-lbl" style="color:#9a9a9a;"></span>
+        </div>
+        <div style="background:#e2ddd2;border-radius:8px;height:10px;overflow:hidden;">
+          <div id="budget-bar" style="height:100%;background:#16a34a;border-radius:8px;transition:width .4s;width:0%;"></div>
+        </div>
+        <div id="budget-pct" style="font-size:11px;color:#9a9a9a;margin-top:3px;text-align:right;"></div>
+      </div>
+      <button class="pb" onclick="om('budget')">🎯 Bütçe Hedefi Belirle</button>
+    </div>
+
     <div class="ps">
       <div class="pst">Veri Yönetimi</div>
       <button class="pb" onclick="backupData()" style="margin-bottom:8px;">📦 Verileri Yedekle (JSON)</button>
@@ -1312,12 +1328,16 @@ function saveBudget(){
 }
 
 function rbp(){
-  var s=document.getElementById('budget-status');
-  var bw=document.getElementById('budget-bar-wrap');
-  if(!s||!bw)return;
   if(!D.budget||!D.budget.limit){
-    s.textContent='Bütçe hedefi belirlenmedi';
-    bw.style.display='none';return;
+    /* Profil */
+    var s=document.getElementById('budget-status');
+    if(s){s.textContent='Bütçe hedefi belirlenmedi';s.style.color='#9a9a9a';}
+    var bw=document.getElementById('budget-bar-wrap');
+    if(bw)bw.style.display='none';
+    /* Ana sayfa */
+    var bh=document.getElementById('budget-home');
+    if(bh)bh.style.display='none';
+    return;
   }
   var b=D.budget;
   var now=new Date();
@@ -1331,15 +1351,27 @@ function rbp(){
   var pct=Math.round(oran*100);
   var renk=pct>=100?'#dc2626':pct>=80?'#f59e0b':'#16a34a';
   var donem=b.period==='monthly'?'Bu Ay':'Bu Yıl';
-  s.textContent=(b.active?'✅ Aktif':'⏸ Pasif')+' · '+donem+' · '+SM[b.cur]+fm(b.limit)+' limit';
-  s.style.color=b.active?'#16a34a':'#9a9a9a';
-  bw.style.display='block';
-  document.getElementById('budget-used-lbl').textContent='Harcanan: '+SM[b.cur]+fm(harcama);
-  document.getElementById('budget-limit-lbl').textContent='Limit: '+SM[b.cur]+fm(b.limit);
-  document.getElementById('budget-bar').style.width=pct+'%';
-  document.getElementById('budget-bar').style.background=renk;
-  document.getElementById('budget-pct').textContent='%'+pct+' kullanıldı';
-  document.getElementById('budget-pct').style.color=renk;
+  var statusTxt=(b.active?'Aktif':'Pasif')+' · '+donem+' · '+SM[b.cur]+fm(b.limit)+' limit';
+
+  /* Profil güncelle */
+  var s=document.getElementById('budget-status');
+  if(s){s.textContent=statusTxt;s.style.color=b.active?'#16a34a':'#9a9a9a';}
+  var bw=document.getElementById('budget-bar-wrap');
+  if(bw)bw.style.display='block';
+  var bul=document.getElementById('budget-used-lbl');if(bul)bul.textContent='Harcanan: '+SM[b.cur]+fm(harcama);
+  var bll=document.getElementById('budget-limit-lbl');if(bll)bll.textContent='Limit: '+SM[b.cur]+fm(b.limit);
+  var bb=document.getElementById('budget-bar');if(bb){bb.style.width=pct+'%';bb.style.background=renk;}
+  var bp=document.getElementById('budget-pct');if(bp){bp.textContent='%'+pct+' kullanıldı';bp.style.color=renk;}
+
+  /* Ana sayfa güncelle */
+  var bh=document.getElementById('budget-home');
+  if(bh)bh.style.display='block';
+  var bhs=document.getElementById('bh-status');if(bhs){bhs.textContent=statusTxt;bhs.style.color=b.active?'#16a34a':'#9a9a9a';}
+  var bhbw=document.getElementById('bh-bar-wrap');if(bhbw)bhbw.style.display='block';
+  var bhul=document.getElementById('bh-used-lbl');if(bhul)bhul.textContent='Harcanan: '+SM[b.cur]+fm(harcama);
+  var bhll=document.getElementById('bh-limit-lbl');if(bhll)bhll.textContent='Limit: '+SM[b.cur]+fm(b.limit);
+  var bhb=document.getElementById('bh-bar');if(bhb){bhb.style.width=pct+'%';bhb.style.background=renk;}
+  var bhp=document.getElementById('bh-pct');if(bhp){bhp.textContent='%'+pct+' kullanıldı';bhp.style.color=renk;}
 }
 
 /* ═══ BÜTÇE KONTROLÜ ═══ */
