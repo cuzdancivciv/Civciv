@@ -480,7 +480,7 @@ var SK='cv7';
 var D={
   password:'',
   loginCount:0,
-  lang:'tr',
+  lang:'',
   profile:{name:'Ad Soyad',email:'',phone:'',avatar:null},
   txs:[],notes:[],
   rates:{USD:32.5,EUR:35.2},
@@ -497,7 +497,7 @@ var D={
       
       D.password=s.password||'';
       D.loginCount=s.loginCount||0;
-      D.lang=s.lang||'tr';
+      D.lang=s.lang||'';
       D.profile=s.profile||D.profile;
       D.txs=s.txs||[];D.notes=s.notes||[];
       D.rates=s.rates||D.rates;D.rd=s.rd||'';
@@ -536,16 +536,20 @@ var EN={
   yesReset:"Yes, Reset",yesDelete:"Yes, Delete",sure:"⚠️ Are you sure?",cont:"Continue",
   supportTxt:"For questions and issues please contact",supportAddr:""
 };
-function getLang(){return D.lang==='en'?EN:TR;}
+function getLang(){return D.lang==='en'?EN:TR;} /* boşsa TR */
 
 function secDil(lang){
   D.lang=lang;
   sv2();
   document.getElementById('lang-screen').style.display='none';
   uygulaLang();
-  document.getElementById('pin-screen').style.display='flex';
   if(!D.profile.email){
+    /* İlk kayıt - kayıt formunu aç */
+    document.getElementById('pin-screen').style.display='flex';
     showRegister();
+  } else {
+    /* Kayıt var - giriş ekranına git */
+    document.getElementById('pin-screen').style.display='flex';
   }
 }
 
@@ -553,6 +557,7 @@ function dilDegistir(){
   D.lang=D.lang==='en'?'tr':'en';
   sv2();
   uygulaLang();
+  ra();
   toast(D.lang==='tr'?'Dil Türkçe yapıldı 🇹🇷':'Language set to English 🇬🇧');
 }
 
@@ -1364,11 +1369,11 @@ sv('home');
 document.getElementById('qbar').style.display='flex';
 uygulaLang();
 loadRemembered();
-if(!D.lang||D.lang===''){
-  document.getElementById('lang-screen').style.display='flex';
-} else if(!D.profile.email){
+if(!D.lang){
+  /* İlk açılış - dil seçim ekranı */
   document.getElementById('lang-screen').style.display='flex';
 } else {
+  /* Dil seçilmiş - giriş ekranına git */
   document.getElementById('pin-screen').style.display='flex';
 }
 topMeta();
