@@ -413,7 +413,7 @@ textarea.fi{min-height:85px;resize:vertical;}
     <!-- Güvenlik -->
 
     <div class="ps">
-      <div class="pst">Güvenlik</div>
+      <div class="pst" id="pst-security">Güvenlik</div>
       <button class="pb" id="change-pass-btn" onclick="om('changePin')" style="margin-bottom:8px;">🔒 Şifre Değiştir</button>
       <button class="pb" id="lang-btn" onclick="dilDegistir()">🌐 Dili Değiştir — <span id="lang-current">Türkçe 🇹🇷</span></button>
     </div>
@@ -422,11 +422,11 @@ textarea.fi{min-height:85px;resize:vertical;}
 
     <!-- Veri -->
     <div class="ps">
-      <div class="pst">Veri Yönetimi</div>
-      <button class="pb" onclick="backupData()" style="margin-bottom:8px;">📦 Verileri Yedekle (JSON)</button>
-      <label for="restore-input" class="pb" style="display:block;margin-bottom:8px;cursor:pointer;">📥 Yedekten Geri Yükle</label>
+      <div class="pst" id="pst-data">Veri Yönetimi</div>
+      <button class="pb" id="backup-btn" onclick="backupData()" style="margin-bottom:8px;">📦 Verileri Yedekle (JSON)</button>
+      <label for="restore-input" id="restore-btn" class="pb" style="display:block;margin-bottom:8px;cursor:pointer;">📥 Yedekten Geri Yükle</label>
       <input type="file" id="restore-input" accept=".json" style="display:none;position:absolute;" onchange="restoreData(this)">
-      <button class="pb" onclick="resetData()" style="background:#fff3cd;color:#856404;border-color:#ffc107;margin-bottom:8px;">🗑️ Tüm Verileri Sıfırla</button>
+      <button class="pb" id="reset-btn" onclick="resetData()" style="background:#fff3cd;color:#856404;border-color:#ffc107;margin-bottom:8px;">🗑️ Tüm Verileri Sıfırla</button>
       <button class="pb" id="delete-btn" onclick="deleteAccount()" style="background:#fee2e2;color:#dc2626;border-color:#f5c6cb;">❌ Hesabı Tamamen Sil</button>
     </div>
     <div class="ps" style="margin-bottom:30px;">
@@ -614,12 +614,15 @@ function uygulaLang(){
 
   /* Profil butonları */
   var cpb=document.getElementById('change-pass-btn');if(cpb)cpb.textContent=en?'🔒 Change Password':(D.lang==='en'?'🔒 Change Password':'🔒 Şifre Değiştir');
-  var bkb=document.getElementById('backup-btn');if(bkb)bkb.textContent=en?'📦 Backup Data (JSON)':'📦 Verileri Yedekle (JSON)';
-  var rsb=document.getElementById('restore-btn');if(rsb)rsb.textContent=en?'📥 Restore from Backup':'📥 Yedekten Geri Yükle';
-  var rstb=document.getElementById('reset-btn');if(rstb)rstb.textContent=en?'🗑️ Reset All Data':'🗑️ Tüm Verileri Sıfırla';
   var delb=document.getElementById('delete-btn');if(delb)delb.textContent=en?'❌ Delete Account':'❌ Hesabı Tamamen Sil';
   var lkb=document.getElementById('lock-btn');if(lkb)lkb.textContent=en?'🔒 Lock / Logout':'🔒 Kilitle / Çıkış';
   var plk=document.getElementById('popup-lock');if(plk)plk.textContent=en?'Lock / Logout':'Kilitle / Çıkış';
+  /* Profil section başlıkları */
+  var psec=document.getElementById('pst-security');if(psec)psec.textContent=en?'SECURITY':'GÜVENLİK';
+  var pdat=document.getElementById('pst-data');if(pdat)pdat.textContent=en?'DATA MANAGEMENT':'VERİ YÖNETİMİ';
+  var bkb=document.getElementById('backup-btn');if(bkb)bkb.textContent=en?'📦 Backup Data (JSON)':'📦 Verileri Yedekle (JSON)';
+  var rsb=document.getElementById('restore-btn');if(rsb)rsb.textContent=en?'📥 Restore from Backup':'📥 Yedekten Geri Yükle';
+  var rstb=document.getElementById('reset-btn');if(rstb)rstb.textContent=en?'🗑️ Reset All Data':'🗑️ Tüm Verileri Sıfırla';
 
   /* Üyelik kartı */
   var mdl=document.getElementById('mc-days-lbl');if(mdl)mdl.textContent=en?'days active':'gündür aktif';
