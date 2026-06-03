@@ -283,7 +283,7 @@ textarea.fi{min-height:85px;resize:vertical;}
   </div>
   <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:700;margin-bottom:4px;">
     <span id="bh-used-lbl" style="color:#dc2626;"></span>
-    <span style="color:#9a9a9a;"><span id="bh-pct"></span> · <span id="bh-limit-lbl"></span></span>
+    <span id="bh-pct" style="color:#9a9a9a;"></span>
   </div>
   <div style="background:#e2ddd2;border-radius:8px;height:8px;overflow:hidden;">
     <div id="bh-bar" style="height:100%;background:#16a34a;border-radius:8px;transition:width .4s;width:0%;"></div>
@@ -1373,7 +1373,7 @@ function rbp(){
   var bhs=document.getElementById('bh-status');if(bhs){bhs.textContent=statusTxt;bhs.style.color=b.active?'#16a34a':'#9a9a9a';}
   var bhbw=document.getElementById('bh-bar-wrap');if(bhbw)bhbw.style.display='block';
   var bhul=document.getElementById('bh-used-lbl');if(bhul)bhul.textContent='Harcanan: '+SM[b.cur]+fm(harcama);
-  var bhll=document.getElementById('bh-limit-lbl');if(bhll)bhll.textContent='Limit: '+SM[b.cur]+fm(b.limit);
+
   var bhb=document.getElementById('bh-bar');if(bhb){bhb.style.width=pct+'%';bhb.style.background=renk;}
   var bhp=document.getElementById('bh-pct');if(bhp)bhp.textContent='%'+pct+' kullanıldı';
 }
