@@ -275,10 +275,25 @@ textarea.fi{min-height:85px;resize:vertical;}
   </div>
 </div>
 
+<!-- BÜTÇE GRAFİK - sabit, hep görünür -->
+<div id="budget-home" style="display:none;background:#fff;border-bottom:1px solid #e2ddd2;padding:8px 14px;">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;">
+    <div style="font-size:10px;font-weight:700;color:#9a9a9a;text-transform:uppercase;letter-spacing:.8px;">🎯 Bütçe Hedefi</div>
+    <div id="bh-status" style="font-size:11px;font-weight:700;color:#9a9a9a;"></div>
+  </div>
+  <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:700;margin-bottom:4px;">
+    <span id="bh-used-lbl" style="color:#dc2626;"></span>
+    <span style="color:#9a9a9a;"><span id="bh-pct"></span> · <span id="bh-limit-lbl"></span></span>
+  </div>
+  <div style="background:#e2ddd2;border-radius:8px;height:8px;overflow:hidden;">
+    <div id="bh-bar" style="height:100%;background:#16a34a;border-radius:8px;transition:width .4s;width:0%;"></div>
+  </div>
+</div>
+
 <!-- QUICK BTNS -->
 <div id="qbar" style="display:none;">
-  <button class="qb" style="background:#dc2626;color:#fff;" onclick="om('inc')">+ Gelir Ekle</button>
-  <button class="qb" style="background:#16a34a;color:#fff;" onclick="om('exp')">− Gider Ekle</button>
+  <button class="qb" style="background:#16a34a;color:#fff;" onclick="om('inc')">+ Gelir Ekle</button>
+  <button class="qb" style="background:#dc2626;color:#fff;" onclick="om('exp')">− Gider Ekle</button>
   <button class="qb" style="background:#1d6fa4;color:#fff;" onclick="om('conv')">⇄ Dönüştür</button>
 </div>
 
@@ -295,24 +310,6 @@ textarea.fi{min-height:85px;resize:vertical;}
         <div id="scroll-row"></div>
       </div>
     </div>
-    <div class="card" id="budget-home" style="display:none;">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:9px;">
-        <div class="ctitle" style="margin-bottom:0;">🎯 Bütçe Hedefi</div>
-        <button onclick="sv('profile')" style="font-size:11px;font-weight:700;color:#c8890a;background:none;border:none;cursor:pointer;">Düzenle →</button>
-      </div>
-      <div id="bh-status" style="font-size:12px;color:#9a9a9a;margin-bottom:6px;"></div>
-      <div id="bh-bar-wrap" style="display:none;">
-        <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:700;margin-bottom:4px;">
-          <span id="bh-used-lbl" style="color:#dc2626;"></span>
-          <span id="bh-limit-lbl" style="color:#9a9a9a;"></span>
-        </div>
-        <div style="background:#e2ddd2;border-radius:8px;height:10px;overflow:hidden;">
-          <div id="bh-bar" style="height:100%;background:#16a34a;border-radius:8px;transition:width .4s;width:0%;"></div>
-        </div>
-        <div id="bh-pct" style="font-size:11px;color:#9a9a9a;margin-top:3px;text-align:right;"></div>
-      </div>
-    </div>
-
     <div class="card" id="notes-home" style="display:none;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
         <div class="ctitle" style="margin-bottom:0;">📝 Notlar</div>
@@ -425,17 +422,6 @@ textarea.fi{min-height:85px;resize:vertical;}
     <!-- Veri -->
     <div class="ps" id="budget-card">
       <div class="pst">Bütçe Hedefi</div>
-      <div id="budget-status" style="font-size:13px;color:#9a9a9a;margin-bottom:8px;">Bütçe hedefi belirlenmedi</div>
-      <div id="budget-bar-wrap" style="display:none;margin-bottom:10px;">
-        <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:700;margin-bottom:4px;">
-          <span id="budget-used-lbl" style="color:#dc2626;"></span>
-          <span id="budget-limit-lbl" style="color:#9a9a9a;"></span>
-        </div>
-        <div style="background:#e2ddd2;border-radius:8px;height:10px;overflow:hidden;">
-          <div id="budget-bar" style="height:100%;background:#16a34a;border-radius:8px;transition:width .4s;width:0%;"></div>
-        </div>
-        <div id="budget-pct" style="font-size:11px;color:#9a9a9a;margin-top:3px;text-align:right;"></div>
-      </div>
       <button class="pb" onclick="om('budget')">🎯 Bütçe Hedefi Belirle</button>
     </div>
 
@@ -571,6 +557,9 @@ function doRegister(){
 
   if(!name){errEl.textContent='Ad Soyad zorunludur';return;}
   if(!email||!email.includes('@')||!email.includes('.')){errEl.textContent='Geçerli bir e-posta adresi girin';return;}
+  if(D.profile.email&&D.profile.email===email){errEl.textContent='Bu e-posta adresi ile zaten kayıtlısınız!';return;}
+  /* Önceki kayıtlarda aynı mail kontrolü */
+  try{var allKeys=Object.keys(localStorage);for(var ki=0;ki<allKeys.length;ki++){var kv=localStorage.getItem(allKeys[ki]);if(kv&&kv.indexOf('"email":"'+email+'"')>-1&&allKeys[ki]!==SK){errEl.textContent='Bu e-posta zaten kullanılıyor!';return;}}}catch(e){}
   if(!pass||pass.length<4||pass.length>6||!/^[0-9]+$/.test(pass)){errEl.textContent='Şifre 4-6 rakamdan oluşmalıdır';return;}
   if(pass!==pass2){errEl.textContent='Şifreler uyuşmuyor';return;}
   if(phone&&(phone.length!==10||!/^[0-9]+$/.test(phone))){errEl.textContent='Telefon başında 0 olmadan 10 hane olmalıdır';return;}
@@ -884,7 +873,10 @@ function rnf(){
       +(n.body?'<div class="nfb">'+ex(n.body.slice(0,70))+(n.body.length>70?'…':'')+'</div>':'')
       +(n.rem?'<div class="nfr">🔔 '+n.rem+'</div>':'')
       +'</div>'
+      +'<div style="display:flex;gap:4px;flex-shrink:0;">'
+      +'<button class="ndel" onclick="editNote('+i+')" style="color:#c8890a;font-size:15px;">✏️</button>'
       +'<button class="ndel" onclick="dn('+i+')">✕</button>'
+      +'</div>'
       +'</div>';
   });
   el.innerHTML=h;
@@ -1042,6 +1034,9 @@ function sv(v){
   document.getElementById('view-'+v).classList.add('on');
   document.getElementById('nb'+map[v]).classList.add('on');
   document.getElementById('qbar').style.display=v==='home'?'flex':'none';
+  /* Bütçe grafik - sadece home, sadece aktifse */
+  var bhEl=document.getElementById('budget-home');
+  if(bhEl)bhEl.style.display=(v==='home'&&D.budget&&D.budget.limit&&D.budget.active)?'block':'none';
   var tb=document.getElementById('topbar');
   tb.className=v==='profile'?'hidden':'';
   if(v==='reports')rr();
@@ -1232,6 +1227,28 @@ function sn(){
   toast(rem?'Not eklendi — 🔔 '+rem:'Not eklendi');
 }
 function dn(i){D.notes.splice(i,1);sv2();rnh();rnf();toast('Not silindi');}
+
+function editNote(i){
+  var n=D.notes[i];if(!n)return;
+  var ac='#c8890a';
+  var h='<div class="sht">📝 Notu Düzenle</div>'
+   +'<label class="fl">Başlık *</label><input type="text" class="fi" id="en-title" value="'+ex(n.title)+'">'
+   +'<label class="fl">Mesaj</label><textarea class="fi" id="en-body">'+ex(n.body||'')+'</textarea>'
+   +'<label class="fl">Hatırlatma Tarihi</label><input type="date" class="fi" id="en-rem" value="'+(n.rem||'')+'">'
+   +'<button class="fb" style="background:'+ac+';color:#fff;" onclick="saveNote('+i+')">Kaydet</button>'
+   +'<button class="fb fc" onclick="cm()">İptal</button>';
+  document.getElementById('sc').innerHTML=h;
+  document.getElementById('ov').classList.add('on');
+}
+
+function saveNote(i){
+  var title=document.getElementById('en-title').value.trim();
+  if(!title){toast('Başlık gerekli',true);return;}
+  D.notes[i].title=title;
+  D.notes[i].body=document.getElementById('en-body').value;
+  D.notes[i].rem=document.getElementById('en-rem').value;
+  sv2();rnh();rnf();cm();toast('Not güncellendi');
+}
 function sep(){
   D.profile.name=document.getElementById('epn').value||'';
   D.profile.email=document.getElementById('epe').value||'';
@@ -1329,11 +1346,6 @@ function saveBudget(){
 
 function rbp(){
   if(!D.budget||!D.budget.limit){
-    /* Profil */
-    var s=document.getElementById('budget-status');
-    if(s){s.textContent='Bütçe hedefi belirlenmedi';s.style.color='#9a9a9a';}
-    var bw=document.getElementById('budget-bar-wrap');
-    if(bw)bw.style.display='none';
     /* Ana sayfa */
     var bh=document.getElementById('budget-home');
     if(bh)bh.style.display='none';
@@ -1353,15 +1365,7 @@ function rbp(){
   var donem=b.period==='monthly'?'Bu Ay':'Bu Yıl';
   var statusTxt=(b.active?'Aktif':'Pasif')+' · '+donem+' · '+SM[b.cur]+fm(b.limit)+' limit';
 
-  /* Profil güncelle */
-  var s=document.getElementById('budget-status');
-  if(s){s.textContent=statusTxt;s.style.color=b.active?'#16a34a':'#9a9a9a';}
-  var bw=document.getElementById('budget-bar-wrap');
-  if(bw)bw.style.display='block';
-  var bul=document.getElementById('budget-used-lbl');if(bul)bul.textContent='Harcanan: '+SM[b.cur]+fm(harcama);
-  var bll=document.getElementById('budget-limit-lbl');if(bll)bll.textContent='Limit: '+SM[b.cur]+fm(b.limit);
-  var bb=document.getElementById('budget-bar');if(bb){bb.style.width=pct+'%';bb.style.background=renk;}
-  var bp=document.getElementById('budget-pct');if(bp){bp.textContent='%'+pct+' kullanıldı';bp.style.color=renk;}
+
 
   /* Ana sayfa güncelle */
   var bh=document.getElementById('budget-home');
@@ -1371,7 +1375,7 @@ function rbp(){
   var bhul=document.getElementById('bh-used-lbl');if(bhul)bhul.textContent='Harcanan: '+SM[b.cur]+fm(harcama);
   var bhll=document.getElementById('bh-limit-lbl');if(bhll)bhll.textContent='Limit: '+SM[b.cur]+fm(b.limit);
   var bhb=document.getElementById('bh-bar');if(bhb){bhb.style.width=pct+'%';bhb.style.background=renk;}
-  var bhp=document.getElementById('bh-pct');if(bhp){bhp.textContent='%'+pct+' kullanıldı';bhp.style.color=renk;}
+  var bhp=document.getElementById('bh-pct');if(bhp)bhp.textContent='%'+pct+' kullanıldı';
 }
 
 /* ═══ BÜTÇE KONTROLÜ ═══ */
